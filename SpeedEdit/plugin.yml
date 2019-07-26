@@ -1,0 +1,10 @@
+name: SpeedEdit
+main: ca.fastis.SpeedEdit
+version: 1.0
+author: SellerSkyblock
+api-version: 1.14
+commands:
+   set:
+      permission: speededit.set
+      description: 
+      usage: /set [Block Name]
