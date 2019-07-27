@@ -7,7 +7,7 @@ commands:
    set:
       permission: speededit.set
       description: 
-      usage: /<command> {Material}
+      usage: /<command> [Material]
    hammer:
       permission: speededit.hammer
       description: 

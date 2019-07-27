@@ -1,19 +1,19 @@
 package ca.fastis;
 
 import java.util.List;
-import java.util.Map;
-
 import org.bukkit.ChatColor;
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Server;
 import org.bukkit.block.Block;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
-public class CommandSet implements CommandExecutor {
+import com.google.common.collect.Lists;
+
+public class CommandSet implements CommandExecutor, TabCompleter {
 
 	Server server = SpeedEdit.server;
 
@@ -60,5 +60,25 @@ public class CommandSet implements CommandExecutor {
 			}
 		}
 		return false;
+	}
+
+	@Override
+	public List<String> onTabComplete(CommandSender sender, Command cmd, String Label, String[] args) {
+		Material[] list = Material.values();
+		List<String> fList = Lists.newArrayList();
+
+		if (args.length == 1) {
+			for (Material s : list) {
+				if (s.name().toLowerCase().startsWith(args[0].toLowerCase())) {
+					fList.add(s.name().toLowerCase());
+				}
+			}
+			return fList;
+		} else {
+			for (Material s : list) {
+				fList.add(s.name().toLowerCase());
+			}
+			return fList;
+		}
 	}
 }

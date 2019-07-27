@@ -8,12 +8,10 @@ import java.util.Map.Entry;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Color;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
-import org.bukkit.Particle.DustOptions;
 import org.bukkit.Server;
 import org.bukkit.block.Block;
 import org.bukkit.command.ConsoleCommandSender;
@@ -44,7 +42,7 @@ public class SpeedEdit extends JavaPlugin implements Listener  {
 		console = server.getConsoleSender();
 		server.getPluginManager().registerEvents(this, this);
 		initializePlugin();
-		console.sendMessage(ChatColor.GREEN + "" + ChatColor.ITALIC + "SpeedEdit Loaded");
+		console.sendMessage(ChatColor.GREEN + "" + ChatColor.ITALIC + "Speed Edit Loaded");
 		startParticleShowTimer();
 	}
 
@@ -71,7 +69,7 @@ public class SpeedEdit extends JavaPlugin implements Listener  {
 
 	@Override
 	public void onDisable() {
-		console.sendMessage(ChatColor.RED + "SpeedEdit Disabled");
+		console.sendMessage(ChatColor.RED + "Speed Edit Disabled");
 		Bukkit.getScheduler().cancelTask(TickingIDParticle);
 	}
 
@@ -90,20 +88,23 @@ public class SpeedEdit extends JavaPlugin implements Listener  {
 		if(player.hasPermission("speededit.use")) {
 			if (player.getInventory().getItemInMainHand().getType() == Tool && player.getInventory().getItemInMainHand().getItemMeta().getCustomModelData() == ToolID && event.getAction().equals(Action.LEFT_CLICK_BLOCK) && player.getGameMode() == GameMode.CREATIVE && event.getHand().equals(EquipmentSlot.HAND)) { //TODO : SURVIVAL
 				ListPosition1.put(player, block.getLocation());
-				refreshSelectionZone(player);
-				player.sendMessage(ChatColor.DARK_GRAY + "SpeedEdit " + ChatColor.GREEN + "Position 1" + ChatColor.DARK_GRAY + " set");
+				refreshSelectionZone(player, 1);
 				event.setCancelled(true);
 			} else if (player.getInventory().getItemInMainHand().getType() == Tool  && player.getInventory().getItemInMainHand().getItemMeta().getCustomModelData() == ToolID && event.getAction().equals(Action.RIGHT_CLICK_BLOCK) && player.getGameMode() == GameMode.CREATIVE && event.getHand().equals(EquipmentSlot.HAND)) { //TODO : SURVIVAL
 				ListPosition2.put(player, block.getLocation());
-				refreshSelectionZone(player);
-				player.sendMessage(ChatColor.DARK_GRAY + "SpeedEdit " + ChatColor.GREEN + "Position 2" + ChatColor.DARK_GRAY + " set");
+				refreshSelectionZone(player, 2);
 				event.setCancelled(true);
 			}
 		}
 	}
 
-	static void refreshSelectionZone(Player player) {//TODO : MESSAGES FROM HERE AND SHOW BLOCK COUNT WITH MAP LENGTH
-		if(ListPosition1.containsKey(player) && ListPosition2.containsKey(player)) SelectedBlocks.put(player, getSelectedZone(player, ListPosition1.get(player), ListPosition2.get(player)));
+	static void refreshSelectionZone(Player player, int Pos) {
+		String msg = ChatColor.DARK_GRAY + "Speed Edit " + ChatColor.GREEN + "Position " + Pos + ChatColor.DARK_GRAY + " set";
+		if(ListPosition1.containsKey(player) && ListPosition2.containsKey(player)) {
+			SelectedBlocks.put(player, getSelectedZone(player, ListPosition1.get(player), ListPosition2.get(player)));
+			msg += " [" + SelectedBlocks.get(player).size() + " Blocks]";
+		}
+		player.sendMessage(msg);
 	}
 
 	public static List<Block> getSelectedZone(Player player, Location pos1, Location pos2)
@@ -123,24 +124,24 @@ public class SpeedEdit extends JavaPlugin implements Listener  {
 					if(block.getLocation().getX() == pos1.getX() && block.getLocation().getY() == pos1.getY()) hightlight.add(block);
 					if(block.getLocation().getY() == pos1.getY() && block.getLocation().getZ() == pos1.getZ()) hightlight.add(block);
 					if(block.getLocation().getX() == pos1.getX() && block.getLocation().getZ() == pos1.getZ()) hightlight.add(block);
-					
+
 					if(block.getLocation().getX() == pos2.getX() && block.getLocation().getY() == pos2.getY()) hightlight.add(block);
 					if(block.getLocation().getY() == pos2.getY() && block.getLocation().getZ() == pos2.getZ()) hightlight.add(block);
 					if(block.getLocation().getX() == pos2.getX() && block.getLocation().getZ() == pos2.getZ()) hightlight.add(block);
-					
-					
+
+
 					if(block.getLocation().getX() == pos2.getX() && block.getLocation().getY() == pos1.getY()) hightlight.add(block);
 					if(block.getLocation().getY() == pos2.getY() && block.getLocation().getZ() == pos1.getZ()) hightlight.add(block);
 					if(block.getLocation().getX() == pos2.getX() && block.getLocation().getZ() == pos1.getZ()) hightlight.add(block);
-					
+
 					if(block.getLocation().getX() == pos2.getX() && block.getLocation().getY() == pos1.getY()) hightlight.add(block);
 					if(block.getLocation().getY() == pos2.getY() && block.getLocation().getZ() == pos1.getZ()) hightlight.add(block);
 					if(block.getLocation().getX() == pos2.getX() && block.getLocation().getZ() == pos1.getZ()) hightlight.add(block);
-					
+
 					if(block.getLocation().getX() == pos1.getX() && block.getLocation().getY() == pos2.getY()) hightlight.add(block);
 					if(block.getLocation().getY() == pos1.getY() && block.getLocation().getZ() == pos2.getZ()) hightlight.add(block);
 					if(block.getLocation().getX() == pos1.getX() && block.getLocation().getZ() == pos2.getZ()) hightlight.add(block);
-					
+
 					if(block.getLocation().getX() == pos1.getX() && block.getLocation().getY() == pos2.getY()) hightlight.add(block);
 					if(block.getLocation().getY() == pos1.getY() && block.getLocation().getZ() == pos2.getZ()) hightlight.add(block);
 					if(block.getLocation().getX() == pos1.getX() && block.getLocation().getZ() == pos2.getZ()) hightlight.add(block);

@@ -1,6 +1,5 @@
 package ca.fastis;
 
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -23,8 +22,7 @@ public class CommandPos implements CommandExecutor {
 					SpeedEdit.ListPosition2.put(player, player.getLocation().add(0, -1, 0).getBlock().getLocation());
 				}
 
-				SpeedEdit.refreshSelectionZone(player);
-				player.sendMessage(ChatColor.DARK_GRAY + "SpeedEdit " + ChatColor.GREEN + "Position " + PosToSet + ChatColor.DARK_GRAY + " set");
+				SpeedEdit.refreshSelectionZone(player, PosToSet);
 				return true;
 			}
 		}
