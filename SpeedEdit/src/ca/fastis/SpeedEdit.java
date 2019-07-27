@@ -85,26 +85,21 @@ public class SpeedEdit extends JavaPlugin implements Listener  {
 
 	public static List<Block> getBlocks(Location pos1, Location pos2)
 	{
-		try {
-			List<Block> blocks = new ArrayList<Block>();
-	        int topBlockX = (pos1.getBlockX() < pos2.getBlockX() ? pos2.getBlockX() : pos1.getBlockX());
-	        int bottomBlockX = (pos1.getBlockX() > pos2.getBlockX() ? pos2.getBlockX() : pos1.getBlockX());
-	        int topBlockY = (pos1.getBlockY() < pos2.getBlockY() ? pos2.getBlockY() : pos1.getBlockY());
-	        int bottomBlockY = (pos1.getBlockY() > pos2.getBlockY() ? pos2.getBlockY() : pos1.getBlockY());
-	        int topBlockZ = (pos1.getBlockZ() < pos2.getBlockZ() ? pos2.getBlockZ() : pos1.getBlockZ());
-	        int bottomBlockZ = (pos1.getBlockZ() > pos2.getBlockZ() ? pos2.getBlockZ() : pos1.getBlockZ());
-	        for(int x = bottomBlockX; x <= topBlockX; x++) {
-	            for(int z = bottomBlockZ; z <= topBlockZ; z++) {
-	                for(int y = bottomBlockY; y <= topBlockY; y++) {
-	                    Block block = pos1.getWorld().getBlockAt(x, y, z);
-	                    blocks.add(block);
-	                }
-	            }
-	        }
-	        return blocks;
-		} catch(Exception e) {
-			server.broadcastMessage("If you read this I fucked up again ¯_(ツ)_/¯ #1" + e.getMessage());
-			return null;
-		}
+		List<Block> blocks = new ArrayList<Block>();
+        int topBlockX = (pos1.getBlockX() < pos2.getBlockX() ? pos2.getBlockX() : pos1.getBlockX());
+        int bottomBlockX = (pos1.getBlockX() > pos2.getBlockX() ? pos2.getBlockX() : pos1.getBlockX());
+        int topBlockY = (pos1.getBlockY() < pos2.getBlockY() ? pos2.getBlockY() : pos1.getBlockY());
+        int bottomBlockY = (pos1.getBlockY() > pos2.getBlockY() ? pos2.getBlockY() : pos1.getBlockY());
+        int topBlockZ = (pos1.getBlockZ() < pos2.getBlockZ() ? pos2.getBlockZ() : pos1.getBlockZ());
+        int bottomBlockZ = (pos1.getBlockZ() > pos2.getBlockZ() ? pos2.getBlockZ() : pos1.getBlockZ());
+        for(int x = bottomBlockX; x <= topBlockX; x++) {
+            for(int z = bottomBlockZ; z <= topBlockZ; z++) {
+                for(int y = bottomBlockY; y <= topBlockY; y++) {
+                    Block block = pos1.getWorld().getBlockAt(x, y, z);
+                    blocks.add(block);
+                }
+            }
+        }
+        return blocks;
 	}
 }

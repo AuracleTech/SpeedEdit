@@ -57,7 +57,7 @@ public class CommandSet implements CommandExecutor {
 					}
 					return true;
 				} catch(Exception e) {
-					server.broadcastMessage("If you read this I fucked up again ¯_(ツ)_/¯ #2" + e.getMessage());
+					player.sendMessage(ChatColor.DARK_GRAY + "Speed Edit fucked, here's the error : " + ChatColor.DARK_RED + e.getMessage());
 				}
 				return true;
 			}
