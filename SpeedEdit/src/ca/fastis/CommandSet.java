@@ -16,18 +16,17 @@ import org.bukkit.entity.Player;
 public class CommandSet implements CommandExecutor {
 
 	Server server = SpeedEdit.server;
-	Map<Player, SEPos> ListSEPos = SpeedEdit.ListSEPos;
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command arg1, String arg2, String[] arg3) {
 		if (sender instanceof Player) {
 			Player player = (Player) sender;
 			if(player.hasPermission("speededit.set")) {
-				if(!ListSEPos.containsKey(player) || ListSEPos.get(player) == null || ListSEPos.get(player).pos1 == null || ListSEPos.get(player).pos2  == null) {
+				if(!SpeedEdit.ListPosition1.containsKey(player) || !SpeedEdit.ListPosition2.containsKey(player)) {
 					player.sendMessage(ChatColor.DARK_GRAY + "You need to select " + ChatColor.DARK_RED + "2 positions" + ChatColor.DARK_GRAY + ", use right and left click with a brick on blocks");
 					return true;
 				}
-				if(ListSEPos.get(player).pos1.getBlock().getWorld().getName() != ListSEPos.get(player).pos2.getBlock().getWorld().getName()) {
+				if(SpeedEdit.ListPosition1.get(player).getWorld() != SpeedEdit.ListPosition2.get(player).getWorld()) {
 					player.sendMessage(ChatColor.DARK_GRAY + "Your 2 positions must be in the " + ChatColor.DARK_RED + "same world");
 					return true;
 				}
@@ -41,9 +40,7 @@ public class CommandSet implements CommandExecutor {
 				}
 
 				try {
-					Location Pos1 = ListSEPos.get(player).pos1;
-					Location Pos2 = ListSEPos.get(player).pos2;
-					List<Block> Selected = SpeedEdit.getBlocks(Pos1, Pos2);
+					List<Block> Selected = SpeedEdit.SelectedBlocks.get(player);
 					int Changed = 0;
 					for(Block block : Selected) {
 						Changed++;
