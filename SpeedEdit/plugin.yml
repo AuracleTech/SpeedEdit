@@ -7,4 +7,16 @@ commands:
    set:
       permission: speededit.set
       description: 
-      usage: /set [Block Name]
+      usage: /<command> {Material}
+   hammer:
+      permission: speededit.hammer
+      description: 
+      usage: /<command>
+   pos1:
+      permission: speededit.use
+      description: 
+      usage: /<command>
+   pos2:
+      permission: speededit.use
+      description: 
+      usage: /<command>
