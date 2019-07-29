@@ -64,6 +64,7 @@ public class SpeedEdit extends JavaPlugin implements Listener  {
 		this.getCommand("pos1").setExecutor(new CommandPos(1));
 		this.getCommand("pos2").setExecutor(new CommandPos(2));
 		this.getCommand("set").setExecutor(new CommandSet());
+		this.getCommand("replace").setExecutor(new CommandReplace());
 		this.getCommand("hammer").setExecutor(new commandHammer());
 	}
 

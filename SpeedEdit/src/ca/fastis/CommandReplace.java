@@ -13,7 +13,7 @@ import org.bukkit.entity.Player;
 
 import com.google.common.collect.Lists;
 
-public class CommandSet implements CommandExecutor, TabCompleter {
+public class CommandReplace implements CommandExecutor, TabCompleter {
 
 	Server server = SpeedEdit.server;
 
@@ -30,26 +30,38 @@ public class CommandSet implements CommandExecutor, TabCompleter {
 					player.sendMessage(ChatColor.DARK_GRAY + "Your 2 positions must be in the " + ChatColor.DARK_RED + "same world");
 					return true;
 				}
-				if(arg3.length < 1 || arg3.length > 1) {
-					player.sendMessage(ChatColor.DARK_GRAY + "Use the command like this " + ChatColor.DARK_RED + "/Set Material");
+				if(arg3.length < 1 || arg3.length > 2) {
+					player.sendMessage(ChatColor.DARK_GRAY + "Use the command like this " + ChatColor.DARK_RED + "/Replace Material" + ChatColor.DARK_GRAY + " or " + ChatColor.DARK_RED + "/Replace Material Material");
 					return true;
 				}
 				if(Material.matchMaterial(arg3[0]) == null) {
 					player.sendMessage(ChatColor.DARK_GRAY + "The material " + ChatColor.DARK_RED + arg3[0] + ChatColor.DARK_GRAY + " can't be found");
 					return true;
 				}
+				if(arg3.length > 1 && Material.matchMaterial(arg3[1]) == null) {
+					player.sendMessage(ChatColor.DARK_GRAY + "The material " + ChatColor.DARK_RED + arg3[1] + ChatColor.DARK_GRAY + " can't be found");
+					return true;
+				}
 
 				try {
 					List<Block> Selected = SpeedEdit.SelectedBlocks.get(player);
-					Material postMaterial = Material.matchMaterial(arg3[0]);
-					for(Block block : Selected) {
-						block.setType(postMaterial);
+					int Changed = 0;
+					if(arg3.length == 2) {
+						Material preMaterial = Material.matchMaterial(arg3[0]);
+						Material postMaterial = Material.matchMaterial(arg3[1]);
+						for(Block block : Selected) {
+							if(block.getType() == preMaterial) { block.setType(postMaterial); Changed++; }
+						}
+					} else {
+						for(Block block : Selected) {
+							Changed++;
+							if(block.getType() != Material.AIR) { block.setType(Material.matchMaterial(arg3[0])); Changed++; }
+						}
 					}
-					int blockChanged = SpeedEdit.SelectedBlocks.get(player).size();
-					player.sendMessage(ChatColor.DARK_GRAY + "You changed " + ChatColor.GREEN + blockChanged + ChatColor.DARK_GRAY + " blocks to " + ChatColor.GREEN + arg3[0]);
+					player.sendMessage(ChatColor.DARK_GRAY + "You changed " + ChatColor.GREEN + Changed + ChatColor.DARK_GRAY + " blocks to " + ChatColor.GREEN + arg3[0]);
 					for (Player online : server.getOnlinePlayers()) {
 						if (online.isOp()) {
-							online.sendMessage(ChatColor.GREEN + "" + player.getName() + ChatColor.DARK_GRAY + " changed " + ChatColor.GREEN + blockChanged + ChatColor.DARK_GRAY + " blocks to " + ChatColor.GREEN + arg3[0]);
+							online.sendMessage(ChatColor.GREEN + "" + player.getName() + ChatColor.DARK_GRAY + " changed " + ChatColor.GREEN + Changed + ChatColor.DARK_GRAY + " blocks to " + ChatColor.GREEN + arg3[0]);
 						}
 					}
 					return true;
@@ -67,7 +79,7 @@ public class CommandSet implements CommandExecutor, TabCompleter {
 		Material[] list = Material.values();
 		List<String> fList = Lists.newArrayList();
 
-		if (args.length == 1) {
+		if (args.length == 1 || args.length == 2) {
 			for (Material s : list) {
 				if (s.name().toLowerCase().startsWith(args[0].toLowerCase())) {
 					fList.add(s.name().toLowerCase());

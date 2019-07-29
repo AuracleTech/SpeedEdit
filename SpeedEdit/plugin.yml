@@ -8,6 +8,10 @@ commands:
       permission: speededit.set
       description: 
       usage: /<command> [Material]
+   replace:
+      permission: speededit.replace
+      description: 
+      usage: /<command> [Material] [Material]
    hammer:
       permission: speededit.hammer
       description: 

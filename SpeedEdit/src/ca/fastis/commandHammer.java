@@ -1,7 +1,6 @@
 package ca.fastis;
 
 import org.bukkit.ChatColor;
-import org.bukkit.GameMode;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -15,7 +14,7 @@ public class commandHammer implements CommandExecutor {
 	public boolean onCommand(CommandSender sender, Command arg1, String arg2, String[] arg3) {
 		if (sender instanceof Player) {
 			Player player = (Player) sender;
-			if(player.hasPermission("speededit.hammer") && player.getGameMode() == GameMode.CREATIVE) {
+			if(player.hasPermission("speededit.hammer")) {
 				ItemStack hammer = new ItemStack(SpeedEdit.Tool, 1);
 				ItemMeta hammerMeta = hammer.getItemMeta();
 				hammerMeta.setCustomModelData(SpeedEdit.ToolID);
