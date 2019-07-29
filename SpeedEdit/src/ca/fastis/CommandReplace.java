@@ -66,7 +66,7 @@ public class CommandReplace implements CommandExecutor, TabCompleter {
 					}
 					return true;
 				} catch(Exception e) {
-					player.sendMessage(ChatColor.DARK_GRAY + "Speed Edit fucked, here's the error : " + ChatColor.DARK_RED + e.getMessage());
+					player.sendMessage(ChatColor.DARK_GRAY + "Speed Edit Error : " + ChatColor.DARK_RED + e.getMessage());
 				}
 				return true;
 			}
