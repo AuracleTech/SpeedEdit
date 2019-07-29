@@ -21,7 +21,7 @@ public class CommandReplace implements CommandExecutor, TabCompleter {
 	public boolean onCommand(CommandSender sender, Command arg1, String arg2, String[] arg3) {
 		if (sender instanceof Player) {
 			Player player = (Player) sender;
-			if(player.hasPermission("speededit.set")) {
+			if(player.hasPermission("speededit.replace")) {
 				if(!SpeedEdit.ListPosition1.containsKey(player) || !SpeedEdit.ListPosition2.containsKey(player)) {
 					player.sendMessage(ChatColor.DARK_GRAY + "You need to select " + ChatColor.DARK_RED + "2 positions" + ChatColor.DARK_GRAY + ", use right and left click with a brick on blocks");
 					return true;
@@ -78,7 +78,6 @@ public class CommandReplace implements CommandExecutor, TabCompleter {
 	public List<String> onTabComplete(CommandSender sender, Command cmd, String Label, String[] args) {
 		Material[] list = Material.values();
 		List<String> fList = Lists.newArrayList();
-
 		if (args.length == 1 || args.length == 2) {
 			for (Material s : list) {
 				if (s.name().toLowerCase().startsWith(args[0].toLowerCase())) {

@@ -66,7 +66,6 @@ public class CommandSet implements CommandExecutor, TabCompleter {
 	public List<String> onTabComplete(CommandSender sender, Command cmd, String Label, String[] args) {
 		Material[] list = Material.values();
 		List<String> fList = Lists.newArrayList();
-
 		if (args.length == 1) {
 			for (Material s : list) {
 				if (s.name().toLowerCase().startsWith(args[0].toLowerCase())) {
