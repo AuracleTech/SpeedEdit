@@ -8,10 +8,12 @@ import java.util.Map.Entry;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Color;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
+import org.bukkit.Particle.DustOptions;
 import org.bukkit.Server;
 import org.bukkit.block.Block;
 import org.bukkit.command.ConsoleCommandSender;
@@ -23,6 +25,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class SpeedEdit extends JavaPlugin implements Listener  {
@@ -52,12 +55,13 @@ public class SpeedEdit extends JavaPlugin implements Listener  {
 			public void run() {
 				for(Entry<Player, List<Block>> entry : HighlightZone.entrySet()) {
 					Player player = entry.getKey();
+					DustOptions dustOptions = new DustOptions(Color.fromRGB(0, 255, 64), 1);
 					for(Block block : entry.getValue()) {
-						player.spawnParticle(Particle.END_ROD, block.getLocation().getX()+0.5, block.getLocation().getY()+0.5, block.getLocation().getZ()+0.5, 0, 0, 0.02, 0);
+						player.spawnParticle(Particle.REDSTONE, block.getLocation().getX()+0.5, block.getLocation().getY()+0.5, block.getLocation().getZ()+0.5, 1, 0, 0, 0, 0, dustOptions);
 					}
 				}
 			}
-		}, 0L, 5L);
+		}, 0L, 6L);
 	}
 
 	private void initializePlugin() {
