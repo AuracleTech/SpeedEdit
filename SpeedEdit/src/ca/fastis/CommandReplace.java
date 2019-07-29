@@ -54,7 +54,6 @@ public class CommandReplace implements CommandExecutor, TabCompleter {
 						}
 					} else {
 						for(Block block : Selected) {
-							Changed++;
 							if(block.getType() != Material.AIR) { block.setType(Material.matchMaterial(arg3[0])); Changed++; }
 						}
 					}
