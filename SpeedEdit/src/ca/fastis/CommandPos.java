@@ -31,5 +31,4 @@ public class CommandPos implements CommandExecutor {
 		}
 		return false;
 	}
-
 }
