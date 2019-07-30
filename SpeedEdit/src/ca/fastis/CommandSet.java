@@ -57,6 +57,8 @@ public class CommandSet implements CommandExecutor, TabCompleter {
 					player.sendMessage(ChatColor.DARK_GRAY + "Speed Edit fucked, here's the error : " + ChatColor.DARK_RED + e.getMessage());
 				}
 				return true;
+			} else {
+				player.sendMessage(ChatColor.RED + "No permission.");
 			}
 		}
 		return false;

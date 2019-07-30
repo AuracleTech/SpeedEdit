@@ -1,5 +1,6 @@
 package ca.fastis;
 
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -24,6 +25,8 @@ public class CommandPos implements CommandExecutor {
 
 				SpeedEdit.refreshSelectionZone(player, PosToSet);
 				return true;
+			} else {
+				player.sendMessage(ChatColor.RED + "No permission.");
 			}
 		}
 		return false;
