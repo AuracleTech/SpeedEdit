@@ -57,10 +57,10 @@ public class CommandReplace implements CommandExecutor, TabCompleter {
 							if(block.getType() != Material.AIR) { block.setType(Material.matchMaterial(arg3[0])); Changed++; }
 						}
 					}
-					player.sendMessage(ChatColor.DARK_GRAY + "You changed " + ChatColor.GREEN + Changed + ChatColor.DARK_GRAY + " blocks to " + ChatColor.GREEN + arg3[0]);
+					player.sendMessage(ChatColor.DARK_GRAY + "You replaced " + ChatColor.GREEN + Changed + ChatColor.DARK_GRAY + " blocks to " + ChatColor.GREEN + arg3[0]);
 					for (Player online : server.getOnlinePlayers()) {
 						if (online.isOp()) {
-							online.sendMessage(ChatColor.GREEN + "" + player.getName() + ChatColor.DARK_GRAY + " changed " + ChatColor.GREEN + Changed + ChatColor.DARK_GRAY + " blocks to " + ChatColor.GREEN + arg3[0]);
+							online.sendMessage(ChatColor.GREEN + "" + player.getName() + ChatColor.DARK_GRAY + " replaced " + ChatColor.GREEN + Changed + ChatColor.DARK_GRAY + " blocks to " + ChatColor.GREEN + arg3[0]);
 						}
 					}
 					return true;

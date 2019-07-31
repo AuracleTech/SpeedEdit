@@ -46,10 +46,10 @@ public class CommandSet implements CommandExecutor, TabCompleter {
 						block.setType(postMaterial);
 					}
 					int blockChanged = SpeedEdit.SelectedBlocks.get(player).size();
-					player.sendMessage(ChatColor.DARK_GRAY + "You changed " + ChatColor.GREEN + blockChanged + ChatColor.DARK_GRAY + " blocks to " + ChatColor.GREEN + arg3[0]);
+					player.sendMessage(ChatColor.DARK_GRAY + "You set " + ChatColor.GREEN + blockChanged + ChatColor.DARK_GRAY + " blocks to " + ChatColor.GREEN + arg3[0]);
 					for (Player online : server.getOnlinePlayers()) {
 						if (online.isOp()) {
-							online.sendMessage(ChatColor.GREEN + "" + player.getName() + ChatColor.DARK_GRAY + " changed " + ChatColor.GREEN + blockChanged + ChatColor.DARK_GRAY + " blocks to " + ChatColor.GREEN + arg3[0]);
+							online.sendMessage(ChatColor.GREEN + "" + player.getName() + ChatColor.DARK_GRAY + " set " + ChatColor.GREEN + blockChanged + ChatColor.DARK_GRAY + " blocks to " + ChatColor.GREEN + arg3[0]);
 						}
 					}
 					return true;
