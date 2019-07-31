@@ -25,7 +25,11 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import net.coreprotect.CoreProtect;
+import net.coreprotect.CoreProtectAPI;
 
 public class SpeedEdit extends JavaPlugin implements Listener  {
 	static Server server;
@@ -38,14 +42,49 @@ public class SpeedEdit extends JavaPlugin implements Listener  {
 	static int ToolID = 537469636;
 	static String ToolName = ChatColor.GREEN + "Speed Edit Hammer";
 	int TickingIDParticle;
+	static CoreProtectAPI cpapi;
 
 	public void onEnable() {
+		cpapi = getCoreProtect();
+		if (cpapi != null && cpapi.isEnabled()){ //Ensure we have access to the API
+			cpapi.testAPI(); //Will print out "[CoreProtect] API Test Successful." in the console.
+		}
+		
+		/*logPlacement(String user, Location location, Material type, BlockData blockData)
+
+logRemoval(String user, Location location, Material type, BlockData blockData)
+
+logContainerTransaction(String user, Location location)
+*/
+		//if(cpapi.isEnabled()) 
 		server = this.getServer();
 		console = server.getConsoleSender();
 		server.getPluginManager().registerEvents(this, this);
 		initializePlugin();
 		console.sendMessage(ChatColor.GREEN + "" + ChatColor.ITALIC + "Speed Edit Loaded");
 		startParticleShowTimer();
+	}
+
+	private CoreProtectAPI getCoreProtect() {
+		Plugin plugin = getServer().getPluginManager().getPlugin("CoreProtect");
+
+		// Check that CoreProtect is loaded
+		if (plugin == null || !(plugin instanceof CoreProtect)) {
+			return null;
+		}
+
+		// Check that the API is enabled
+		CoreProtectAPI CoreProtect = ((CoreProtect) plugin).getAPI();
+		if (CoreProtect.isEnabled() == false) {
+			return null;
+		}
+
+		// Check that a compatible version of the API is loaded
+		if (CoreProtect.APIVersion() < 6) {
+			return null;
+		}
+
+		return CoreProtect;
 	}
 
 	private void startParticleShowTimer() {

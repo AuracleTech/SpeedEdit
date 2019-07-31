@@ -43,7 +43,7 @@ public class CommandSet implements CommandExecutor, TabCompleter {
 					List<Block> Selected = SpeedEdit.SelectedBlocks.get(player);
 					Material postMaterial = Material.matchMaterial(arg3[0]);
 					for(Block block : Selected) {
-						block.setType(postMaterial);
+						Events.blockChange(player, block, postMaterial);
 					}
 					int blockChanged = SpeedEdit.SelectedBlocks.get(player).size();
 					player.sendMessage(ChatColor.DARK_GRAY + "You set " + ChatColor.GREEN + blockChanged + ChatColor.DARK_GRAY + " blocks to " + ChatColor.GREEN + arg3[0]);

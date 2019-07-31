@@ -50,11 +50,11 @@ public class CommandReplace implements CommandExecutor, TabCompleter {
 						Material preMaterial = Material.matchMaterial(arg3[0]);
 						Material postMaterial = Material.matchMaterial(arg3[1]);
 						for(Block block : Selected) {
-							if(block.getType() == preMaterial) { block.setType(postMaterial); Changed++; }
+							if(block.getType() == preMaterial) { Events.blockChange(player, block, postMaterial); Changed++; }
 						}
 					} else {
 						for(Block block : Selected) {
-							if(block.getType() != Material.AIR) { block.setType(Material.matchMaterial(arg3[0])); Changed++; }
+							if(block.getType() != Material.AIR) { Events.blockChange(player, block, Material.matchMaterial(arg3[0])); Changed++; }
 						}
 					}
 					player.sendMessage(ChatColor.DARK_GRAY + "You replaced " + ChatColor.GREEN + Changed + ChatColor.DARK_GRAY + " blocks to " + ChatColor.GREEN + arg3[0]);
@@ -77,9 +77,16 @@ public class CommandReplace implements CommandExecutor, TabCompleter {
 	public List<String> onTabComplete(CommandSender sender, Command cmd, String Label, String[] args) {
 		Material[] list = Material.values();
 		List<String> fList = Lists.newArrayList();
-		if (args.length == 1 || args.length == 2) {
+		if (args.length == 1) {
 			for (Material s : list) {
 				if (s.name().toLowerCase().startsWith(args[0].toLowerCase())) {
+					fList.add(s.name().toLowerCase());
+				}
+			}
+			return fList;
+		} else if (args.length == 2) {
+			for (Material s : list) {
+				if (s.name().toLowerCase().startsWith(args[1].toLowerCase())) {
 					fList.add(s.name().toLowerCase());
 				}
 			}

@@ -3,6 +3,8 @@ main: ca.fastis.SpeedEdit
 version: 1.0
 author: SellerSkyblock
 api-version: 1.14
+softdepend: [CoreProtect]
+website: https://github.com/VirgilFabre
 commands:
    set:
       permission: speededit.set
@@ -21,6 +23,22 @@ commands:
       description: 
       usage: /<command>
    pos2:
+      permission: speededit.use
+      description: 
+      usage: /<command>
+   undo:
+      permission: speededit.undo
+      description: 
+      usage: /<command>
+   redo:
+      permission: speededit.redo
+      description: 
+      usage: /<command>
+   redo:
+      permission: speededit.use
+      description: 
+      usage: /<command>
+   redo:
       permission: speededit.use
       description: 
       usage: /<command>
