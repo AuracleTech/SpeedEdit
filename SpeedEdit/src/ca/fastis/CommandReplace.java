@@ -92,10 +92,7 @@ public class CommandReplace implements CommandExecutor, TabCompleter {
 			}
 			return fList;
 		} else {
-			for (Material s : list) {
-				fList.add(s.name().toLowerCase());
-			}
-			return fList;
+			return null;
 		}
 	}
 }
