@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -24,8 +25,9 @@ public class UserData {
 	}
 
 	public void setPosition(int position, Location argLocation) {
-		positions.put(position, argLocation);
-		FuturEvents.onPositionChangeEvent(this.player, position, argLocation);
+		positions.put(position, argLocation);		
+		player.sendMessage(ChatColor.DARK_GRAY + "Speed Edit " + ChatColor.GREEN + "Position " + position + ChatColor.DARK_GRAY + " set" + ((Highlight != null) ? " [" + Highlight.size() + " Blocks]" : ""));
+		FuturEvents.onPositionChangeEvent(this.player, Highlight, position, argLocation);
 		if(isBothPosSet() && isBothPosSameWorld()) setSelectedZone();
 	}
 
