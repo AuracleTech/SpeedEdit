@@ -53,10 +53,10 @@ public class ErrorManagement {
 		player.sendMessage(ChatColor.DARK_GRAY + "Speed Edit Error : " + ChatColor.DARK_RED + e.getMessage());
 	}
 
-	public boolean isArgsCorrect(String[] args, int length, String correct) { return isArgsCorrect(args, length, length, correct); }
-	public boolean isArgsCorrect(String[] args, int length) { return isArgsCorrect(args, length, length, null); }
-	public boolean isArgsCorrect(String[] args, int minLength, int maxLength) {	return isArgsCorrect(args, minLength, maxLength, null); }
-	public boolean isArgsCorrect(String[] args, int minLength, int maxLength, String correct) {
+	public boolean isArgsLength(String[] args, int length, String correct) { return isArgsLength(args, length, length, correct); }
+	public boolean isArgsLength(String[] args, int length) { return isArgsLength(args, length, length, null); }
+	public boolean isArgsLength(String[] args, int minLength, int maxLength) {	return isArgsLength(args, minLength, maxLength, null); }
+	public boolean isArgsLength(String[] args, int minLength, int maxLength, String correct) {
 		if(args.length >= minLength && args.length <= maxLength)
 			return true;
 		else {

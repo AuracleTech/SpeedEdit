@@ -18,7 +18,7 @@ public class CommandSet implements CommandExecutor, TabCompleter {
 		if (sender instanceof Player) {
 			Player player = (Player) sender;
 			ErrorManagement EM = new ErrorManagement(player);
-			if(!EM.hasPermission(player, "speededit.set") || !EM.hasPositionReady() || !EM.isArgsCorrect(args, maxArg, "/Set Material") || !EM.isMaterial(args[0])) return true;
+			if(!EM.hasPermission(player, "speededit.set") || !EM.hasPositionReady() || !EM.isArgsLength(args, maxArg, "/Set Material") || !EM.isMaterial(args[0])) return true;
 			try {
 				List<Block> blocks = SpeedEdit.getUser(player).getSelectedZone();
 				Functions.manipulateBlocks(player, "set", blocks, Material.matchMaterial(args[0]), EM);
@@ -36,7 +36,7 @@ public class CommandSet implements CommandExecutor, TabCompleter {
 			Player player = (Player) sender;
 			ErrorManagement EM = new ErrorManagement(player);
 			Material[] materialList = Material.values();
-			if (EM.isArgsCorrect(args, maxArg)) {
+			if (EM.isArgsLength(args, maxArg)) {
 				for (Material material : materialList) {
 					if (material.name().toLowerCase().startsWith(args[args.length-1].toLowerCase()) && material.isBlock()) {
 						returnList.add(material.name().toLowerCase());
@@ -44,7 +44,7 @@ public class CommandSet implements CommandExecutor, TabCompleter {
 				}
 			} else
 				if(args.length == maxArg+1 && args[args.length-1].toLowerCase().isEmpty())
-					EM.isArgsCorrect(args, maxArg, "/Set Material");
+					EM.isArgsLength(args, maxArg, "/Set Material");
 		}
 		return returnList;
 	}

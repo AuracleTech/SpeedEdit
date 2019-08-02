@@ -14,8 +14,15 @@ public class Functions {
 
 	public static void manipulateBlocks(Player player, String cmdName, List<Block> blocks, Material fromMat, Material toMat, ErrorManagement EM) {
 		List<Block> newList = new ArrayList<Block>();
-		for(Block block : blocks) {
-			if(block.getType() == fromMat) newList.add(block);
+		if(toMat == null) {
+			for(Block block : blocks) {
+				if(block.getType() != Material.AIR) newList.add(block);
+			}
+			toMat = fromMat;
+		} else {
+			for(Block block : blocks) {
+				if(block.getType() == fromMat) newList.add(block);
+			}
 		}
 		manipulateBlocks(player, cmdName, newList, toMat, EM);
 	}
