@@ -28,7 +28,7 @@ public class UserData {
 		positions.put(position, argLocation);		
 		FuturEvents.onPositionChangeEvent(this.player, Highlight, position, argLocation);
 		if(isBothPosSet() && isBothPosSameWorld()) setSelectedZone();
-		player.sendMessage(ChatColor.DARK_GRAY + "Speed Edit " + ChatColor.GREEN + "Position " + position + ChatColor.DARK_GRAY + " set" + ((Highlight != null) ? " [" + Highlight.size() + " Blocks]" : ""));
+		player.sendMessage(ChatColor.DARK_GRAY + "Speed Edit " + ChatColor.GREEN + "Position " + position + ChatColor.DARK_GRAY + " set" + ((Highlight != null) ? " [" + ChatColor.GREEN + Highlight.size() + " Blocks" + ChatColor.DARK_GRAY + "]" : ""));
 	}
 
 	public Location getPosition(int position) {
@@ -36,8 +36,8 @@ public class UserData {
 	}
 
 	public static List<Block> getHighlightZone(){ return Highlight;	}
-	private void setHighlightZone(List<Block> hightlight) { 
-		Highlight = hightlight; 
+	private void setHighlightZone(List<Block> hightlight) {
+		Highlight = hightlight;
 		FuturEvents.onHighlightChangeEvent(player, Highlight);
 	}
 
