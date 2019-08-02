@@ -26,31 +26,30 @@ public class ManageEvents implements Listener{
 			e.setCancelled(true);
 		}
 	}
-	
+
 	@EventHandler(priority = EventPriority.HIGH)
 	public void onBlockBreakEvent(BlockBreakEvent event) {
 		Player player = event.getPlayer();
-		if (player.getInventory().getItemInMainHand().getType() == Tool && player.getInventory().getItemInMainHand().getItemMeta().hasCustomModelData() && player.getInventory().getItemInMainHand().getItemMeta().getCustomModelData() == ToolID && player.hasPermission("speededit.use") && player.getGameMode() == GameMode.CREATIVE) { //TODO : SURVIVAL
-			event.setCancelled(true);
-		}
+		if (player.getInventory().getItemInMainHand().getType() == SpeedEdit.Tool && player.getInventory().getItemInMainHand().getItemMeta().hasCustomModelData() && player.getInventory().getItemInMainHand().getItemMeta().getCustomModelData() == SpeedEdit.ToolID && player.hasPermission("speededit.use")) event.setCancelled(true);
 	}
 
 	@EventHandler(priority = EventPriority.HIGH)
-	public void onPlayerInteractEvent(PlayerInteractEvent event) { //TODO FUSION LEFT AND RIGHT
+	public void onPlayerInteractEvent(PlayerInteractEvent event) {
 		Player player = event.getPlayer();
 		Block block = event.getClickedBlock();
 		if(player.hasPermission("speededit.use")) {
-			if (player.getInventory().getItemInMainHand().getType() == Tool && player.getInventory().getItemInMainHand().getItemMeta().hasCustomModelData() && player.getInventory().getItemInMainHand().getItemMeta().getCustomModelData() == ToolID && event.getAction().equals(Action.LEFT_CLICK_BLOCK) && player.getGameMode() == GameMode.CREATIVE && event.getHand().equals(EquipmentSlot.HAND)) { //TODO : SURVIVAL
+			if (player.getInventory().getItemInMainHand().getType() == SpeedEdit.Tool && player.getInventory().getItemInMainHand().getItemMeta().hasCustomModelData() && player.getInventory().getItemInMainHand().getItemMeta().getCustomModelData() == SpeedEdit.ToolID  && event.getHand().equals(EquipmentSlot.HAND)) {
+				int PosToSet = event.getAction().equals(Action.LEFT_CLICK_BLOCK) ? 1 : event.getAction().equals(Action.RIGHT_CLICK_BLOCK) ? 2 : 1;
+				
+				SpeedEdit.SEuserData.add(player, ".PosToSet");
 				ListPosition1.put(player, block.getLocation());
 				refreshSelectionZone(player, 1);
 				event.setCancelled(true);
-			} else if (player.getInventory().getItemInMainHand().getType() == Tool && player.getInventory().getItemInMainHand().getItemMeta().hasCustomModelData() && player.getInventory().getItemInMainHand().getItemMeta().getCustomModelData() == ToolID && event.getAction().equals(Action.RIGHT_CLICK_BLOCK) && player.getGameMode() == GameMode.CREATIVE && event.getHand().equals(EquipmentSlot.HAND)) { //TODO : SURVIVAL
+			} else if(event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
 				ListPosition2.put(player, block.getLocation());
 				refreshSelectionZone(player, 2);
 				event.setCancelled(true);
 			}
 		}
 	}
-	
-	
 }

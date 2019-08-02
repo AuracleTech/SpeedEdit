@@ -10,7 +10,7 @@ import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
-public class SpeedEditUserData {
+public class UserData {
 	Player player = null;
 	Map<Integer, Location> positions = new HashMap<Integer, Location>();
 	List<Block> Selection = null;
@@ -18,7 +18,11 @@ public class SpeedEditUserData {
 	Map<Player, Map<UUID, Block>> undo = new LinkedHashMap<Player, Map<UUID, Block>>();
 	Map<Player, Map<UUID, Block>> redo = new LinkedHashMap<Player, Map<UUID, Block>>();
 	
-	public SpeedEditUserData(Player player){
+	public UserData(Player player){
 		this.player = player;
+	}
+	
+	public void setPosition(int position, Location location) {
+		this.positions.put(position, location);
 	}
 }

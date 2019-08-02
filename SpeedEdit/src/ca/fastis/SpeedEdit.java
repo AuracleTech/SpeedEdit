@@ -37,9 +37,9 @@ import net.coreprotect.CoreProtectAPI;
 public class SpeedEdit extends JavaPlugin {
 	static Server server;
 	static ConsoleCommandSender console;
-	static Material Tool = Material.STICK; int ToolID = 537469636; String ToolName = ChatColor.GREEN + "Speed Edit Hammer";
+	static Material Tool = Material.STICK; static int ToolID = 537469636; String ToolName = ChatColor.GREEN + "Speed Edit Hammer";
 	int repeatingHighlightTaskID;
-	Map<Player, SpeedEditUserData> SEuserData = new HashMap<Player, SpeedEditUserData>();
+	static Map<Player, UserData> SEuserData = new HashMap<Player, UserData>();
 	static CoreProtectAPI CPapi = null;
 	HighlightZone HZ = new HighlightZone();
 
