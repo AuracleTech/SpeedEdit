@@ -20,7 +20,7 @@ public class CommandReplace implements CommandExecutor, TabCompleter {
 			ErrorManagement EM = new ErrorManagement(player);
 			if(!EM.hasPermission(player, "speededit.replace") || !EM.hasPositionReady() || !EM.isArgsCorrect(args, minArg, maxArg, "/Replace Material Material") || !EM.isMaterial(args[0]) || !EM.isMaterial(args[1])) return true;
 			try {
-				List<Block> blocks = SpeedEdit.SelectedBlocks.get(player);
+				List<Block> blocks = SpeedEdit.getUser(player).getSelectedZone();
 				Functions.manipulateBlocks(player, "replaced", blocks, Material.matchMaterial(args[0]), Material.matchMaterial(args[1]), EM);
 			} catch(Exception e) {
 				EM.throwException(e);

@@ -20,7 +20,7 @@ public class CommandSet implements CommandExecutor, TabCompleter {
 			ErrorManagement EM = new ErrorManagement(player);
 			if(!EM.hasPermission(player, "speededit.set") || !EM.hasPositionReady() || !EM.isArgsCorrect(args, maxArg, "/Set Material") || !EM.isMaterial(args[0])) return true;
 			try {
-				List<Block> blocks = SpeedEdit.SelectedBlocks.get(player);
+				List<Block> blocks = SpeedEdit.getUser(player).getSelectedZone();
 				Functions.manipulateBlocks(player, "set", blocks, Material.matchMaterial(args[0]), EM);
 			} catch(Exception e) {
 				EM.throwException(e);

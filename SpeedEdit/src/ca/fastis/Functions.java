@@ -11,7 +11,7 @@ import net.coreprotect.CoreProtectAPI;
 
 public class Functions {
 	static CoreProtectAPI CPapi = SpeedEdit.CPapi;
-	
+
 	public static void manipulateBlocks(Player player, String cmdName, List<Block> blocks, Material fromMat, Material toMat, ErrorManagement EM) {
 		List<Block> newList = new ArrayList<Block>();
 		for(Block block : blocks) {
@@ -21,10 +21,14 @@ public class Functions {
 	}
 
 	public static void manipulateBlocks(Player player, String cmdName, List<Block> blocks, Material material, ErrorManagement EM) {
-		for(Block block : blocks) {
-			CPapi.logRemoval(player.getName(), block.getLocation(), block.getType(), block.getBlockData());
-			block.setType(material);
-			CPapi.logPlacement(player.getName(), block.getLocation(), block.getType(), block.getBlockData());
+		if(CPapi != null) {
+			for(Block block : blocks) {
+				CPapi.logRemoval(player.getName(), block.getLocation(), block.getType(), block.getBlockData());
+				block.setType(material);
+				CPapi.logPlacement(player.getName(), block.getLocation(), block.getType(), block.getBlockData());
+			}
+		} else {
+			for(Block block : blocks) block.setType(material);
 		}
 		for (Player online : SpeedEdit.server.getOnlinePlayers()) {
 			if (online.getUniqueId() == player.getUniqueId() || online.isOp() || EM.hasPermission(online, "speededit.spy")) {

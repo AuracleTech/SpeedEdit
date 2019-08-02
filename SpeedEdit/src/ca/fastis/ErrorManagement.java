@@ -36,8 +36,8 @@ public class ErrorManagement {
 	}
 
 	public boolean hasPositionReady() {
-		if(SpeedEdit.ListPosition1.containsKey(player) && SpeedEdit.ListPosition2.containsKey(player)) {
-			if(SpeedEdit.ListPosition1.get(player).getWorld() == SpeedEdit.ListPosition2.get(player).getWorld())
+		if(SpeedEdit.getUser(player).isBothPosSet()) {
+			if(SpeedEdit.getUser(player).isBothPosSameWorld())
 				return true;
 			else {
 				player.sendMessage(ChatColor.DARK_GRAY + "Your 2 positions must be in the " + ChatColor.DARK_RED + "same world");

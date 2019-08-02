@@ -2,7 +2,6 @@ package ca.fastis;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -23,25 +22,9 @@ public class CommandPos implements CommandExecutor, TabCompleter {
 			ErrorManagement EM = new ErrorManagement(player);
 			if(!EM.hasPermission(player, "speededit.use") || !EM.isArgsCorrect(args, maxArg, "/Pos" + PosToSet)) return true;
 			
+			SpeedEdit.getUser(player).setPosition(PosToSet, player.getLocation().add(0, -1, 0).getBlock().getLocation());
 		}
-		
-		if (sender instanceof Player) {//TODO : REMOVE AND FIX CODE BELOW :: COPY PASTE TO EDIT IN URGENCE
-			Player player = (Player) sender;
-			if(player.hasPermission("speededit.use")) {
-				if(PosToSet == 1) {
-					SpeedEdit.ListPosition1.put(player, player.getLocation().add(0, -1, 0).getBlock().getLocation());
-				} else {
-					SpeedEdit.ListPosition2.put(player, player.getLocation().add(0, -1, 0).getBlock().getLocation());
-				}
-
-				SpeedEdit.refreshSelectionZone(player, PosToSet);
-				return true;
-			} else {
-				player.sendMessage(ChatColor.RED + "No permission.");
-				return true;
-			}
-		}
-		return false;
+		return true;
 	}
 	
 
