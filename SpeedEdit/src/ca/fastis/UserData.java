@@ -15,7 +15,7 @@ import org.bukkit.entity.Player;
 public class UserData {
 	Player player = null;
 	Map<Integer, Location> positions = new HashMap<Integer, Location>();
-	List<Block> getSelectedZone = null;
+	List<Block> SelectedZone = null;
 	static List<Block> Highlight = null;
 	Map<Player, Map<UUID, Block>> undo = new LinkedHashMap<Player, Map<UUID, Block>>();
 	Map<Player, Map<UUID, Block>> redo = new LinkedHashMap<Player, Map<UUID, Block>>();
@@ -28,7 +28,7 @@ public class UserData {
 		positions.put(position, argLocation);		
 		FuturEvents.onPositionChangeEvent(this.player, Highlight, position, argLocation);
 		if(isBothPosSet() && isBothPosSameWorld()) setSelectedZone();
-		player.sendMessage(ChatColor.DARK_GRAY + "Speed Edit " + ChatColor.GREEN + "Position " + position + ChatColor.DARK_GRAY + " set" + ((Highlight != null) ? " [" + ChatColor.GREEN + Highlight.size() + " Blocks" + ChatColor.DARK_GRAY + "]" : ""));
+		player.sendMessage(ChatColor.DARK_GRAY + "Speed Edit " + ChatColor.GREEN + "Position " + position + ChatColor.DARK_GRAY + " set" + ((Highlight != null) ? " [" + ChatColor.GREEN + SelectedZone.size() + " Blocks" + ChatColor.DARK_GRAY + "]" : ""));
 	}
 
 	public Location getPosition(int position) {
@@ -41,7 +41,7 @@ public class UserData {
 		FuturEvents.onHighlightChangeEvent(player, Highlight);
 	}
 
-	public List<Block> getSelectedZone(){ return getSelectedZone; }
+	public List<Block> getSelectedZone(){ return SelectedZone; }
 	private void setSelectedZone() {
 		Location pos1 = positions.get(1);
 		Location pos2 = positions.get(2);
