@@ -20,18 +20,24 @@ public class ErrorManagement {
 		}
 	}
 
-	public boolean isMaterial(String material) {
-		if(Material.matchMaterial(material) != null)
-			return true;
+	public boolean isMaterial(String materialName) {
+		Material material = Material.matchMaterial(materialName);
+		if(material != null)
+			if(material.isBlock())
+				return true;
+			else {
+				player.sendMessage(ChatColor.DARK_GRAY + "The material " + ChatColor.DARK_RED + materialName + ChatColor.DARK_GRAY + " can't be used");
+				return false;
+			}
 		else {
-			player.sendMessage(ChatColor.DARK_GRAY + "The material " + ChatColor.DARK_RED + material + ChatColor.DARK_GRAY + " can't be found");
+			player.sendMessage(ChatColor.DARK_GRAY + "The material " + ChatColor.DARK_RED + materialName + ChatColor.DARK_GRAY + " can't be found");
 			return false;
 		}
 	}
 
 	public boolean hasPositionReady() {
 		if(SpeedEdit.ListPosition1.containsKey(player) && SpeedEdit.ListPosition2.containsKey(player)) {
-			if(SpeedEdit.ListPosition1.get(player).getWorld() != SpeedEdit.ListPosition2.get(player).getWorld())
+			if(SpeedEdit.ListPosition1.get(player).getWorld() == SpeedEdit.ListPosition2.get(player).getWorld())
 				return true;
 			else {
 				player.sendMessage(ChatColor.DARK_GRAY + "Your 2 positions must be in the " + ChatColor.DARK_RED + "same world");
@@ -44,12 +50,12 @@ public class ErrorManagement {
 	}
 
 	public void throwException(Exception e) {
-		player.sendMessage(ChatColor.DARK_GRAY + "Speed Edit error : " + ChatColor.DARK_RED + e.getMessage());
+		player.sendMessage(ChatColor.DARK_GRAY + "Speed Edit Error : " + ChatColor.DARK_RED + e.getMessage());
 	}
 
 	public boolean isArgsCorrect(String[] args, int length, String correct) { return isArgsCorrect(args, length, length, correct); }
 	public boolean isArgsCorrect(String[] args, int minLength, int maxLength, String correct) {
-		if(args.length <= minLength && args.length >= maxLength)
+		if(args.length >= minLength && args.length <= maxLength)
 			return true;
 		else {
 			player.sendMessage(ChatColor.DARK_GRAY + "Use the command like this " + ChatColor.DARK_RED + correct);

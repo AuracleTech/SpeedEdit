@@ -11,17 +11,16 @@ import org.bukkit.entity.Player;
 
 import com.google.common.collect.Lists;
 
-public class CommandSet implements CommandExecutor, TabCompleter {
-
+public class CommandSet implements CommandExecutor, TabCompleter {	
 	@Override
-	public boolean onCommand(CommandSender sender, Command arg1, String arg2, String[] arg3) {
+	public boolean onCommand(CommandSender sender, Command arg1, String arg2, String[] args) {
 		if (sender instanceof Player) {
 			Player player = (Player) sender;
 			ErrorManagement EM = new ErrorManagement(player);
-			if(!EM.hasPermission(player, "speededit.set") || !EM.hasPositionReady() || !EM.isMaterial(arg3[0]) || !EM.isArgsCorrect(arg3, 1, "/Set Material")) return true;
+			if(!EM.hasPermission(player, "speededit.set") || !EM.hasPositionReady() || !EM.isArgsCorrect(args, 1, "/Set Material") || !EM.isMaterial(args[0])) return true;
 			try {
 				List<Block> blocks = SpeedEdit.SelectedBlocks.get(player);
-				Events.manipulateBlocks(player, "set", blocks, Material.matchMaterial(arg3[0]), EM);
+				Events.manipulateBlocks(player, "set", blocks, Material.matchMaterial(args[0]), EM);
 			} catch(Exception e) {
 				EM.throwException(e);
 			}
@@ -31,17 +30,19 @@ public class CommandSet implements CommandExecutor, TabCompleter {
 
 	@Override
 	public List<String> onTabComplete(CommandSender sender, Command cmd, String Label, String[] args) {
-		Material[] list = Material.values();
-		List<String> fList = Lists.newArrayList();
-		if (args.length == 1) {
-			for (Material s : list) {
-				if (s.name().toLowerCase().startsWith(args[0].toLowerCase())) {
-					fList.add(s.name().toLowerCase());
+		List<String> returnList = Lists.newArrayList();
+		if (sender instanceof Player) {
+			Player player = (Player) sender;
+			ErrorManagement EM = new ErrorManagement(player);
+			Material[] materialList = Material.values();
+			if (EM.isArgsCorrect(args, 1, "/Set Material")) {
+				for (Material material : materialList) {
+					if (material.name().toLowerCase().startsWith(args[args.length-1].toLowerCase()) && material.isBlock()) {
+						returnList.add(material.name().toLowerCase());
+					}
 				}
 			}
-			return fList;
-		} else {
-			return null;
 		}
+		return returnList;
 	}
 }
