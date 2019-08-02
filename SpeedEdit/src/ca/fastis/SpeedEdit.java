@@ -51,7 +51,7 @@ public class SpeedEdit extends JavaPlugin {
 		initializePlugin();
 		console.sendMessage(ChatColor.GREEN + "Speed Edit v" + this.getDescription().getVersion() + " Enabled");
 	}
-	
+
 	private void initializePlugin() {
 		this.getCommand("pos1").setExecutor(new CommandPos(1));
 		this.getCommand("pos2").setExecutor(new CommandPos(2));
@@ -80,15 +80,6 @@ public class SpeedEdit extends JavaPlugin {
 	public void onDisable() {
 		console.sendMessage(ChatColor.RED + "Speed Edit v" + this.getDescription().getVersion() + " Disabled");
 		Bukkit.getScheduler().cancelTask(repeatingHighlightTaskID);
-	}
-
-	static void refreshSelectionZone(Player player, int Pos) {
-		String msg = ChatColor.DARK_GRAY + "Speed Edit " + ChatColor.GREEN + "Position " + Pos + ChatColor.DARK_GRAY + " set";
-		if(ListPosition1.containsKey(player) && ListPosition2.containsKey(player)) {
-			SelectedBlocks.put(player, getSelectedZone(player, ListPosition1.get(player), ListPosition2.get(player)));
-			msg += " [" + SelectedBlocks.get(player).size() + " Blocks]";
-		}
-		player.sendMessage(msg);
 	}
 
 	public static List<Block> getSelectedZone(Player player, Location pos1, Location pos2)
@@ -135,5 +126,10 @@ public class SpeedEdit extends JavaPlugin {
 		}
 		HighlightZone.put(player, hightlight);
 		return blocks;
+	}
+
+	public static UserData getUser(Player player) {
+		if(!SEuserData.containsKey(player)) SEuserData.put(player, new UserData(player));
+		return SEuserData.get(player);
 	}
 }

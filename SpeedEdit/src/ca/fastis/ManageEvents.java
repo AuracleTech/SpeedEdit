@@ -1,6 +1,5 @@
 package ca.fastis;
 
-import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -40,14 +39,7 @@ public class ManageEvents implements Listener{
 		if(player.hasPermission("speededit.use")) {
 			if (player.getInventory().getItemInMainHand().getType() == SpeedEdit.Tool && player.getInventory().getItemInMainHand().getItemMeta().hasCustomModelData() && player.getInventory().getItemInMainHand().getItemMeta().getCustomModelData() == SpeedEdit.ToolID  && event.getHand().equals(EquipmentSlot.HAND)) {
 				int PosToSet = event.getAction().equals(Action.LEFT_CLICK_BLOCK) ? 1 : event.getAction().equals(Action.RIGHT_CLICK_BLOCK) ? 2 : 1;
-				
-				SpeedEdit.SEuserData.add(player, ".PosToSet");
-				ListPosition1.put(player, block.getLocation());
-				refreshSelectionZone(player, 1);
-				event.setCancelled(true);
-			} else if(event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
-				ListPosition2.put(player, block.getLocation());
-				refreshSelectionZone(player, 2);
+				SpeedEdit.getUser(player).setPosition(PosToSet, block.getLocation()); // refreshSelectionZone(player, 1);
 				event.setCancelled(true);
 			}
 		}
