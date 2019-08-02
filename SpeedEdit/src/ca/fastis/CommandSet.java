@@ -21,7 +21,7 @@ public class CommandSet implements CommandExecutor, TabCompleter {
 			if(!EM.hasPermission(player, "speededit.set") || !EM.hasPositionReady() || !EM.isArgsCorrect(args, maxArg, "/Set Material") || !EM.isMaterial(args[0])) return true;
 			try {
 				List<Block> blocks = SpeedEdit.SelectedBlocks.get(player);
-				Events.manipulateBlocks(player, "set", blocks, Material.matchMaterial(args[0]), EM);
+				Functions.manipulateBlocks(player, "set", blocks, Material.matchMaterial(args[0]), EM);
 			} catch(Exception e) {
 				EM.throwException(e);
 			}
@@ -36,7 +36,7 @@ public class CommandSet implements CommandExecutor, TabCompleter {
 			Player player = (Player) sender;
 			ErrorManagement EM = new ErrorManagement(player);
 			Material[] materialList = Material.values();
-			if (EM.isArgsCorrect(args, 1)) {
+			if (EM.isArgsCorrect(args, maxArg)) {
 				for (Material material : materialList) {
 					if (material.name().toLowerCase().startsWith(args[args.length-1].toLowerCase()) && material.isBlock()) {
 						returnList.add(material.name().toLowerCase());

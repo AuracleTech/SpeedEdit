@@ -34,78 +34,24 @@ import org.bukkit.plugin.java.JavaPlugin;
 import net.coreprotect.CoreProtect;
 import net.coreprotect.CoreProtectAPI;
 
-public class SpeedEdit extends JavaPlugin implements Listener  {
+public class SpeedEdit extends JavaPlugin {
 	static Server server;
 	static ConsoleCommandSender console;
-	static Map<Player, Location> ListPosition1 = new HashMap<Player, Location>();
-	static Map<Player, Location> ListPosition2 = new HashMap<Player, Location>();
-	static Map<Player, List<Block>> SelectedBlocks = new HashMap<Player, List<Block>>();
-	static Map<Player, List<Block>> HighlightZone = new HashMap<Player, List<Block>>();
-	static Material Tool = Material.STICK;
-	static int ToolID = 537469636;
-	static String ToolName = ChatColor.GREEN + "Speed Edit Hammer";
-	int TickingIDParticle;
-	static CoreProtectAPI cpapi = null;
-
-	@EventHandler
-	public void onHorseMask(InventoryClickEvent e) { //TODO: TO REMOVE BEFORE RELEASE V2 if I keep it it'l just be funny easter egg
-		Player p = (Player) e.getWhoClicked();
-		if (e.getSlotType() == SlotType.ARMOR && e.getSlot() == 39 && e.getCursor().getType() == Material.POTION && e.getCursor().getItemMeta().hasCustomModelData()) {
-			ItemStack itemInHand = e.getCursor().clone();
-			p.setItemOnCursor(null);
-			p.getInventory().setHelmet(itemInHand);
-			e.setCancelled(true);
-		}
-	}
+	static Material Tool = Material.STICK; int ToolID = 537469636; String ToolName = ChatColor.GREEN + "Speed Edit Hammer";
+	int repeatingHighlightTaskID;
+	Map<Player, SpeedEditUserData> SEuserData = new HashMap<Player, SpeedEditUserData>();
+	static CoreProtectAPI CPapi = null;
+	HighlightZone HZ = new HighlightZone();
 
 	public void onEnable() {
-		CoreProtectAPI verify = getCoreProtect();
-		if (verify != null && verify.isEnabled()){ cpapi = verify; }
+		CPapi = getCoreProtect();
 		server = this.getServer();
 		console = server.getConsoleSender();
-		server.getPluginManager().registerEvents(this, this);
+		server.getPluginManager().registerEvents(new ManageEvents(), this);
 		initializePlugin();
-		console.sendMessage(ChatColor.GREEN + "" + ChatColor.ITALIC + "Speed Edit Loaded");
-		startParticleShowTimer();
+		console.sendMessage(ChatColor.GREEN + "Speed Edit v" + this.getDescription().getVersion() + " Enabled");
 	}
-
-	private CoreProtectAPI getCoreProtect() {
-		Plugin plugin = getServer().getPluginManager().getPlugin("CoreProtect");
-
-		// Check that CoreProtect is loaded
-		if (plugin == null || !(plugin instanceof CoreProtect)) {
-			return null;
-		}
-
-		// Check that the API is enabled
-		CoreProtectAPI CoreProtect = ((CoreProtect) plugin).getAPI();
-		if (CoreProtect.isEnabled() == false) {
-			return null;
-		}
-
-		// Check that a compatible version of the API is loaded
-		if (CoreProtect.APIVersion() < 6) {
-			return null;
-		}
-
-		return CoreProtect;
-	}
-
-	private void startParticleShowTimer() {
-		TickingIDParticle = Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
-			@Override
-			public void run() {
-				for(Entry<Player, List<Block>> entry : HighlightZone.entrySet()) {
-					Player player = entry.getKey();
-					DustOptions dustOptions = new DustOptions(Color.fromRGB(0, 255, 64), 1);
-					for(Block block : entry.getValue()) {
-						player.spawnParticle(Particle.REDSTONE, block.getLocation().getX()+0.5, block.getLocation().getY()+0.5, block.getLocation().getZ()+0.5, 1, 0, 0, 0, 0, dustOptions);
-					}
-				}
-			}
-		}, 0L, 6L);
-	}
-
+	
 	private void initializePlugin() {
 		this.getCommand("pos1").setExecutor(new CommandPos(1));
 		this.getCommand("pos2").setExecutor(new CommandPos(2));
@@ -121,35 +67,19 @@ public class SpeedEdit extends JavaPlugin implements Listener  {
 		this.getCommand("walls").setExecutor(new CommandWalls());
 	}
 
+	private CoreProtectAPI getCoreProtect() {
+		Plugin plugin = getServer().getPluginManager().getPlugin("CoreProtect");
+		if (plugin == null || !(plugin instanceof CoreProtect)) return null;
+		CoreProtectAPI CoreProtect = ((CoreProtect) plugin).getAPI();
+		if (CoreProtect.isEnabled() == false) return null; 
+		if (CoreProtect.APIVersion() < 6) return null;
+		return CoreProtect;
+	}
+
 	@Override
 	public void onDisable() {
-		console.sendMessage(ChatColor.RED + "Speed Edit Disabled");
-		Bukkit.getScheduler().cancelTask(TickingIDParticle);
-	}
-
-	@EventHandler(priority = EventPriority.HIGH)
-	public void onBlockBreakEvent(BlockBreakEvent event) {
-		Player player = event.getPlayer();
-		if (player.getInventory().getItemInMainHand().getType() == Tool && player.getInventory().getItemInMainHand().getItemMeta().hasCustomModelData() && player.getInventory().getItemInMainHand().getItemMeta().getCustomModelData() == ToolID && player.hasPermission("speededit.use") && player.getGameMode() == GameMode.CREATIVE) { //TODO : SURVIVAL
-			event.setCancelled(true);
-		}
-	}
-
-	@EventHandler(priority = EventPriority.HIGH)
-	public void onPlayerInteractEvent(PlayerInteractEvent event) { //TODO FUSION LEFT AND RIGHT
-		Player player = event.getPlayer();
-		Block block = event.getClickedBlock();
-		if(player.hasPermission("speededit.use")) {
-			if (player.getInventory().getItemInMainHand().getType() == Tool && player.getInventory().getItemInMainHand().getItemMeta().hasCustomModelData() && player.getInventory().getItemInMainHand().getItemMeta().getCustomModelData() == ToolID && event.getAction().equals(Action.LEFT_CLICK_BLOCK) && player.getGameMode() == GameMode.CREATIVE && event.getHand().equals(EquipmentSlot.HAND)) { //TODO : SURVIVAL
-				ListPosition1.put(player, block.getLocation());
-				refreshSelectionZone(player, 1);
-				event.setCancelled(true);
-			} else if (player.getInventory().getItemInMainHand().getType() == Tool && player.getInventory().getItemInMainHand().getItemMeta().hasCustomModelData() && player.getInventory().getItemInMainHand().getItemMeta().getCustomModelData() == ToolID && event.getAction().equals(Action.RIGHT_CLICK_BLOCK) && player.getGameMode() == GameMode.CREATIVE && event.getHand().equals(EquipmentSlot.HAND)) { //TODO : SURVIVAL
-				ListPosition2.put(player, block.getLocation());
-				refreshSelectionZone(player, 2);
-				event.setCancelled(true);
-			}
-		}
+		console.sendMessage(ChatColor.RED + "Speed Edit v" + this.getDescription().getVersion() + " Disabled");
+		Bukkit.getScheduler().cancelTask(repeatingHighlightTaskID);
 	}
 
 	static void refreshSelectionZone(Player player, int Pos) {

@@ -1,11 +1,7 @@
 package ca.fastis;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -13,10 +9,8 @@ import org.bukkit.entity.Player;
 
 import net.coreprotect.CoreProtectAPI;
 
-public class Events {
-	static CoreProtectAPI cpapi = SpeedEdit.cpapi;
-	static Map<Player, Map<UUID, Block>> undo = new HashMap<Player, Map<UUID, Block>>();
-	Map<Player, Map<UUID, Block>> redo = new HashMap<Player, Map<UUID, Block>>();
+public class Functions {
+	static CoreProtectAPI CPapi = SpeedEdit.CPapi;
 	
 	public static void manipulateBlocks(Player player, String cmdName, List<Block> blocks, Material fromMat, Material toMat, ErrorManagement EM) {
 		List<Block> newList = new ArrayList<Block>();
@@ -28,9 +22,9 @@ public class Events {
 
 	public static void manipulateBlocks(Player player, String cmdName, List<Block> blocks, Material material, ErrorManagement EM) {
 		for(Block block : blocks) {
-			cpapi.logRemoval(player.getName(), block.getLocation(), block.getType(), block.getBlockData());
+			CPapi.logRemoval(player.getName(), block.getLocation(), block.getType(), block.getBlockData());
 			block.setType(material);
-			cpapi.logPlacement(player.getName(), block.getLocation(), block.getType(), block.getBlockData());
+			CPapi.logPlacement(player.getName(), block.getLocation(), block.getType(), block.getBlockData());
 		}
 		for (Player online : SpeedEdit.server.getOnlinePlayers()) {
 			if (online.getUniqueId() == player.getUniqueId() || online.isOp() || EM.hasPermission(online, "speededit.spy")) {
