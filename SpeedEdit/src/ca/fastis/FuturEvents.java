@@ -1,7 +1,10 @@
 package ca.fastis;
 
+import java.util.List;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
 public class FuturEvents {
@@ -11,13 +14,8 @@ public class FuturEvents {
 		//ON POSITION CHANGE EVENT
 	}
 
-	private static void onHighlightRefreshEvent(Player player) {
-		/*UserData userData = SpeedEdit.getUser(player);
-		if(userData.isBothPosSetAndValid()) {
-			SelectedBlocks.put(player, getSelectedZone(player, ListPosition1.get(player), ListPosition2.get(player)));
-			msg += " [" + SelectedBlocks.get(player).size() + " Blocks]";
-		}
-		player.sendMessage(ChatColor.DARK_GRAY + "Speed Edit " + ChatColor.GREEN + "Position " + Pos + ChatColor.DARK_GRAY + " set");*/
+	public static void onHighlightChangeEvent(Player player, List<Block> highlight) {
+		player.sendMessage(ChatColor.DARK_GRAY + "Speed Edit " + ChatColor.GREEN + "Position [" + highlight.size() + " Blocks] " + ChatColor.DARK_GRAY + " set");
 		//onHighlightRefreshEvent
 	}
 }

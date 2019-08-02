@@ -17,6 +17,7 @@ public class HighlightZone {
 			@Override
 			public void run() {
 				for(Entry<Player, UserData> entry : SpeedEdit.SEuserData.entrySet()) {
+					if(UserData.getHighlightZone() == null) return;
 					Player player = entry.getKey();
 					DustOptions dustOptions = new DustOptions(Color.fromRGB(0, 255, 64), 1);
 					for(Block block : UserData.getHighlightZone()) {

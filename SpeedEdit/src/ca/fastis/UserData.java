@@ -26,22 +26,21 @@ public class UserData {
 	public void setPosition(int position, Location argLocation) {
 		positions.put(position, argLocation);
 		FuturEvents.onPositionChangeEvent(this.player, position, argLocation);
-		if(isBothPosSet() && isBothPosSameWorld()) refreshSelection();
+		if(isBothPosSet() && isBothPosSameWorld()) setSelectedZone();
 	}
 
 	public Location getPosition(int position) {
 		return positions.get(position);
 	}
 
-	public List<Block> getSelectedZone(){
-		return Highlight;
+	public static List<Block> getHighlightZone(){ return Highlight;	}
+	private void setHighlightZone(List<Block> hightlight) { 
+		Highlight = hightlight; 
+		FuturEvents.onHighlightChangeEvent(player, Highlight);
 	}
 
-	public static List<Block> getHighlightZone(){
-		return Highlight;
-	}
-
-	private void refreshSelection() {
+	public List<Block> getSelectedZone(){ return getSelectedZone; }
+	private void setSelectedZone() {
 		Location pos1 = positions.get(1);
 		Location pos2 = positions.get(2);
 		List<Block> hightlight = new ArrayList<Block>();
@@ -84,7 +83,7 @@ public class UserData {
 				}
 			}
 		}
-		Highlight = hightlight;
+		setHighlightZone(hightlight);
 	}
 
 	public boolean isBothPosSet(){
