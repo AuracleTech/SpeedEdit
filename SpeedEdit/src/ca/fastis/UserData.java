@@ -26,9 +26,9 @@ public class UserData {
 
 	public void setPosition(int position, Location argLocation) {
 		positions.put(position, argLocation);		
-		player.sendMessage(ChatColor.DARK_GRAY + "Speed Edit " + ChatColor.GREEN + "Position " + position + ChatColor.DARK_GRAY + " set" + ((Highlight != null) ? " [" + Highlight.size() + " Blocks]" : ""));
 		FuturEvents.onPositionChangeEvent(this.player, Highlight, position, argLocation);
 		if(isBothPosSet() && isBothPosSameWorld()) setSelectedZone();
+		player.sendMessage(ChatColor.DARK_GRAY + "Speed Edit " + ChatColor.GREEN + "Position " + position + ChatColor.DARK_GRAY + " set" + ((Highlight != null) ? " [" + Highlight.size() + " Blocks]" : ""));
 	}
 
 	public Location getPosition(int position) {
