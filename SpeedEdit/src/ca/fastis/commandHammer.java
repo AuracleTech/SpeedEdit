@@ -24,6 +24,7 @@ public class commandHammer implements CommandExecutor {
 				player.sendMessage(ChatColor.DARK_GRAY + "There you go pal, the Magic " + ChatColor.GREEN + SpeedEdit.ToolName);
 			} else {
 				player.sendMessage(ChatColor.RED + "No permission.");
+				return true;
 			}
 			return true;
 		}

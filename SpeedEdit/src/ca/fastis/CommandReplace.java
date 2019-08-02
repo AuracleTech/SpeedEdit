@@ -14,14 +14,14 @@ import org.bukkit.entity.Player;
 import com.google.common.collect.Lists;
 
 public class CommandReplace implements CommandExecutor, TabCompleter {
-
+	
 	Server server = SpeedEdit.server;
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command arg1, String arg2, String[] arg3) {
 		if (sender instanceof Player) {
 			Player player = (Player) sender;
-			if(player.hasPermission("speededit.replace")) {
+			if(player.hasPermission("speededit.replace") ) {
 				if(!SpeedEdit.ListPosition1.containsKey(player) || !SpeedEdit.ListPosition2.containsKey(player)) {
 					player.sendMessage(ChatColor.DARK_GRAY + "You need to select " + ChatColor.DARK_RED + "2 positions" + ChatColor.DARK_GRAY + ", use right and left click with a brick on blocks");
 					return true;
@@ -50,11 +50,11 @@ public class CommandReplace implements CommandExecutor, TabCompleter {
 						Material preMaterial = Material.matchMaterial(arg3[0]);
 						Material postMaterial = Material.matchMaterial(arg3[1]);
 						for(Block block : Selected) {
-							if(block.getType() == preMaterial) { Events.blockChange(player, block, postMaterial); Changed++; }
+							if(block.getType() == preMaterial) { /*Events.blockChange(player, block, postMaterial);*/ Changed++; }
 						}
 					} else {
 						for(Block block : Selected) {
-							if(block.getType() != Material.AIR) { Events.blockChange(player, block, Material.matchMaterial(arg3[0])); Changed++; }
+							if(block.getType() != Material.AIR) { /*Events.blockChange(player, block, Material.matchMaterial(arg3[0]));*/ Changed++; }
 						}
 					}
 					player.sendMessage(ChatColor.DARK_GRAY + "You replaced " + ChatColor.GREEN + Changed + ChatColor.DARK_GRAY + " blocks to " + ChatColor.GREEN + arg3[0]);
@@ -67,6 +67,9 @@ public class CommandReplace implements CommandExecutor, TabCompleter {
 				} catch(Exception e) {
 					player.sendMessage(ChatColor.DARK_GRAY + "Speed Edit Error : " + ChatColor.DARK_RED + e.getMessage());
 				}
+				return true;
+			} else {
+				player.sendMessage(ChatColor.RED + "No permission.");
 				return true;
 			}
 		}

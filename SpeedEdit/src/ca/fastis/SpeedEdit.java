@@ -23,8 +23,11 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryType.SlotType;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -42,21 +45,22 @@ public class SpeedEdit extends JavaPlugin implements Listener  {
 	static int ToolID = 537469636;
 	static String ToolName = ChatColor.GREEN + "Speed Edit Hammer";
 	int TickingIDParticle;
-	static CoreProtectAPI cpapi;
+	static CoreProtectAPI cpapi = null;
+
+	@EventHandler
+	public void onHorseMask(InventoryClickEvent e) { //TODO: TO REMOVE BEFORE RELEASE V2 if I keep it it'l just be funny easter egg
+		Player p = (Player) e.getWhoClicked();
+		if (e.getSlotType() == SlotType.ARMOR && e.getSlot() == 39 && e.getCursor().getType() == Material.POTION && e.getCursor().getItemMeta().hasCustomModelData()) {
+			ItemStack itemInHand = e.getCursor().clone();
+			p.setItemOnCursor(null);
+			p.getInventory().setHelmet(itemInHand);
+			e.setCancelled(true);
+		}
+	}
 
 	public void onEnable() {
-		cpapi = getCoreProtect();
-		if (cpapi != null && cpapi.isEnabled()){ //Ensure we have access to the API
-			cpapi.testAPI(); //Will print out "[CoreProtect] API Test Successful." in the console.
-		}
-		
-		/*logPlacement(String user, Location location, Material type, BlockData blockData)
-
-logRemoval(String user, Location location, Material type, BlockData blockData)
-
-logContainerTransaction(String user, Location location)
-*/
-		//if(cpapi.isEnabled()) 
+		CoreProtectAPI verify = getCoreProtect();
+		if (verify != null && verify.isEnabled()){ cpapi = verify; }
 		server = this.getServer();
 		console = server.getConsoleSender();
 		server.getPluginManager().registerEvents(this, this);
@@ -108,6 +112,12 @@ logContainerTransaction(String user, Location location)
 		this.getCommand("set").setExecutor(new CommandSet());
 		this.getCommand("replace").setExecutor(new CommandReplace());
 		this.getCommand("hammer").setExecutor(new commandHammer());
+		this.getCommand("undo").setExecutor(new CommandUndo());
+		this.getCommand("redo").setExecutor(new CommandRedo());
+		this.getCommand("copy").setExecutor(new CommandCopy());
+		this.getCommand("paste").setExecutor(new CommandPaste());
+		this.getCommand("expand").setExecutor(new CommandExpand());
+		this.getCommand("move").setExecutor(new CommandMove());
 	}
 
 	@Override

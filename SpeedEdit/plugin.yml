@@ -7,38 +7,35 @@ softdepend: [CoreProtect]
 website: https://github.com/VirgilFabre
 commands:
    set:
-      permission: speededit.set
       description: 
       usage: /<command> [Material]
    replace:
-      permission: speededit.replace
       description: 
       usage: /<command> [Material] [Material]
    hammer:
-      permission: speededit.hammer
       description: 
       usage: /<command>
    pos1:
-      permission: speededit.use
       description: 
       usage: /<command>
    pos2:
-      permission: speededit.use
       description: 
       usage: /<command>
    undo:
-      permission: speededit.undo
       description: 
       usage: /<command>
    redo:
-      permission: speededit.redo
       description: 
       usage: /<command>
-   redo:
-      permission: speededit.use
+   copy:
       description: 
       usage: /<command>
-   redo:
-      permission: speededit.use
+   paste:
       description: 
       usage: /<command>
+   expand:
+      description: 
+      usage: /<command> [Amount] [Direction]
+   move:
+      description: 
+      usage: /<command> [Amount] [Direction]
