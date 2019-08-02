@@ -1,6 +1,6 @@
 name: SpeedEdit
 main: ca.fastis.SpeedEdit
-version: 1.0
+version: 2.0
 author: SellerSkyblock
 api-version: 1.14
 softdepend: [CoreProtect]
@@ -37,5 +37,8 @@ commands:
       description: 
       usage: /<command> [Amount] [Direction]
    move:
+      description: 
+      usage: /<command> [Amount] [Direction]
+   walls:
       description: 
       usage: /<command> [Amount] [Direction]

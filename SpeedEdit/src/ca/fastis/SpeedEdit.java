@@ -118,6 +118,7 @@ public class SpeedEdit extends JavaPlugin implements Listener  {
 		this.getCommand("paste").setExecutor(new CommandPaste());
 		this.getCommand("expand").setExecutor(new CommandExpand());
 		this.getCommand("move").setExecutor(new CommandMove());
+		this.getCommand("walls").setExecutor(new CommandWalls());
 	}
 
 	@Override

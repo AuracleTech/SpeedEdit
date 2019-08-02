@@ -12,12 +12,13 @@ import org.bukkit.entity.Player;
 import com.google.common.collect.Lists;
 
 public class CommandReplace implements CommandExecutor, TabCompleter {
+	int minArg = 1, maxArg = 2;
 	@Override
 	public boolean onCommand(CommandSender sender, Command arg1, String arg2, String[] args) {
 		if (sender instanceof Player) {
 			Player player = (Player) sender;
 			ErrorManagement EM = new ErrorManagement(player);
-			if(!EM.hasPermission(player, "speededit.replace") || !EM.hasPositionReady() || !EM.isArgsCorrect(args, 1, 2, "/Replace Material Material") || !EM.isMaterial(args[0]) || !EM.isMaterial(args[1])) return true;
+			if(!EM.hasPermission(player, "speededit.replace") || !EM.hasPositionReady() || !EM.isArgsCorrect(args, minArg, maxArg, "/Replace Material Material") || !EM.isMaterial(args[0]) || !EM.isMaterial(args[1])) return true;
 			try {
 				List<Block> blocks = SpeedEdit.SelectedBlocks.get(player);
 				Events.manipulateBlocks(player, "replaced", blocks, Material.matchMaterial(args[0]), Material.matchMaterial(args[1]), EM);
@@ -35,13 +36,15 @@ public class CommandReplace implements CommandExecutor, TabCompleter {
 			Player player = (Player) sender;
 			ErrorManagement EM = new ErrorManagement(player);
 			Material[] materialList = Material.values();
-			if (EM.isArgsCorrect(args, 1, 2, "/Replace Material Material")) {
+			if (EM.isArgsCorrect(args, minArg, maxArg)) {
 				for (Material material : materialList) {
 					if (material.name().toLowerCase().startsWith(args[args.length-1].toLowerCase()) && material.isBlock()) {
 						returnList.add(material.name().toLowerCase());
 					}
 				}
-			}
+			} else
+				if(args.length == maxArg+1 && args[args.length-1].toLowerCase().isEmpty())
+					EM.isArgsCorrect(args, minArg, maxArg, "/Replace Material Material");
 		}
 		return returnList;
 	}
