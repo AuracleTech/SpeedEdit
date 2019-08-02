@@ -37,7 +37,7 @@ public class ManageEvents implements Listener{
 		Player player = event.getPlayer();
 		Block block = event.getClickedBlock();
 		if(player.hasPermission("speededit.use")) {
-			if (player.getInventory().getItemInMainHand().getType() == SpeedEdit.Tool && player.getInventory().getItemInMainHand().getItemMeta().hasCustomModelData() && player.getInventory().getItemInMainHand().getItemMeta().getCustomModelData() == SpeedEdit.ToolID  && event.getHand().equals(EquipmentSlot.HAND)) {
+			if (player.getInventory().getItemInMainHand().getType() == SpeedEdit.Tool && player.getInventory().getItemInMainHand().getItemMeta().hasCustomModelData() && player.getInventory().getItemInMainHand().getItemMeta().getCustomModelData() == SpeedEdit.ToolID  && event.getHand().equals(EquipmentSlot.HAND) && (event.getAction().equals(Action.LEFT_CLICK_BLOCK) || event.getAction().equals(Action.RIGHT_CLICK_BLOCK))) {
 				int PosToSet = event.getAction().equals(Action.LEFT_CLICK_BLOCK) ? 1 : event.getAction().equals(Action.RIGHT_CLICK_BLOCK) ? 2 : 1;
 				SpeedEdit.getUser(player).setPosition(PosToSet, block.getLocation()); // refreshSelectionZone(player, 1);
 				event.setCancelled(true);
