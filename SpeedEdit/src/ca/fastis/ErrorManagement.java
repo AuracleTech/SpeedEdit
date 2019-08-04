@@ -64,4 +64,23 @@ public class ErrorManagement {
 			return false;
 		}
 	}
+
+	public boolean hasUndo(int redoQtt) {
+		if(!SpeedEdit.getUser(player).undo.isEmpty() && SpeedEdit.getUser(player).undo.size() >= redoQtt)
+			return true;
+		else {
+			player.sendMessage(ChatColor.DARK_GRAY + "You can only undo " + ChatColor.DARK_RED + SpeedEdit.getUser(player).undo.size() + ChatColor.DARK_GRAY + " more times");
+			return false;
+		}
+	}
+
+	public boolean isNumber(String string) {
+		try {
+			int integer = Integer.parseInt(string);
+			if(integer >= 1 && integer <= Integer.MAX_VALUE)
+				return true;
+		} catch(NumberFormatException e){}
+		player.sendMessage(ChatColor.DARK_RED + string + ChatColor.DARK_GRAY +  " is not a valid number");
+		return false;
+	}
 }

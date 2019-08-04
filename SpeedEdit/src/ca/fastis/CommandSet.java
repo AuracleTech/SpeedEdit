@@ -38,6 +38,7 @@ public class CommandSet implements CommandExecutor, TabCompleter {
 			Material[] materialList = Material.values();
 			if (EM.isArgsLength(args, maxArg)) {
 				for (Material material : materialList) {
+					/* TODO: MULTIPLE ARGS String[]output = StringValue.split(regex); */
 					if (material.name().toLowerCase().startsWith(args[args.length-1].toLowerCase()) && material.isBlock()) {
 						returnList.add(material.name().toLowerCase());
 					}

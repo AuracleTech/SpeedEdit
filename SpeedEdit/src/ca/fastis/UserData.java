@@ -2,14 +2,12 @@ package ca.fastis;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
-
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Player;
 
 public class UserData {
@@ -17,8 +15,8 @@ public class UserData {
 	Map<Integer, Location> positions = new HashMap<Integer, Location>();
 	List<Block> SelectedZone = null;
 	static List<Block> Highlight = null;
-	Map<Player, Map<UUID, Block>> undo = new LinkedHashMap<Player, Map<UUID, Block>>();
-	Map<Player, Map<UUID, Block>> redo = new LinkedHashMap<Player, Map<UUID, Block>>();
+	List<HashMap<Block, BlockData>> undo = new ArrayList<HashMap<Block, BlockData>>();
+	List<HashMap<Block, BlockData>> redo = new ArrayList<HashMap<Block, BlockData>>();
 
 	public UserData(Player player){
 		this.player = player;
@@ -26,7 +24,10 @@ public class UserData {
 
 	public void setPosition(int position, Location argLocation) {
 		positions.put(position, argLocation);
-		if(isBothPosSet() && isBothPosSameWorld()) setSelectedZone();
+		if(isBothPosSet() && isBothPosSameWorld()) {
+			SelectedZone = getBlocksInZone(positions.get(1), positions.get(2), true);
+
+		}
 		player.sendMessage(ChatColor.DARK_GRAY + "Speed Edit " + ChatColor.GREEN + "Position " + position + ChatColor.DARK_GRAY + " set" + (isBothPosSet() ? " [" + ChatColor.GREEN + SelectedZone.size() + " Blocks" + ChatColor.DARK_GRAY + "]" : ""));
 	}
 
@@ -37,9 +38,7 @@ public class UserData {
 	public static List<Block> getHighlightZone(){ return Highlight;	}
 
 	public List<Block> getSelectedZone(){ return SelectedZone; }
-	private void setSelectedZone() {
-		Location pos1 = positions.get(1);
-		Location pos2 = positions.get(2);
+	private List<Block> getBlocksInZone(Location pos1, Location pos2, boolean registerHightlight) {
 		List<Block> hightlight = new ArrayList<Block>();
 		List<Block> blocks = new ArrayList<Block>();
 		int topBlockX = (pos1.getBlockX() < pos2.getBlockX() ? pos2.getBlockX() : pos1.getBlockX());
@@ -52,36 +51,39 @@ public class UserData {
 			for(int z = bottomBlockZ; z <= topBlockZ; z++) {
 				for(int y = bottomBlockY; y <= topBlockY; y++) {
 					Block block = pos1.getWorld().getBlockAt(x, y, z);
-					if(block.getLocation().getX() == pos1.getX() && block.getLocation().getY() == pos1.getY()) hightlight.add(block);
-					if(block.getLocation().getY() == pos1.getY() && block.getLocation().getZ() == pos1.getZ()) hightlight.add(block);
-					if(block.getLocation().getX() == pos1.getX() && block.getLocation().getZ() == pos1.getZ()) hightlight.add(block);
+					if(registerHightlight) {
+						if(block.getLocation().getX() == pos1.getX() && block.getLocation().getY() == pos1.getY()) hightlight.add(block);
+						if(block.getLocation().getY() == pos1.getY() && block.getLocation().getZ() == pos1.getZ()) hightlight.add(block);
+						if(block.getLocation().getX() == pos1.getX() && block.getLocation().getZ() == pos1.getZ()) hightlight.add(block);
 
-					if(block.getLocation().getX() == pos2.getX() && block.getLocation().getY() == pos2.getY()) hightlight.add(block);
-					if(block.getLocation().getY() == pos2.getY() && block.getLocation().getZ() == pos2.getZ()) hightlight.add(block);
-					if(block.getLocation().getX() == pos2.getX() && block.getLocation().getZ() == pos2.getZ()) hightlight.add(block);
+						if(block.getLocation().getX() == pos2.getX() && block.getLocation().getY() == pos2.getY()) hightlight.add(block);
+						if(block.getLocation().getY() == pos2.getY() && block.getLocation().getZ() == pos2.getZ()) hightlight.add(block);
+						if(block.getLocation().getX() == pos2.getX() && block.getLocation().getZ() == pos2.getZ()) hightlight.add(block);
 
 
-					if(block.getLocation().getX() == pos2.getX() && block.getLocation().getY() == pos1.getY()) hightlight.add(block);
-					if(block.getLocation().getY() == pos2.getY() && block.getLocation().getZ() == pos1.getZ()) hightlight.add(block);
-					if(block.getLocation().getX() == pos2.getX() && block.getLocation().getZ() == pos1.getZ()) hightlight.add(block);
+						if(block.getLocation().getX() == pos2.getX() && block.getLocation().getY() == pos1.getY()) hightlight.add(block);
+						if(block.getLocation().getY() == pos2.getY() && block.getLocation().getZ() == pos1.getZ()) hightlight.add(block);
+						if(block.getLocation().getX() == pos2.getX() && block.getLocation().getZ() == pos1.getZ()) hightlight.add(block);
 
-					if(block.getLocation().getX() == pos2.getX() && block.getLocation().getY() == pos1.getY()) hightlight.add(block);
-					if(block.getLocation().getY() == pos2.getY() && block.getLocation().getZ() == pos1.getZ()) hightlight.add(block);
-					if(block.getLocation().getX() == pos2.getX() && block.getLocation().getZ() == pos1.getZ()) hightlight.add(block);
+						if(block.getLocation().getX() == pos2.getX() && block.getLocation().getY() == pos1.getY()) hightlight.add(block);
+						if(block.getLocation().getY() == pos2.getY() && block.getLocation().getZ() == pos1.getZ()) hightlight.add(block);
+						if(block.getLocation().getX() == pos2.getX() && block.getLocation().getZ() == pos1.getZ()) hightlight.add(block);
 
-					if(block.getLocation().getX() == pos1.getX() && block.getLocation().getY() == pos2.getY()) hightlight.add(block);
-					if(block.getLocation().getY() == pos1.getY() && block.getLocation().getZ() == pos2.getZ()) hightlight.add(block);
-					if(block.getLocation().getX() == pos1.getX() && block.getLocation().getZ() == pos2.getZ()) hightlight.add(block);
+						if(block.getLocation().getX() == pos1.getX() && block.getLocation().getY() == pos2.getY()) hightlight.add(block);
+						if(block.getLocation().getY() == pos1.getY() && block.getLocation().getZ() == pos2.getZ()) hightlight.add(block);
+						if(block.getLocation().getX() == pos1.getX() && block.getLocation().getZ() == pos2.getZ()) hightlight.add(block);
 
-					if(block.getLocation().getX() == pos1.getX() && block.getLocation().getY() == pos2.getY()) hightlight.add(block);
-					if(block.getLocation().getY() == pos1.getY() && block.getLocation().getZ() == pos2.getZ()) hightlight.add(block);
-					if(block.getLocation().getX() == pos1.getX() && block.getLocation().getZ() == pos2.getZ()) hightlight.add(block);
+						if(block.getLocation().getX() == pos1.getX() && block.getLocation().getY() == pos2.getY()) hightlight.add(block);
+						if(block.getLocation().getY() == pos1.getY() && block.getLocation().getZ() == pos2.getZ()) hightlight.add(block);
+						if(block.getLocation().getX() == pos1.getX() && block.getLocation().getZ() == pos2.getZ()) hightlight.add(block);
+					}
 					blocks.add(block);
 				}
 			}
 		}
 		Highlight = hightlight;
 		SelectedZone = blocks;
+		return blocks;
 	}
 
 	public boolean isBothPosSet(){
@@ -96,5 +98,13 @@ public class UserData {
 			return true;
 		else
 			return false;
+	}
+
+	public void addUndo(HashMap<Block, BlockData> data) {
+		undo.add(data);
+	}
+
+	public void addRedo(HashMap<Block, BlockData> data) {
+		redo.add(data);
 	}
 }
