@@ -63,6 +63,10 @@ public class SpeedEdit extends JavaPlugin {
 		return SEuserData.get(player);
 	}
 	
+	public static void deleteUser(Player player) {
+		if(!SEuserData.containsKey(player)) SEuserData.remove(player);
+	}
+	
 	private CoreProtectAPI getCoreProtect() {
 		Plugin plugin = getServer().getPluginManager().getPlugin("CoreProtect");
 		if (plugin == null || !(plugin instanceof CoreProtect)) return null;

@@ -27,7 +27,7 @@ public class UserData {
 	public void setPosition(int position, Location argLocation) {
 		positions.put(position, argLocation);
 		if(isBothPosSet() && isBothPosSameWorld()) setSelectedZone();
-		player.sendMessage(ChatColor.DARK_GRAY + "Speed Edit " + ChatColor.GREEN + "Position " + position + ChatColor.DARK_GRAY + " set" + ((Highlight != null) ? " [" + ChatColor.GREEN + SelectedZone.size() + " Blocks" + ChatColor.DARK_GRAY + "]" : ""));
+		player.sendMessage(ChatColor.DARK_GRAY + "Speed Edit " + ChatColor.GREEN + "Position " + position + ChatColor.DARK_GRAY + " set" + (isBothPosSet() ? " [" + ChatColor.GREEN + SelectedZone.size() + " Blocks" + ChatColor.DARK_GRAY + "]" : ""));
 	}
 
 	public Location getPosition(int position) {

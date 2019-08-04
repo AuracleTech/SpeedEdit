@@ -29,7 +29,6 @@ public class HighlightZone {
 	}
 
 	public int getID() {
-		// TODO Auto-generated method stub
-		return 0;
+		return TaskID;
 	}
 }
