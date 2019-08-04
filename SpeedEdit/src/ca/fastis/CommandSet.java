@@ -18,7 +18,7 @@ public class CommandSet implements CommandExecutor, TabCompleter {
 		if (sender instanceof Player) {
 			Player player = (Player) sender;
 			ErrorManagement EM = new ErrorManagement(player);
-			if(!EM.hasPermission(player, "speededit.set") || !EM.hasPositionReady() || !EM.isArgsLength(args, maxArg, "/Set Material") || !EM.isMaterial(args[0])) return true;
+			if(!EM.hasPermission(player, "speededit.set", true) || !EM.hasPositionReady() || !EM.isArgsLength(args, maxArg, "/Set Material") || !EM.isMaterial(args[0])) return true;
 			try {
 				List<Block> blocks = SpeedEdit.getUser(player).getSelectedZone();
 				Functions.manipulateBlocks(player, "set", blocks, Material.matchMaterial(args[0]), EM);

@@ -14,7 +14,8 @@ public class commandHammer implements CommandExecutor {
 	public boolean onCommand(CommandSender sender, Command arg1, String arg2, String[] arg3) {
 		if (sender instanceof Player) {
 			Player player = (Player) sender;
-			if(player.hasPermission("speededit.hammer")) {
+			ErrorManagement EM = new ErrorManagement(player);
+			if(EM.hasPermission(player, "speededit.hammer", true)) {
 				ItemStack hammer = new ItemStack(SpeedEdit.Tool, 1);
 				ItemMeta hammerMeta = hammer.getItemMeta();
 				hammerMeta.setCustomModelData(SpeedEdit.ToolID);
@@ -22,13 +23,9 @@ public class commandHammer implements CommandExecutor {
 				hammer.setItemMeta(hammerMeta);
 				player.getInventory().addItem(hammer);
 				player.sendMessage(ChatColor.DARK_GRAY + "There you go pal, the Magic " + ChatColor.GREEN + SpeedEdit.ToolName);
-			} else {
-				player.sendMessage(ChatColor.RED + "No permission.");
-				return true;
 			}
-			return true;
 		}
-		return false;
+		return true;
 	}
 
 }

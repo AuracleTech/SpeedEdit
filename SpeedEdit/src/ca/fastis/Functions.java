@@ -38,7 +38,7 @@ public class Functions {
 			for(Block block : blocks) block.setType(material);
 		}
 		for (Player online : SpeedEdit.server.getOnlinePlayers()) {
-			if (online.getUniqueId() == player.getUniqueId() || online.isOp() || EM.hasPermission(online, "speededit.spy")) {
+			if (online.getUniqueId() == player.getUniqueId() || online.isOp() || EM.hasPermission(online, "speededit.spy", false)) {
 				online.sendMessage(ChatColor.GREEN + "" + player.getName() + ChatColor.DARK_GRAY + " " + cmdName + " " + ChatColor.GREEN + blocks.size() + ChatColor.DARK_GRAY + " blocks to " + ChatColor.GREEN + material.toString().toLowerCase());
 			}
 		}

@@ -18,7 +18,7 @@ public class CommandReplace implements CommandExecutor, TabCompleter {
 		if (sender instanceof Player) {
 			Player player = (Player) sender;
 			ErrorManagement EM = new ErrorManagement(player);
-			if(!EM.hasPermission(player, "speededit.replace") || !EM.hasPositionReady() || !EM.isArgsLength(args, minArg, maxArg, "/Replace Material Material") || !EM.isMaterial(args[0]) || (EM.isArgsLength(args, 2) && !EM.isMaterial(args[1]))) return true;
+			if(!EM.hasPermission(player, "speededit.replace", true) || !EM.hasPositionReady() || !EM.isArgsLength(args, minArg, maxArg, "/Replace Material Material") || !EM.isMaterial(args[0]) || (EM.isArgsLength(args, 2) && !EM.isMaterial(args[1]))) return true;
 			try {
 				List<Block> blocks = SpeedEdit.getUser(player).getSelectedZone();
 				if(EM.isArgsLength(args, 1)) Functions.manipulateBlocks(player, "replaced", blocks, Material.matchMaterial(args[0]), null, EM);

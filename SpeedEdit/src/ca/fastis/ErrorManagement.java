@@ -11,11 +11,11 @@ public class ErrorManagement {
 		this.player = player;
 	}
 
-	public boolean hasPermission(Player player, String permission){
+	public boolean hasPermission(Player player, String permission, boolean showMessage){
 		if(player.hasPermission(permission) || player.hasPermission("speededit.*") || player.isOp()) 
 			return true;
 		else {
-			player.sendMessage(ChatColor.RED + "No permission.");
+			if(showMessage) player.sendMessage(ChatColor.RED + "No permission.");
 			return false;
 		}
 	}

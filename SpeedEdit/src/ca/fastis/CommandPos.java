@@ -20,7 +20,7 @@ public class CommandPos implements CommandExecutor, TabCompleter {
 		if (sender instanceof Player) {
 			Player player = (Player) sender;
 			ErrorManagement EM = new ErrorManagement(player);
-			if(!EM.hasPermission(player, "speededit.use") || !EM.isArgsLength(args, maxArg, "/Pos" + PosToSet)) return true;
+			if(!EM.hasPermission(player, "speededit.use", true) || !EM.isArgsLength(args, maxArg, "/Pos" + PosToSet)) return true;
 			
 			SpeedEdit.getUser(player).setPosition(PosToSet, player.getLocation().add(0, -1, 0).getBlock().getLocation());
 		}
