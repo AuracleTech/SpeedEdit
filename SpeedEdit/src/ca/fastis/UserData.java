@@ -53,30 +53,10 @@ public class UserData {
 				for(int y = bottomBlockY; y <= topBlockY; y++) {
 					Block block = pos1.getWorld().getBlockAt(x, y, z);
 					if(registerHightlight) {
-						if(block.getLocation().getX() == pos1.getX() && block.getLocation().getY() == pos1.getY()) hightlight.add(block);
-						if(block.getLocation().getY() == pos1.getY() && block.getLocation().getZ() == pos1.getZ()) hightlight.add(block);
-						if(block.getLocation().getX() == pos1.getX() && block.getLocation().getZ() == pos1.getZ()) hightlight.add(block);
-
-						if(block.getLocation().getX() == pos2.getX() && block.getLocation().getY() == pos2.getY()) hightlight.add(block);
-						if(block.getLocation().getY() == pos2.getY() && block.getLocation().getZ() == pos2.getZ()) hightlight.add(block);
-						if(block.getLocation().getX() == pos2.getX() && block.getLocation().getZ() == pos2.getZ()) hightlight.add(block);
-
-
-						if(block.getLocation().getX() == pos2.getX() && block.getLocation().getY() == pos1.getY()) hightlight.add(block);
-						if(block.getLocation().getY() == pos2.getY() && block.getLocation().getZ() == pos1.getZ()) hightlight.add(block);
-						if(block.getLocation().getX() == pos2.getX() && block.getLocation().getZ() == pos1.getZ()) hightlight.add(block);
-
-						if(block.getLocation().getX() == pos2.getX() && block.getLocation().getY() == pos1.getY()) hightlight.add(block);
-						if(block.getLocation().getY() == pos2.getY() && block.getLocation().getZ() == pos1.getZ()) hightlight.add(block);
-						if(block.getLocation().getX() == pos2.getX() && block.getLocation().getZ() == pos1.getZ()) hightlight.add(block);
-
-						if(block.getLocation().getX() == pos1.getX() && block.getLocation().getY() == pos2.getY()) hightlight.add(block);
-						if(block.getLocation().getY() == pos1.getY() && block.getLocation().getZ() == pos2.getZ()) hightlight.add(block);
-						if(block.getLocation().getX() == pos1.getX() && block.getLocation().getZ() == pos2.getZ()) hightlight.add(block);
-
-						if(block.getLocation().getX() == pos1.getX() && block.getLocation().getY() == pos2.getY()) hightlight.add(block);
-						if(block.getLocation().getY() == pos1.getY() && block.getLocation().getZ() == pos2.getZ()) hightlight.add(block);
-						if(block.getLocation().getX() == pos1.getX() && block.getLocation().getZ() == pos2.getZ()) hightlight.add(block);
+						if((x == pos1.getX() && y == pos1.getY()) || (y == pos1.getY() && z == pos1.getZ()) || (x == pos1.getX() && z == pos1.getZ())
+								|| (x == pos2.getX() && y == pos2.getY()) || (y == pos2.getY() && z == pos2.getZ()) || (x == pos2.getX() && z == pos2.getZ())
+								|| (x == pos2.getX() && y == pos1.getY()) || (y == pos2.getY() && z == pos1.getZ()) || (x == pos2.getX() && z == pos1.getZ())
+								|| (x == pos1.getX() && y == pos2.getY()) || (y == pos1.getY() && z == pos2.getZ()) || (x == pos1.getX() && z == pos2.getZ())) hightlight.add(block);
 					}
 					blocks.add(block);
 				}
