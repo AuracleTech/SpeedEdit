@@ -50,6 +50,7 @@ public class SpeedEdit extends JavaPlugin {
 		this.getCommand("expand").setExecutor(new CommandExpand());
 		this.getCommand("move").setExecutor(new CommandMove());
 		this.getCommand("walls").setExecutor(new CommandWalls());
+		this.getCommand("outline").setExecutor(new CommandOutline());
 	}
 
 	@Override

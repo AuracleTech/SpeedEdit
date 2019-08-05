@@ -45,7 +45,7 @@ public class Functions {
 			SpeedEdit.getUser(player).clearRedo = false;
 		}
 		SpeedEdit.getUser(player).addUndo(memory);
-		spy(player, ChatColor.GREEN + "" + player.getName() + ChatColor.DARK_GRAY + " " + cmdName + " " + ChatColor.GREEN + blocks.size() + ChatColor.DARK_GRAY + " blocks to " + ChatColor.GREEN + material.toString().toLowerCase());
+		spy(player, ChatColor.GREEN + "" + player.getName() + ChatColor.DARK_GRAY + " used " + cmdName + " " + ChatColor.GREEN + blocks.size() + ChatColor.DARK_GRAY + " blocks to " + ChatColor.GREEN + material.toString().toLowerCase());
 	}
 
 	public static void undo(Player player, int undoQtt) {
@@ -60,7 +60,7 @@ public class Functions {
 			SpeedEdit.getUser(player).undo.remove(SpeedEdit.getUser(player).undo.size() - 1);
 		}
 		SpeedEdit.getUser(player).clearRedo = true;
-		spy(player, ChatColor.GREEN + "" + player.getName() + ChatColor.DARK_GRAY + " undo " + ChatColor.GREEN + undoQtt + ChatColor.DARK_GRAY + " times");
+		spy(player, ChatColor.GREEN + "" + player.getName() + ChatColor.DARK_GRAY + " undo " + ChatColor.GREEN + undoQtt + "x");
 	}
 
 	public static void redo(Player player, int redoQtt) {
@@ -74,7 +74,7 @@ public class Functions {
 			SpeedEdit.getUser(player).addUndo(memory);
 			SpeedEdit.getUser(player).redo.remove(SpeedEdit.getUser(player).redo.size() - 1);
 		}
-		spy(player, ChatColor.GREEN + "" + player.getName() + ChatColor.DARK_GRAY + " redo " + ChatColor.GREEN + redoQtt + ChatColor.DARK_GRAY + " times");
+		spy(player, ChatColor.GREEN + "" + player.getName() + ChatColor.DARK_GRAY + " redo " + ChatColor.GREEN + redoQtt + "x");
 	}
 
 	public static void spy(Player player, String cmdName) {

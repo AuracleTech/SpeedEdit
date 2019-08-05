@@ -11,18 +11,18 @@ import org.bukkit.entity.Player;
 
 import com.google.common.collect.Lists;
 
-public class CommandWalls implements CommandExecutor, TabCompleter {
+public class CommandOutline implements CommandExecutor, TabCompleter {
 	int maxArg = 1;
 	@Override
 	public boolean onCommand(CommandSender sender, Command arg1, String arg2, String[] args) {
 		if (sender instanceof Player) {
 			Player player = (Player) sender;
 			ErrorManagement EM = new ErrorManagement(player);
-			if(!EM.hasPermission(player, "speededit.walls", true) || !EM.hasPositionReady() || !EM.isArgsLength(args, maxArg, "/Walls Material") || !EM.isMaterial(args[0])) return true;
+			if(!EM.hasPermission(player, "speededit.outline", true) || !EM.hasPositionReady() || !EM.isArgsLength(args, maxArg, "/Outline Material") || !EM.isMaterial(args[0])) return true;
 			try {
 				List<Block> blocks = SpeedEdit.getUser(player).getSelectedZone();
-				blocks = SpeedEdit.getUser(player).setPattern("walls", blocks);
-				Functions.manipulateBlocks(player, "walls", blocks, Material.matchMaterial(args[0]), EM);
+				blocks = SpeedEdit.getUser(player).setPattern("outline", blocks);
+				Functions.manipulateBlocks(player, "outline", blocks, Material.matchMaterial(args[0]), EM);
 			} catch(Exception e) {
 				EM.throwException(e);
 			}
@@ -45,7 +45,7 @@ public class CommandWalls implements CommandExecutor, TabCompleter {
 				}
 			} else
 				if(args.length == maxArg+1 && args[args.length-1].toLowerCase().isEmpty())
-					EM.isArgsLength(args, maxArg, "/Walls Material");
+					EM.isArgsLength(args, maxArg, "/Outline Material");
 		}
 		return returnList;
 	}

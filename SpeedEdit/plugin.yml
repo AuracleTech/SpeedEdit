@@ -41,4 +41,7 @@ commands:
       usage: /<command> [Amount] [Direction]
    walls:
       description: 
-      usage: /<command> [Amount] [Direction]
+      usage: /<command> [Material]
+   outline:
+      description: 
+      usage: /<command> [Material]

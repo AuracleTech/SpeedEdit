@@ -26,7 +26,7 @@ public class UserData {
 	public void setPosition(int position, Location argLocation) {
 		positions.put(position, argLocation);
 		if(isBothPosSet() && isBothPosSameWorld()) {
-			SelectedZone = getBlocksInZone(positions.get(1), positions.get(2), true);
+			SelectedZone = getBlocksInZone(positions.get(1), positions.get(2), null, true);
 
 		}
 		player.sendMessage(ChatColor.DARK_GRAY + "Speed Edit " + ChatColor.GREEN + "Position " + position + ChatColor.DARK_GRAY + " set" + (isBothPosSet() ? " [" + ChatColor.GREEN + SelectedZone.size() + " Blocks" + ChatColor.DARK_GRAY + "]" : ""));
@@ -39,7 +39,8 @@ public class UserData {
 	public static List<Block> getHighlightZone(){ return Highlight;	}
 
 	public List<Block> getSelectedZone(){ return SelectedZone; }
-	private List<Block> getBlocksInZone(Location pos1, Location pos2, boolean registerHightlight) {
+	private List<Block> getBlocksInZone(Location pos1, Location pos2, String pattern, boolean registerHightlight) {
+		pattern = pattern == null ? "" : pattern;
 		List<Block> hightlight = new ArrayList<Block>();
 		List<Block> blocks = new ArrayList<Block>();
 		int topBlockX = (pos1.getBlockX() < pos2.getBlockX() ? pos2.getBlockX() : pos1.getBlockX());
@@ -51,20 +52,37 @@ public class UserData {
 		for(int x = bottomBlockX; x <= topBlockX; x++) {
 			for(int z = bottomBlockZ; z <= topBlockZ; z++) {
 				for(int y = bottomBlockY; y <= topBlockY; y++) {
-					Block block = pos1.getWorld().getBlockAt(x, y, z);
+					blocks.add(pos1.getWorld().getBlockAt(x, y, z));
 					if(registerHightlight) {
 						if((x == pos1.getX() && y == pos1.getY()) || (y == pos1.getY() && z == pos1.getZ()) || (x == pos1.getX() && z == pos1.getZ())
 								|| (x == pos2.getX() && y == pos2.getY()) || (y == pos2.getY() && z == pos2.getZ()) || (x == pos2.getX() && z == pos2.getZ())
 								|| (x == pos2.getX() && y == pos1.getY()) || (y == pos2.getY() && z == pos1.getZ()) || (x == pos2.getX() && z == pos1.getZ())
-								|| (x == pos1.getX() && y == pos2.getY()) || (y == pos1.getY() && z == pos2.getZ()) || (x == pos1.getX() && z == pos2.getZ())) hightlight.add(block);
+								|| (x == pos1.getX() && y == pos2.getY()) || (y == pos1.getY() && z == pos2.getZ()) || (x == pos1.getX() && z == pos2.getZ())) hightlight.add(pos1.getWorld().getBlockAt(x, y, z));
 					}
-					blocks.add(block);
 				}
 			}
 		}
 		Highlight = hightlight;
 		SelectedZone = blocks;
 		return blocks;
+	}
+
+	public List<Block> setPattern(String pattern, List<Block> blocks) {
+		Location pos1 = SpeedEdit.getUser(player).positions.get(1);
+		Location pos2 = SpeedEdit.getUser(player).positions.get(2);
+		List<Block> blockPattern = new ArrayList<Block>();
+		for(Block block : blocks) {
+			if(pattern.equals("walls")) {
+				if(block.getLocation().getX() == pos1.getX() || block.getLocation().getZ() == pos1.getZ() || block.getLocation().getX() == pos2.getX() || block.getLocation().getZ() == pos2.getZ()) {
+					blockPattern.add(block);
+				}
+			} else if(pattern.equals("outline")) {
+				if(block.getLocation().getX() == pos1.getX() || block.getLocation().getZ() == pos1.getZ() || block.getLocation().getY() == pos1.getY() || block.getLocation().getX() == pos2.getX() || block.getLocation().getZ() == pos2.getZ() || block.getLocation().getY() == pos2.getY() ) {
+					blockPattern.add(block);
+				}
+			}
+		}
+		return blockPattern;
 	}
 
 	public boolean isBothPosSet(){
