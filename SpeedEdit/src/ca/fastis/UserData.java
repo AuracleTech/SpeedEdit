@@ -15,6 +15,7 @@ public class UserData {
 	Map<Integer, Location> positions = new HashMap<Integer, Location>();
 	List<Block> SelectedZone = null;
 	static List<Block> Highlight = null;
+	public boolean clearRedo = false;
 	List<HashMap<Block, BlockData>> undo = new ArrayList<HashMap<Block, BlockData>>();
 	List<HashMap<Block, BlockData>> redo = new ArrayList<HashMap<Block, BlockData>>();
 

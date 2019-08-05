@@ -65,11 +65,20 @@ public class ErrorManagement {
 		}
 	}
 
-	public boolean hasUndo(int redoQtt) {
-		if(!SpeedEdit.getUser(player).undo.isEmpty() && SpeedEdit.getUser(player).undo.size() >= redoQtt)
+	public boolean hasUndo(int undoQtt) {
+		if(!SpeedEdit.getUser(player).undo.isEmpty() && SpeedEdit.getUser(player).undo.size() >= undoQtt)
 			return true;
 		else {
 			player.sendMessage(ChatColor.DARK_GRAY + "You can only undo " + ChatColor.DARK_RED + SpeedEdit.getUser(player).undo.size() + ChatColor.DARK_GRAY + " more times");
+			return false;
+		}
+	}
+	
+	public boolean hasRedo(int redoQtt) {
+		if(!SpeedEdit.getUser(player).redo.isEmpty() && SpeedEdit.getUser(player).redo.size() >= redoQtt)
+			return true;
+		else {
+			player.sendMessage(ChatColor.DARK_GRAY + "You can only redo " + ChatColor.DARK_RED + SpeedEdit.getUser(player).redo.size() + ChatColor.DARK_GRAY + " more times");
 			return false;
 		}
 	}

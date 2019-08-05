@@ -1,7 +1,7 @@
 name: SpeedEdit
 main: ca.fastis.SpeedEdit
 version: 2.0
-author: SellerSkyblock
+author: _Auracle_
 api-version: 1.14
 softdepend: [CoreProtect]
 website: https://github.com/VirgilFabre
