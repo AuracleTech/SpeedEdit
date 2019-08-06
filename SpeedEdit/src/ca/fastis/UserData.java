@@ -18,18 +18,17 @@ public class UserData {
 	public boolean clearRedo = false;
 	List<HashMap<Block, BlockData>> undo = new ArrayList<HashMap<Block, BlockData>>();
 	List<HashMap<Block, BlockData>> redo = new ArrayList<HashMap<Block, BlockData>>();
+	List<HashMap<Block, BlockData>> clipboard = new ArrayList<HashMap<Block, BlockData>>();
 
 	public UserData(Player player){
 		this.player = player;
 	}
 
-	public void setPosition(int position, Location argLocation) {
+	public void setPosition(int position, Location argLocation, boolean showMessage) {
 		positions.put(position, argLocation);
-		if(isBothPosSet() && isBothPosSameWorld()) {
+		if(isBothPosSet() && isBothPosSameWorld())
 			SelectedZone = getBlocksInZone(positions.get(1), positions.get(2), null, true);
-
-		}
-		player.sendMessage(ChatColor.DARK_GRAY + "Speed Edit " + ChatColor.GREEN + "Position " + position + ChatColor.DARK_GRAY + " set" + (isBothPosSet() ? " [" + ChatColor.GREEN + SelectedZone.size() + " Blocks" + ChatColor.DARK_GRAY + "]" : ""));
+		if(showMessage) player.sendMessage(ChatColor.DARK_GRAY + "Speed Edit " + ChatColor.GREEN + "Position " + position + ChatColor.DARK_GRAY + " set" + (isBothPosSet() ? " [" + ChatColor.GREEN + SelectedZone.size() + " Blocks" + ChatColor.DARK_GRAY + "]" : ""));
 	}
 
 	public Location getPosition(int position) {

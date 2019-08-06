@@ -42,7 +42,7 @@ public class ManageEvents implements Listener{
 		if(EM.hasPermission(player, "speededit.use", true)) {
 			if ((event.getAction().equals(Action.LEFT_CLICK_BLOCK) || event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) && player.getInventory().getItemInMainHand().getType() == SpeedEdit.Tool && player.getInventory().getItemInMainHand().getItemMeta().hasCustomModelData() && player.getInventory().getItemInMainHand().getItemMeta().getCustomModelData() == SpeedEdit.ToolID && event.getHand().equals(EquipmentSlot.HAND)) {
 				int PosToSet = event.getAction().equals(Action.LEFT_CLICK_BLOCK) ? 1 : event.getAction().equals(Action.RIGHT_CLICK_BLOCK) ? 2 : 1;
-				SpeedEdit.getUser(player).setPosition(PosToSet, block.getLocation());
+				SpeedEdit.getUser(player).setPosition(PosToSet, block.getLocation(), true);
 				event.setCancelled(true);
 			}
 		}

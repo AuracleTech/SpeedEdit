@@ -83,4 +83,27 @@ public class Functions {
 			if (online.getUniqueId() == player.getUniqueId() || online.isOp() || EM.hasPermission(online, "speededit.spy", false)) online.sendMessage(cmdName);
 		}
 	}
+
+	public static String getCardinalDirection(Player player) {
+		float yaw = player.getLocation().getYaw();
+		if (yaw < 0) yaw += 360;
+		if (yaw >= 315 || yaw < 45)
+			return "SOUTH";
+		else if (yaw < 135)
+			return "WEST";
+		else if (yaw < 225)
+			return "NORTH";
+		else if (yaw < 315)
+			return "EAST";
+		return "NORTH";
+	}
+	
+	public static String getPitch(Player player) {
+		float pitch = player.getLocation().getPitch();
+		if (pitch >= 45)
+			return "DOWN";
+		else if (pitch <= -45)
+			return "UP";
+		return "";
+	}
 }

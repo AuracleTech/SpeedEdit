@@ -16,7 +16,8 @@ public class CommandRedo implements CommandExecutor, TabCompleter {
 	public boolean onCommand(CommandSender sender, Command arg1, String arg2, String[] args) {
 		if (sender instanceof Player) {
 			Player player = (Player) sender;
-			ErrorManagement EM = new ErrorManagement(player); if(!EM.hasPermission(player, "speededit.redo", true) || !EM.isArgsLength(args, minArg, maxArg, "/Redo Quantity") || (EM.isArgsLength(args, 1) && (!EM.isNumber(args[0]) || !EM.hasRedo(Integer.parseInt(args[0])))) || !EM.hasRedo(1)) return true;
+			ErrorManagement EM = new ErrorManagement(player);
+			if(!EM.hasPermission(player, "speededit.redo", true) || !EM.isArgsLength(args, minArg, maxArg, "/Redo Quantity") || (EM.isArgsLength(args, 1) && (!EM.isNumber(args[0]) || !EM.hasRedo(Integer.parseInt(args[0])))) || !EM.hasRedo(1)) return true;
 			if(EM.isArgsLength(args, 1)) Functions.redo(player, Integer.parseInt(args[0])); else Functions.redo(player, 1);
 		}
 		return true;
@@ -31,9 +32,7 @@ public class CommandRedo implements CommandExecutor, TabCompleter {
 			if (EM.isArgsLength(args, minArg, maxArg)) {
 				List<String> listNumbers = Arrays.asList("1", "2", "3", "4", "5", "6", "7", "8", "9", "0");
 				for (String material : listNumbers) {
-					if (material.startsWith(args[args.length-1].toLowerCase())) {
-						returnList.add(material);
-					}
+					if (material.startsWith(args[args.length-1].toLowerCase())) returnList.add(material);
 				}
 			} else
 				if(args.length == maxArg+1 && args[args.length-1].toLowerCase().isEmpty())
