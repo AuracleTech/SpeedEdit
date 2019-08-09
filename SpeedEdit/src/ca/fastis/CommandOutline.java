@@ -1,5 +1,7 @@
 package ca.fastis;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.List;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -20,9 +22,11 @@ public class CommandOutline implements CommandExecutor, TabCompleter {
 			ErrorManagement EM = new ErrorManagement(player);
 			if(!EM.hasPermission(player, "speededit.outline", true) || !EM.hasPositionReady() || !EM.isArgsLength(args, maxArg, "/Outline Material") || !EM.isMaterial(args[0])) return true;
 			try {
-				List<Block> blocks = SpeedEdit.getUser(player).getSelectedZone();
-				blocks = SpeedEdit.getUser(player).setPattern("outline", blocks);
-				Functions.manipulateBlocks(player, "outline", blocks, Material.matchMaterial(args[0]), EM);
+				UserData userData = SpeedEdit.getUser(player);
+				Instant before = Instant.now();
+				List<Block> blocks = userData.setPattern("outline", userData.SelectedZone);
+				Functions.manipulateBlocks(player, blocks, Material.matchMaterial(args[0]), EM);
+				MessageManagement.command(player, "You used outline for " + blocks.size() + " blocks to " + args[0].toLowerCase() + " in " + Duration.between(before, Instant.now()).toMillis() + "ms", player.getName() + " used outline for " + blocks.size() + " blocks to " + args[0].toLowerCase() + " in " + Duration.between(before, Instant.now()).toMillis() + "ms");
 			} catch(Exception e) {
 				EM.throwException(e);
 			}

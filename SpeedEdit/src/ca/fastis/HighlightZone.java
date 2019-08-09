@@ -17,10 +17,10 @@ public class HighlightZone {
 			@Override
 			public void run() {
 				for(Entry<Player, UserData> entry : SpeedEdit.SEuserData.entrySet()) {
-					if(UserData.getHighlightZone() == null) return;
+					if(entry.getValue().Highlight == null) continue;
 					Player player = entry.getKey();
-					DustOptions dustOptions = new DustOptions(Color.fromRGB(0, 255, 64), 1);
-					for(Block block : UserData.getHighlightZone()) {
+					DustOptions dustOptions = new DustOptions(Color.fromRGB(0, 255, 0), 1);
+					for(Block block : entry.getValue().Highlight) {
 						player.spawnParticle(Particle.REDSTONE, block.getLocation().getX()+0.5, block.getLocation().getY()+0.5, block.getLocation().getZ()+0.5, 1, 0, 0, 0, 0, dustOptions);
 					}
 				}

@@ -45,3 +45,6 @@ commands:
    outline:
       description: 
       usage: /<command> [Material]
+   skeleton:
+      description: 
+      usage: /<command> [Material]

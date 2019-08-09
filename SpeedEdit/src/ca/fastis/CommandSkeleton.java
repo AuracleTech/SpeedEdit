@@ -13,20 +13,21 @@ import org.bukkit.entity.Player;
 
 import com.google.common.collect.Lists;
 
-public class CommandWalls implements CommandExecutor, TabCompleter {
+public class CommandSkeleton implements CommandExecutor, TabCompleter {
 	int maxArg = 1;
 	@Override
 	public boolean onCommand(CommandSender sender, Command arg1, String arg2, String[] args) {
 		if (sender instanceof Player) {
 			Player player = (Player) sender;
 			ErrorManagement EM = new ErrorManagement(player);
-			if(!EM.hasPermission(player, "speededit.walls", true) || !EM.hasPositionReady() || !EM.isArgsLength(args, maxArg, "/Walls Material") || !EM.isMaterial(args[0])) return true;
+			if(!EM.hasPermission(player, "speededit.skeleton", true) || !EM.hasPositionReady() || !EM.isArgsLength(args, maxArg, "/Skeleton Material") || !EM.isMaterial(args[0])) return true;
 			try {
 				UserData userData = SpeedEdit.getUser(player);
 				Instant before = Instant.now();
-				List<Block> blocks = userData.setPattern("walls", userData.SelectedZone);
+				List<Block> blocks = userData.setPattern("skeleton", userData.SelectedZone);
 				Functions.manipulateBlocks(player, blocks, Material.matchMaterial(args[0]), EM);
-				MessageManagement.command(player, "You used walls for " + blocks.size() + " blocks to " + args[0].toLowerCase() + " in " + Duration.between(before, Instant.now()).toMillis() + "ms", player.getName() + " used walls for " + blocks.size() + " blocks to " + args[0].toLowerCase() + " in " + Duration.between(before, Instant.now()).toMillis() + "ms");
+				MessageManagement.command(player, "You used skeleton for " + blocks.size() + " blocks to " + args[0].toLowerCase() + " in " + Duration.between(before, Instant.now()).toMillis() + "ms", player.getName() + " used skeleton for " + blocks.size() + " blocks to " + args[0].toLowerCase() + " in " + Duration.between(before, Instant.now()).toMillis() + "ms");
+				
 			} catch(Exception e) {
 				EM.throwException(e);
 			}
@@ -49,7 +50,7 @@ public class CommandWalls implements CommandExecutor, TabCompleter {
 				}
 			} else
 				if(args.length == maxArg+1 && args[args.length-1].toLowerCase().isEmpty())
-					EM.isArgsLength(args, maxArg, "/Walls Material");
+					EM.isArgsLength(args, maxArg, "/Skeleton Material");
 		}
 		return returnList;
 	}

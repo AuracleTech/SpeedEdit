@@ -1,8 +1,9 @@
 package ca.fastis;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.List;
 import org.bukkit.Material;
-import org.bukkit.block.Block;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -20,9 +21,10 @@ public class CommandReplace implements CommandExecutor, TabCompleter {
 			ErrorManagement EM = new ErrorManagement(player);
 			if(!EM.hasPermission(player, "speededit.replace", true) || !EM.hasPositionReady() || !EM.isArgsLength(args, minArg, maxArg, "/Replace Material Material") || !EM.isMaterial(args[0]) || (EM.isArgsLength(args, 2) && !EM.isMaterial(args[1]))) return true;
 			try {
-				List<Block> blocks = SpeedEdit.getUser(player).getSelectedZone();
-				if(EM.isArgsLength(args, 1)) Functions.manipulateBlocks(player, "replaced", blocks, Material.matchMaterial(args[0]), null, EM);
-				if(EM.isArgsLength(args, 2)) Functions.manipulateBlocks(player, "replaced", blocks, Material.matchMaterial(args[0]), Material.matchMaterial(args[1]), EM);
+				Instant before = Instant.now();
+				if(EM.isArgsLength(args, 1)) Functions.manipulateBlocks(player, Material.matchMaterial(args[0]), null, EM);
+				if(EM.isArgsLength(args, 2)) Functions.manipulateBlocks(player, Material.matchMaterial(args[0]), Material.matchMaterial(args[1]), EM);
+				MessageManagement.command(player, "You replaced " + SpeedEdit.getUser(player).SelectedZone.size() + " blocks to " + (EM.isArgsLength(args, 1) ? args[0].toLowerCase() : args[1].toLowerCase()) + " in " + Duration.between(before, Instant.now()).toMillis() + "ms", player.getName() + " replaced " + SpeedEdit.getUser(player).SelectedZone.size() + " blocks to " + (EM.isArgsLength(args, 1) ? args[0].toLowerCase() : args[1].toLowerCase()) + " in " + Duration.between(before, Instant.now()).toMillis() + "ms");
 			} catch(Exception e) {
 				EM.throwException(e);
 			}

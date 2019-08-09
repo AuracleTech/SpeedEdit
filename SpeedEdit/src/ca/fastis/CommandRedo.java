@@ -1,5 +1,7 @@
 package ca.fastis;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.Arrays;
 import java.util.List;
 import org.bukkit.command.Command;
@@ -18,7 +20,9 @@ public class CommandRedo implements CommandExecutor, TabCompleter {
 			Player player = (Player) sender;
 			ErrorManagement EM = new ErrorManagement(player);
 			if(!EM.hasPermission(player, "speededit.redo", true) || !EM.isArgsLength(args, minArg, maxArg, "/Redo Quantity") || (EM.isArgsLength(args, 1) && (!EM.isNumber(args[0]) || !EM.hasRedo(Integer.parseInt(args[0])))) || !EM.hasRedo(1)) return true;
+			Instant before = Instant.now();
 			if(EM.isArgsLength(args, 1)) Functions.redo(player, Integer.parseInt(args[0])); else Functions.redo(player, 1);
+			MessageManagement.command(player, "You redo " + args[0] + " times in " + Duration.between(before, Instant.now()).toMillis() + "ms", player.getName() + " redo " + args[0] + " times in " + Duration.between(before, Instant.now()).toMillis() + "ms");
 		}
 		return true;
 	}

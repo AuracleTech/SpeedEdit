@@ -20,10 +20,10 @@ public class CommandExpand implements CommandExecutor, TabCompleter {
 		if (sender instanceof Player) {
 			Player player = (Player) sender;
 			ErrorManagement EM = new ErrorManagement(player);
-			if(!EM.hasPermission(player, "speededit.expand", true) || !EM.hasPositionReady() || !EM.isArgsLength(args, maxArg, "/Expand Quantity") || !EM.isNumber(args[0])) return true;
+			if(!EM.hasPermission(player, "speededit.expand", true) || !EM.hasPositionReady() || !EM.isArgsLength(args, maxArg, "/Expand Distance") || !EM.isNumber(args[0])) return true;
 			int ExpandQuantity = Integer.parseInt(args[0]);
-			Location pos1 = SpeedEdit.getUser(player).positions.get(1);
-			Location pos2 = SpeedEdit.getUser(player).positions.get(2);
+			Location pos1 = SpeedEdit.getUser(player).positions.get(1).clone();
+			Location pos2 = SpeedEdit.getUser(player).positions.get(2).clone();
 			Location newPos = pos1.clone();
 			int PosToSet = 1;
 			switch(Functions.getCardinalDirection(player)) {
@@ -103,7 +103,7 @@ public class CommandExpand implements CommandExecutor, TabCompleter {
 				}
 			} else
 				if(args.length == maxArg+1 && args[args.length-1].toLowerCase().isEmpty())
-					EM.isArgsLength(args, maxArg, "/Expand Quantity");
+					EM.isArgsLength(args, maxArg, "/Expand Distance");
 		}
 		return returnList;
 	}

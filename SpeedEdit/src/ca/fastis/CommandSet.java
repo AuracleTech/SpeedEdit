@@ -1,8 +1,9 @@
 package ca.fastis;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.List;
 import org.bukkit.Material;
-import org.bukkit.block.Block;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -20,8 +21,10 @@ public class CommandSet implements CommandExecutor, TabCompleter {
 			ErrorManagement EM = new ErrorManagement(player);
 			if(!EM.hasPermission(player, "speededit.set", true) || !EM.hasPositionReady() || !EM.isArgsLength(args, maxArg, "/Set Material") || !EM.isMaterial(args[0])) return true;
 			try {
-				List<Block> blocks = SpeedEdit.getUser(player).getSelectedZone();
-				Functions.manipulateBlocks(player, "set", blocks, Material.matchMaterial(args[0]), EM);
+				UserData userData = SpeedEdit.getUser(player);
+				Instant before = Instant.now();
+				Functions.manipulateBlocks(player, userData.SelectedZone, Material.matchMaterial(args[0]), EM);
+				MessageManagement.command(player, "You set " + userData.SelectedZone.size() + " blocks to " + args[0].toLowerCase() + " in " + Duration.between(before, Instant.now()).toMillis() + "ms", player.getName() + " set " + userData.SelectedZone.size() + " blocks to " + args[0].toLowerCase() + " in " + Duration.between(before, Instant.now()).toMillis() + "ms");
 			} catch(Exception e) {
 				EM.throwException(e);
 			}

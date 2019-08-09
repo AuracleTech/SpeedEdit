@@ -1,6 +1,5 @@
 package ca.fastis;
 
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -22,7 +21,7 @@ public class commandHammer implements CommandExecutor {
 				hammerMeta.setDisplayName(SpeedEdit.ToolName);
 				hammer.setItemMeta(hammerMeta);
 				player.getInventory().addItem(hammer);
-				player.sendMessage(ChatColor.DARK_GRAY + "There you go pal, the Magic " + ChatColor.GREEN + SpeedEdit.ToolName);
+				MessageManagement.command(player, "There you go pal, the " + SpeedEdit.ToolName, null);
 			}
 		}
 		return true;
