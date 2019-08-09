@@ -26,7 +26,8 @@ public class CommandOutline implements CommandExecutor, TabCompleter {
 				Instant before = Instant.now();
 				List<Block> blocks = userData.setPattern("outline", userData.SelectedZone);
 				Functions.manipulateBlocks(player, blocks, Material.matchMaterial(args[0]), EM);
-				MessageManagement.command(player, "You used outline for " + blocks.size() + " blocks to " + args[0].toLowerCase() + " in " + Duration.between(before, Instant.now()).toMillis() + "ms", player.getName() + " used outline for " + blocks.size() + " blocks to " + args[0].toLowerCase() + " in " + Duration.between(before, Instant.now()).toMillis() + "ms");
+				MessageManagement.command(player, "You used outline for §e" + blocks.size() + "§7 blocks to §e" + args[0].toLowerCase() + "§7 in " + Duration.between(before, Instant.now()).toMillis() + "ms", player.getName() + " used outline for §e" + blocks.size() + "§7 blocks to §e" + args[0].toLowerCase() + "§7 in " + Duration.between(before, Instant.now()).toMillis() + "ms");
+				MessageManagement.command(player, "You made a §e" + args[0].toLowerCase() + "§7 outline of §e" + blocks.size() + "§7 blocks in " + Duration.between(before, Instant.now()).toMillis() + "ms", player.getName() +  " made a §e" + args[0].toLowerCase() + "§7 outline of §e" + blocks.size() + "§7 blocks in " + Duration.between(before, Instant.now()).toMillis() + "ms");
 			} catch(Exception e) {
 				EM.throwException(e);
 			}

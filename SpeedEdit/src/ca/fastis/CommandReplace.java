@@ -21,10 +21,16 @@ public class CommandReplace implements CommandExecutor, TabCompleter {
 			ErrorManagement EM = new ErrorManagement(player);
 			if(!EM.hasPermission(player, "speededit.replace", true) || !EM.hasPositionReady() || !EM.isArgsLength(args, minArg, maxArg, "/Replace Material Material") || !EM.isMaterial(args[0]) || (EM.isArgsLength(args, 2) && !EM.isMaterial(args[1]))) return true;
 			try {
+				int changed = -1;
 				Instant before = Instant.now();
-				if(EM.isArgsLength(args, 1)) Functions.manipulateBlocks(player, Material.matchMaterial(args[0]), null, EM);
-				if(EM.isArgsLength(args, 2)) Functions.manipulateBlocks(player, Material.matchMaterial(args[0]), Material.matchMaterial(args[1]), EM);
-				MessageManagement.command(player, "You replaced " + SpeedEdit.getUser(player).SelectedZone.size() + " blocks to " + (EM.isArgsLength(args, 1) ? args[0].toLowerCase() : args[1].toLowerCase()) + " in " + Duration.between(before, Instant.now()).toMillis() + "ms", player.getName() + " replaced " + SpeedEdit.getUser(player).SelectedZone.size() + " blocks to " + (EM.isArgsLength(args, 1) ? args[0].toLowerCase() : args[1].toLowerCase()) + " in " + Duration.between(before, Instant.now()).toMillis() + "ms");
+				if(EM.isArgsLength(args, 1)) {
+					changed = Functions.manipulateBlocks(player, Material.matchMaterial(args[0]), null, EM);
+					MessageManagement.command(player, "You replaced §e" + changed + "§7 blocks to §e" + args[0].toLowerCase() + "§7 in " + Duration.between(before, Instant.now()).toMillis() + "ms", player.getName() + " replaced §e" + SpeedEdit.getUser(player).SelectedZone.size() + "§7 blocks to §e" + (EM.isArgsLength(args, 1) ? args[0].toLowerCase() : args[1].toLowerCase()) + "§7 in " + Duration.between(before, Instant.now()).toMillis() + "ms");
+				}
+				if(EM.isArgsLength(args, 2)) {
+					changed = Functions.manipulateBlocks(player, Material.matchMaterial(args[0]), Material.matchMaterial(args[1]), EM);
+					MessageManagement.command(player, "You replaced §e" + changed + "§7 blocks from §e" + args[0].toLowerCase() + "§7 to §e" + args[1].toLowerCase() + "§7 in " + Duration.between(before, Instant.now()).toMillis() + "ms", player.getName() + " replaced §e" + SpeedEdit.getUser(player).SelectedZone.size() + "§7 blocks to §e" + (EM.isArgsLength(args, 1) ? args[0].toLowerCase() : args[1].toLowerCase()) + "§7 in " + Duration.between(before, Instant.now()).toMillis() + "ms");
+				}
 			} catch(Exception e) {
 				EM.throwException(e);
 			}

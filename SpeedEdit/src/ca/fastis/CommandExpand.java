@@ -3,7 +3,6 @@ package ca.fastis;
 import java.util.Arrays;
 import java.util.List;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -22,8 +21,9 @@ public class CommandExpand implements CommandExecutor, TabCompleter {
 			ErrorManagement EM = new ErrorManagement(player);
 			if(!EM.hasPermission(player, "speededit.expand", true) || !EM.hasPositionReady() || !EM.isArgsLength(args, maxArg, "/Expand Distance") || !EM.isNumber(args[0])) return true;
 			int ExpandQuantity = Integer.parseInt(args[0]);
-			Location pos1 = SpeedEdit.getUser(player).positions.get(1).clone();
-			Location pos2 = SpeedEdit.getUser(player).positions.get(2).clone();
+			UserData userData = SpeedEdit.getUser(player);
+			Location pos1 = userData.positions.get(1).clone();
+			Location pos2 = userData.positions.get(2).clone();
 			Location newPos = pos1.clone();
 			int PosToSet = 1;
 			switch(Functions.getCardinalDirection(player)) {
@@ -84,8 +84,8 @@ public class CommandExpand implements CommandExecutor, TabCompleter {
 				}
 				break;
 			}
-			if(PosToSet == 1) SpeedEdit.getUser(player).setPosition(1, newPos, false); else SpeedEdit.getUser(player).setPosition(2, newPos, false);
-			player.sendMessage(ChatColor.DARK_GRAY + "Speed Edit " + ChatColor.GREEN + "Position " + PosToSet + ChatColor.DARK_GRAY + " expanded, now [" + ChatColor.GREEN + SpeedEdit.getUser(player).SelectedZone.size() + " Blocks" + ChatColor.DARK_GRAY + "]");
+			if(PosToSet == 1) userData.setPosition(1, newPos, false); else userData.setPosition(2, newPos, false);
+			MessageManagement.command(player, "Position §e" + PosToSet + "§7 expanded now §e" + userData.SelectedZone.size() + "§7 blocks", null);
 		}
 		return true;
 	}

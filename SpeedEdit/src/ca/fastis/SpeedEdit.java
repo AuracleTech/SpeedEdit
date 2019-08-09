@@ -20,7 +20,7 @@ public class SpeedEdit extends JavaPlugin {
 	
 	static Material Tool = Material.STICK;
 	static int ToolID = 537469636;
-	static String ToolName = ChatColor.GREEN + "Speed Edit Hammer";
+	static String ToolName = ChatColor.YELLOW + "Speed Edit Hammer";
 	
 	static Map<Player, UserData> SEuserData = new HashMap<Player, UserData>();
 	HighlightZone HZ;

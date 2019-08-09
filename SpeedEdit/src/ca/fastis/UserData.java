@@ -31,7 +31,7 @@ public class UserData {
 			SelectedZone = getSelectedZone(positions.get(1), positions.get(2));
 			Highlight = setPattern("skeleton", SelectedZone);
 		}
-		if(showMessage) MessageManagement.command(player, "Position " + position + " set" + ((isBothPosSet() && isBothPosSameWorld()) ? " §a" + SelectedZone.size() + " Blocks" : ""), null);
+		if(showMessage) MessageManagement.command(player, "Position §e" + position + "§7 set" + ((isBothPosSet() && isBothPosSameWorld()) ? " - §e" + SelectedZone.size() + "§7 blocks" : ""), null);
 	}
 
 	public Location getPosition(int position) {

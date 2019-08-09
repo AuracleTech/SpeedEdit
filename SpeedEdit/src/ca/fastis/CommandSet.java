@@ -24,7 +24,7 @@ public class CommandSet implements CommandExecutor, TabCompleter {
 				UserData userData = SpeedEdit.getUser(player);
 				Instant before = Instant.now();
 				Functions.manipulateBlocks(player, userData.SelectedZone, Material.matchMaterial(args[0]), EM);
-				MessageManagement.command(player, "You set " + userData.SelectedZone.size() + " blocks to " + args[0].toLowerCase() + " in " + Duration.between(before, Instant.now()).toMillis() + "ms", player.getName() + " set " + userData.SelectedZone.size() + " blocks to " + args[0].toLowerCase() + " in " + Duration.between(before, Instant.now()).toMillis() + "ms");
+				MessageManagement.command(player, "You set §e" + userData.SelectedZone.size() + "§7 blocks to §e" + args[0].toLowerCase() + "§7 in " + Duration.between(before, Instant.now()).toMillis() + "ms", player.getName() + " set §e" + userData.SelectedZone.size() + "§7 blocks to §e" + args[0].toLowerCase() + "§7 in " + Duration.between(before, Instant.now()).toMillis() + "ms");
 			} catch(Exception e) {
 				EM.throwException(e);
 			}

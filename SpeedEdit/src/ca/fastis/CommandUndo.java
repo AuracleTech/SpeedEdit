@@ -21,7 +21,7 @@ public class CommandUndo implements CommandExecutor, TabCompleter {
 			ErrorManagement EM = new ErrorManagement(player); if(!EM.hasPermission(player, "speededit.undo", true) || !EM.isArgsLength(args, minArg, maxArg, "/Undo Quantity") || (EM.isArgsLength(args, 1) && (!EM.isNumber(args[0]) || !EM.hasUndo(Integer.parseInt(args[0])))) || !EM.hasUndo(1)) return true;
 			Instant before = Instant.now();
 			if(EM.isArgsLength(args, 1)) Functions.undo(player, Integer.parseInt(args[0])); else Functions.undo(player, 1);
-			MessageManagement.command(player, "You undo " + args[0] + " times in " + Duration.between(before, Instant.now()).toMillis() + "ms", player.getName() + " undo " + args[0] + " times in " + Duration.between(before, Instant.now()).toMillis() + "ms");
+			MessageManagement.command(player, "You undo §e" + (EM.isArgsLength(args, 0) ? 1 : args[0]) + " x§7 in " + Duration.between(before, Instant.now()).toMillis() + "ms", player.getName() + " undo §e" + (EM.isArgsLength(args, 0) ? 1 : args[0]) + " x§7 in " + Duration.between(before, Instant.now()).toMillis() + "ms");
 		}
 		return true;
 	}

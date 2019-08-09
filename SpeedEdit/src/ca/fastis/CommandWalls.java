@@ -26,7 +26,7 @@ public class CommandWalls implements CommandExecutor, TabCompleter {
 				Instant before = Instant.now();
 				List<Block> blocks = userData.setPattern("walls", userData.SelectedZone);
 				Functions.manipulateBlocks(player, blocks, Material.matchMaterial(args[0]), EM);
-				MessageManagement.command(player, "You used walls for " + blocks.size() + " blocks to " + args[0].toLowerCase() + " in " + Duration.between(before, Instant.now()).toMillis() + "ms", player.getName() + " used walls for " + blocks.size() + " blocks to " + args[0].toLowerCase() + " in " + Duration.between(before, Instant.now()).toMillis() + "ms");
+				MessageManagement.command(player, "You made a §e" + args[0].toLowerCase() + "§7 wall of §e" + blocks.size() + "§7 blocks in " + Duration.between(before, Instant.now()).toMillis() + "ms", player.getName() +  " made a §e" + args[0].toLowerCase() + "§7 wall of §e" + blocks.size() + "§7 blocks in " + Duration.between(before, Instant.now()).toMillis() + "ms");
 			} catch(Exception e) {
 				EM.throwException(e);
 			}

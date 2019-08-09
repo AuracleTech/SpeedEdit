@@ -1,5 +1,7 @@
 package ca.fastis;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,7 +18,7 @@ import net.coreprotect.CoreProtectAPI;
 public class Functions {
 	static CoreProtectAPI CPapi = SpeedEdit.CPapi;
 
-	public static void manipulateBlocks(Player player, Material fromMat, Material toMat, ErrorManagement EM) {
+	public static int manipulateBlocks(Player player, Material fromMat, Material toMat, ErrorManagement EM) {
 		UserData userData = SpeedEdit.getUser(player);
 		List<Block> newList = new ArrayList<Block>();
 		if(toMat == null) {
@@ -26,6 +28,7 @@ public class Functions {
 			for(Block block : userData.SelectedZone) if(block.getType() == fromMat) newList.add(block);
 		}
 		manipulateBlocks(player, newList, toMat, EM);
+		return newList.size();
 	}
 
 	public static void manipulateBlocks(Player player, List<Block> blocks, Material material, ErrorManagement EM) {
