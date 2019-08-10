@@ -53,13 +53,17 @@ public class Functions {
 			memory.put(block, block.getBlockData());
 			block.setType(Material.AIR);
 		}
-		if(CPapi != null) for(Block block : userData.SelectedZone) CPapi.logPlacement("#SE" + player.getName(), block.getLocation(), block.getType(), block.getBlockData());
 		HashMap<Block, BlockData> memClone = new HashMap<Block, BlockData>(memory);
+		if(CPapi != null) {
+			for(Block block : userData.SelectedZone) CPapi.logPlacement("#SE" + player.getName(), block.getLocation(), block.getType(), block.getBlockData());
+			for(Entry<Block, BlockData> blocData : memClone.entrySet()) CPapi.logRemoval("#SE" + player.getName(), blocData.getKey().getLocation(), blocData.getKey().getType(), blocData.getKey().getBlockData());
+		}
 		for(Entry<Block, BlockData> entry : memClone.entrySet()) {
 			Block block = entry.getKey().getLocation().add(direction).getBlock();
 			if(!memory.containsKey(block)) memory.put(block, block.getBlockData());
 			block.setBlockData(entry.getValue());
 		}
+		for(Entry<Block, BlockData> blocData : memClone.entrySet()) CPapi.logPlacement("#SE" + player.getName(), blocData.getKey().getLocation(), blocData.getKey().getType(), blocData.getKey().getBlockData());
 		if(userData.clearRedo) {
 			userData.redo = new ArrayList<HashMap<Block, BlockData>>();
 			userData.clearRedo = false;
@@ -72,10 +76,12 @@ public class Functions {
 		for(int i = 1; i <= undoQtt; i++) {
 			HashMap<Block, BlockData> memory = new HashMap<Block, BlockData>();
 			HashMap<Block, BlockData> locAndBlockDatas = userData.undo.get(userData.undo.size() - 1);
+			if(CPapi != null) for(Entry<Block, BlockData> blocData : locAndBlockDatas.entrySet()) CPapi.logRemoval("#SE" + player.getName(), blocData.getKey().getLocation(), blocData.getKey().getType(), blocData.getKey().getBlockData());
 			for(Entry<Block, BlockData> locAndBlockData : locAndBlockDatas.entrySet()) {
 				memory.put(locAndBlockData.getKey(), locAndBlockData.getKey().getBlockData());
 				locAndBlockData.getKey().setBlockData(locAndBlockData.getValue());
 			}
+			if(CPapi != null) for(Entry<Block, BlockData> blocData : locAndBlockDatas.entrySet()) CPapi.logPlacement("#SE" + player.getName(), blocData.getKey().getLocation(), blocData.getKey().getType(), blocData.getKey().getBlockData());
 			userData.addRedo(memory);
 			userData.undo.remove(userData.undo.size() - 1);
 		}
@@ -87,10 +93,12 @@ public class Functions {
 		for(int i = 1; i <= redoQtt; i++) {
 			HashMap<Block, BlockData> memory = new HashMap<Block, BlockData>();
 			HashMap<Block, BlockData> locAndBlockDatas = userData.redo.get(userData.redo.size() - 1);
+			if(CPapi != null) for(Entry<Block, BlockData> blocData : locAndBlockDatas.entrySet()) CPapi.logRemoval("#SE" + player.getName(), blocData.getKey().getLocation(), blocData.getKey().getType(), blocData.getKey().getBlockData());
 			for(Entry<Block, BlockData> locAndBlockData : locAndBlockDatas.entrySet()) {
 				memory.put(locAndBlockData.getKey(), locAndBlockData.getKey().getBlockData());
 				locAndBlockData.getKey().setBlockData(locAndBlockData.getValue());
 			}
+			if(CPapi != null) for(Entry<Block, BlockData> blocData : locAndBlockDatas.entrySet()) CPapi.logPlacement("#SE" + player.getName(), blocData.getKey().getLocation(), blocData.getKey().getType(), blocData.getKey().getBlockData());
 			userData.addUndo(memory);
 			userData.redo.remove(userData.redo.size() - 1);
 		}
