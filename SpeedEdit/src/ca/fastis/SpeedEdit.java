@@ -17,14 +17,14 @@ import net.coreprotect.CoreProtectAPI;
 public class SpeedEdit extends JavaPlugin {
 	static Server server;
 	static ConsoleCommandSender console;
-	
+
 	static Material Tool = Material.STICK;
 	static int ToolID = 537469636;
 	static String ToolName = ChatColor.YELLOW + "Speed Edit Hammer";
-	
+
 	static Map<Player, UserData> SEuserData = new HashMap<Player, UserData>();
 	HighlightZone HZ;
-	
+
 	static CoreProtectAPI CPapi = null;
 
 	public void onEnable() {
@@ -64,11 +64,11 @@ public class SpeedEdit extends JavaPlugin {
 		if(!SEuserData.containsKey(player)) SEuserData.put(player, new UserData(player));
 		return SEuserData.get(player);
 	}
-	
+
 	public static void deleteUser(Player player) {
 		if(!SEuserData.containsKey(player)) SEuserData.remove(player);
 	}
-	
+
 	private CoreProtectAPI getCoreProtect() {
 		Plugin plugin = getServer().getPluginManager().getPlugin("CoreProtect");
 		if (plugin == null || !(plugin instanceof CoreProtect)) return null;

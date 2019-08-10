@@ -25,7 +25,7 @@ public class CommandReplace implements CommandExecutor, TabCompleter {
 				Instant before = Instant.now();
 				if(EM.isArgsLength(args, 1)) {
 					changed = Functions.manipulateBlocks(player, Material.matchMaterial(args[0]), null, EM);
-					MessageManagement.command(player, "You replaced §e" + changed + "§7 blocks to §e" + args[0].toLowerCase() + "§7 in " + Duration.between(before, Instant.now()).toMillis() + "ms", player.getName() + " replaced §e" + SpeedEdit.getUser(player).SelectedZone.size() + "§7 blocks to §e" + (EM.isArgsLength(args, 1) ? args[0].toLowerCase() : args[1].toLowerCase()) + "§7 in " + Duration.between(before, Instant.now()).toMillis() + "ms");
+					MessageManagement.command(player, "You replaced §e" + changed + "§7 blocks to §e" + args[0].toLowerCase() + "§7 in " + Duration.between(before, Instant.now()).toMillis() + "ms", player.getName() + " replaced §e" + changed + "§7 blocks to §e" + (EM.isArgsLength(args, 1) ? args[0].toLowerCase() : args[1].toLowerCase()) + "§7 in " + Duration.between(before, Instant.now()).toMillis() + "ms");
 				}
 				if(EM.isArgsLength(args, 2)) {
 					changed = Functions.manipulateBlocks(player, Material.matchMaterial(args[0]), Material.matchMaterial(args[1]), EM);
