@@ -1,7 +1,5 @@
 package ca.fastis;
 
-import java.time.Duration;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -34,12 +32,12 @@ public class Functions {
 	public static void manipulateBlocks(Player player, List<Block> blocks, Material material, ErrorManagement EM) {
 		UserData userData = SpeedEdit.getUser(player);
 		HashMap<Block, BlockData> memory = new HashMap<Block, BlockData>();
-		if(CPapi != null) for(Block block : blocks) CPapi.logRemoval("#SE-" + player.getName(), block.getLocation(), block.getType(), block.getBlockData());
+		if(CPapi != null) for(Block block : blocks) CPapi.logRemoval("#SE" + player.getName(), block.getLocation(), block.getType(), block.getBlockData());
 		for(Block block : blocks) {
 			memory.put(block, block.getBlockData());
 			block.setType(material);
 		}
-		if(CPapi != null) for(Block block : blocks) CPapi.logPlacement("#SE-" + player.getName(), block.getLocation(), block.getType(), block.getBlockData());
+		if(CPapi != null) for(Block block : blocks) CPapi.logPlacement("#SE" + player.getName(), block.getLocation(), block.getType(), block.getBlockData());
 		if(userData.clearRedo) {
 			userData.redo = new ArrayList<HashMap<Block, BlockData>>();
 			userData.clearRedo = false;
@@ -50,18 +48,18 @@ public class Functions {
 	public static void moveBlocks(Player player, Vector direction, String directionTexte, int Distance) {
 		UserData userData = SpeedEdit.getUser(player);
 		HashMap<Block, BlockData> memory = new HashMap<Block, BlockData>();
-		if(CPapi != null) for(Block block : userData.SelectedZone) CPapi.logRemoval("#SE-" + player.getName(), block.getLocation(), block.getType(), block.getBlockData());
+		if(CPapi != null) for(Block block : userData.SelectedZone) CPapi.logRemoval("#SE" + player.getName(), block.getLocation(), block.getType(), block.getBlockData());
 		for(Block block : userData.SelectedZone) {
 			memory.put(block, block.getBlockData());
 			block.setType(Material.AIR);
 		}
-		if(CPapi != null) for(Block block : userData.SelectedZone) CPapi.logPlacement("#SE-" + player.getName(), block.getLocation(), block.getType(), block.getBlockData());
+		if(CPapi != null) for(Block block : userData.SelectedZone) CPapi.logPlacement("#SE" + player.getName(), block.getLocation(), block.getType(), block.getBlockData());
 		HashMap<Block, BlockData> memClone = new HashMap<Block, BlockData>(memory);
 		for(Entry<Block, BlockData> entry : memClone.entrySet()) {
 			Block block = entry.getKey().getLocation().add(direction).getBlock();
 			if(!memory.containsKey(block)) memory.put(block, block.getBlockData());
 			block.setBlockData(entry.getValue());
-		}		
+		}
 		if(userData.clearRedo) {
 			userData.redo = new ArrayList<HashMap<Block, BlockData>>();
 			userData.clearRedo = false;
@@ -70,44 +68,31 @@ public class Functions {
 	}
 
 	public static void undo(Player player, int undoQtt) {
+		UserData userData = SpeedEdit.getUser(player);
 		for(int i = 1; i <= undoQtt; i++) {
 			HashMap<Block, BlockData> memory = new HashMap<Block, BlockData>();
-			HashMap<Block, BlockData> lastUndoList = SpeedEdit.getUser(player).undo.get(SpeedEdit.getUser(player).undo.size() - 1);
-			if(CPapi != null) for(Entry<Block, BlockData> blockAndData : lastUndoList.entrySet()) CPapi.logRemoval("#SE-" + player.getName(), blockAndData.getKey().getLocation(), blockAndData.getKey().getType(), blockAndData.getValue());
-			for(Entry<Block, BlockData> blockAndData : lastUndoList.entrySet()) {
-				Block block = blockAndData.getKey();
-				BlockData blockData = blockAndData.getValue();
-				memory.put(block, blockData);
-				block.setBlockData(blockData);
+			HashMap<Block, BlockData> locAndBlockDatas = userData.undo.get(userData.undo.size() - 1);
+			for(Entry<Block, BlockData> locAndBlockData : locAndBlockDatas.entrySet()) {
+				memory.put(locAndBlockData.getKey(), locAndBlockData.getKey().getBlockData());
+				locAndBlockData.getKey().setBlockData(locAndBlockData.getValue());
 			}
-			if(CPapi != null) for(Entry<Block, BlockData> blockAndData : lastUndoList.entrySet()) CPapi.logPlacement("#SE-" + player.getName(), blockAndData.getKey().getLocation(), blockAndData.getKey().getType(), blockAndData.getValue());
-			SpeedEdit.getUser(player).addRedo(memory);
-			SpeedEdit.getUser(player).undo.remove(SpeedEdit.getUser(player).undo.size() - 1);
+			userData.addRedo(memory);
+			userData.undo.remove(userData.undo.size() - 1);
 		}
-		SpeedEdit.getUser(player).clearRedo = true;
+		userData.clearRedo = true;
 	}
 
 	public static void redo(Player player, int redoQtt) {
+		UserData userData = SpeedEdit.getUser(player);
 		for(int i = 1; i <= redoQtt; i++) {
 			HashMap<Block, BlockData> memory = new HashMap<Block, BlockData>();
-			HashMap<Block, BlockData> lastRedoList = SpeedEdit.getUser(player).redo.get(SpeedEdit.getUser(player).redo.size() - 1);
-			if(CPapi != null) for(Entry<Block, BlockData> blockAndData : lastRedoList.entrySet()) CPapi.logRemoval("#SE-" + player.getName(), blockAndData.getKey().getLocation(), blockAndData.getKey().getType(), blockAndData.getValue());
-			for(Entry<Block, BlockData> blockAndData : lastRedoList.entrySet()) {
-				Block block = blockAndData.getKey();
-				BlockData blockData = blockAndData.getValue();
-				memory.put(block, blockData);
-				block.setBlockData(blockData);
+			HashMap<Block, BlockData> locAndBlockDatas = userData.redo.get(userData.redo.size() - 1);
+			for(Entry<Block, BlockData> locAndBlockData : locAndBlockDatas.entrySet()) {
+				memory.put(locAndBlockData.getKey(), locAndBlockData.getKey().getBlockData());
+				locAndBlockData.getKey().setBlockData(locAndBlockData.getValue());
 			}
-			if(CPapi != null) for(Entry<Block, BlockData> blockAndData : lastRedoList.entrySet()) CPapi.logPlacement("#SE-" + player.getName(), blockAndData.getKey().getLocation(), blockAndData.getKey().getType(), blockAndData.getValue());
-			SpeedEdit.getUser(player).addUndo(memory);
-			SpeedEdit.getUser(player).redo.remove(SpeedEdit.getUser(player).redo.size() - 1);
-		}
-	}
-
-	public static void spy(Player player, String cmdName) {
-		for (Player online : SpeedEdit.server.getOnlinePlayers()) {
-			ErrorManagement EM = new ErrorManagement(player);
-			if (online.getUniqueId() == player.getUniqueId() || online.isOp() || EM.hasPermission(online, "speededit.spy", false)) online.sendMessage(cmdName);
+			userData.addUndo(memory);
+			userData.redo.remove(userData.redo.size() - 1);
 		}
 	}
 
