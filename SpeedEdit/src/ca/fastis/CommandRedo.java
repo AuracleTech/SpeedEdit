@@ -22,7 +22,7 @@ public class CommandRedo implements CommandExecutor, TabCompleter {
 			if(!EM.hasPermission(player, "speededit.redo", true) || !EM.isArgsLength(args, minArg, maxArg, "/Redo Quantity") || (EM.isArgsLength(args, 1) && (!EM.isNumber(args[0]) || !EM.hasRedo(Integer.parseInt(args[0])))) || !EM.hasRedo(1)) return true;
 			Instant before = Instant.now();
 			if(EM.isArgsLength(args, 1)) Functions.redo(player, Integer.parseInt(args[0])); else Functions.redo(player, 1);
-			MessageManagement.command(player, "You redo §e" + (EM.isArgsLength(args, 0) ? 1 : args[0]) + " x§7 in " + Duration.between(before, Instant.now()).toMillis() + "ms", player.getName() + " redo §e" + (EM.isArgsLength(args, 0) ? 1 : args[0]) + " x§7 in " + Duration.between(before, Instant.now()).toMillis() + "ms");
+			MessageManagement.command(player, "You redo §e" + (EM.isArgsLength(args, 0) ? 1 : args[0]) + "x§7 in " + Duration.between(before, Instant.now()).toMillis() + "ms", player.getName() + " redo §e" + (EM.isArgsLength(args, 0) ? 1 : args[0]) + "x§7 in " + Duration.between(before, Instant.now()).toMillis() + "ms");
 		}
 		return true;
 	}

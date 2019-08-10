@@ -8,6 +8,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.EquipmentSlot;
 
@@ -31,6 +32,11 @@ public class ManageEvents implements Listener{
 				event.setCancelled(true);
 			}
 		}
+	}
+	
+	@EventHandler(priority = EventPriority.HIGHEST)
+	public void onPlayerJoinEvent​(PlayerJoinEvent event){
+		SpeedEdit.deleteUser(event.getPlayer());
 	}
 	
 	@EventHandler(priority = EventPriority.HIGHEST)

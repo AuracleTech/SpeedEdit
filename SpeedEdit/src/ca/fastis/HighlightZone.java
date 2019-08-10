@@ -2,10 +2,10 @@ package ca.fastis;
 
 import java.util.Map.Entry;
 import org.bukkit.Color;
+import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.Particle.DustOptions;
 import org.bukkit.Server;
-import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
@@ -20,8 +20,8 @@ public class HighlightZone {
 					if(entry.getValue().Highlight == null) continue;
 					Player player = entry.getKey();
 					DustOptions dustOptions = new DustOptions(Color.fromRGB(0, 255, 0), 1);
-					for(Block block : entry.getValue().Highlight) {
-						player.spawnParticle(Particle.REDSTONE, block.getLocation().getX()+0.5, block.getLocation().getY()+0.5, block.getLocation().getZ()+0.5, 1, 0, 0, 0, 0, dustOptions);
+					for(Location location : entry.getValue().Highlight) {
+						player.spawnParticle(Particle.REDSTONE, location.getX()+0.5, location.getY()+0.5, location.getZ()+0.5, 1, 0, 0, 0, 0, dustOptions);
 					}
 				}
 			}

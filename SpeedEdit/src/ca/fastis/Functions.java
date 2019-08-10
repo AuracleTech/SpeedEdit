@@ -5,7 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 
+import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Player;
@@ -18,28 +20,28 @@ public class Functions {
 
 	public static int manipulateBlocks(Player player, Material fromMat, Material toMat, ErrorManagement EM) {
 		UserData userData = SpeedEdit.getUser(player);
-		List<Block> newList = new ArrayList<Block>();
+		List<Location> newList = new ArrayList<Location>();
 		if(toMat == null) {
-			for(Block block : userData.SelectedZone) if(block.getType() != Material.AIR) newList.add(block);
+			for(Location location : userData.SelectedZone) if(location.getBlock().getType() != Material.AIR) newList.add(location);
 			toMat = fromMat;
 		} else {
-			for(Block block : userData.SelectedZone) if(block.getType() == fromMat) newList.add(block);
+			for(Location location : userData.SelectedZone) if(location.getBlock().getType() == fromMat) newList.add(location);
 		}
 		manipulateBlocks(player, newList, toMat, EM);
 		return newList.size();
 	}
 
-	public static void manipulateBlocks(Player player, List<Block> blocks, Material material, ErrorManagement EM) {
+	public static void manipulateBlocks(Player player, List<Location> locations, Material material, ErrorManagement EM) {
 		UserData userData = SpeedEdit.getUser(player);
-		HashMap<Block, BlockData> memory = new HashMap<Block, BlockData>();
-		if(CPapi != null) for(Block block : blocks) CPapi.logRemoval("#SE" + player.getName(), block.getLocation(), block.getType(), block.getBlockData());
-		for(Block block : blocks) {
-			memory.put(block, block.getBlockData());
-			block.setType(material);
+		HashMap<Location, BlockData> memory = new HashMap<Location, BlockData>();
+		if(CPapi != null) for(Location location : locations) CPapi.logRemoval("#SE" + player.getName(), location, location.getBlock().getType(), location.getBlock().getBlockData());
+		for(Location location : locations) {
+			memory.put(location, location.getBlock().getBlockData());
+			location.getBlock().setType(material);
 		}
-		if(CPapi != null) for(Block block : blocks) CPapi.logPlacement("#SE" + player.getName(), block.getLocation(), block.getType(), block.getBlockData());
+		if(CPapi != null) for(Location location : locations) CPapi.logPlacement("#SE" + player.getName(), location, location.getBlock().getType(), location.getBlock().getBlockData());
 		if(userData.clearRedo) {
-			userData.redo = new ArrayList<HashMap<Block, BlockData>>();
+			userData.redo = new ArrayList<HashMap<Location, BlockData>>();
 			userData.clearRedo = false;
 		}
 		userData.addUndo(memory);
@@ -47,25 +49,25 @@ public class Functions {
 
 	public static void moveBlocks(Player player, Vector direction, String directionTexte, int Distance) {
 		UserData userData = SpeedEdit.getUser(player);
-		HashMap<Block, BlockData> memory = new HashMap<Block, BlockData>();
-		if(CPapi != null) for(Block block : userData.SelectedZone) CPapi.logRemoval("#SE" + player.getName(), block.getLocation(), block.getType(), block.getBlockData());
-		for(Block block : userData.SelectedZone) {
-			memory.put(block, block.getBlockData());
-			block.setType(Material.AIR);
+		HashMap<Location, BlockData> memory = new HashMap<Location, BlockData>();
+		if(CPapi != null) for(Location location : userData.SelectedZone) CPapi.logRemoval("#SE" + player.getName(), location, location.getBlock().getType(), location.getBlock().getBlockData());
+		for(Location location : userData.SelectedZone) {
+			memory.put(location, location.getBlock().getBlockData());
+			location.getBlock().setType(Material.AIR);
 		}
-		HashMap<Block, BlockData> memClone = new HashMap<Block, BlockData>(memory);
+		HashMap<Location, BlockData> memClone = new HashMap<Location, BlockData>(memory);
 		if(CPapi != null) {
-			for(Block block : userData.SelectedZone) CPapi.logPlacement("#SE" + player.getName(), block.getLocation(), block.getType(), block.getBlockData());
-			for(Entry<Block, BlockData> blocData : memClone.entrySet()) CPapi.logRemoval("#SE" + player.getName(), blocData.getKey().getLocation(), blocData.getKey().getType(), blocData.getKey().getBlockData());
+			for(Location location : userData.SelectedZone) CPapi.logPlacement("#SE" + player.getName(), location, location.getBlock().getType(), location.getBlock().getBlockData());
+			for(Entry<Location, BlockData> blocData : memClone.entrySet()) CPapi.logRemoval("#SE" + player.getName(), blocData.getKey(), blocData.getKey().getBlock().getType(), blocData.getValue());
 		}
-		for(Entry<Block, BlockData> entry : memClone.entrySet()) {
-			Block block = entry.getKey().getLocation().add(direction).getBlock();
-			if(!memory.containsKey(block)) memory.put(block, block.getBlockData());
-			block.setBlockData(entry.getValue());
+		for(Entry<Location, BlockData> locBlockData : memClone.entrySet()) {
+			Block block = locBlockData.getKey().add(direction).getBlock();
+			if(!memory.containsKey(block.getLocation())) memory.put(locBlockData.getKey(), block.getBlockData());
+			block.setBlockData(locBlockData.getValue());
 		}
-		for(Entry<Block, BlockData> blocData : memClone.entrySet()) CPapi.logPlacement("#SE" + player.getName(), blocData.getKey().getLocation(), blocData.getKey().getType(), blocData.getKey().getBlockData());
+		for(Entry<Location, BlockData> entry : memClone.entrySet()) CPapi.logPlacement("#SE" + player.getName(), entry.getKey(), entry.getKey().getBlock().getType(), entry.getKey().getBlock().getBlockData());
 		if(userData.clearRedo) {
-			userData.redo = new ArrayList<HashMap<Block, BlockData>>();
+			userData.redo = new ArrayList<HashMap<Location, BlockData>>();
 			userData.clearRedo = false;
 		}
 		userData.addUndo(memory);
@@ -74,14 +76,14 @@ public class Functions {
 	public static void undo(Player player, int undoQtt) {
 		UserData userData = SpeedEdit.getUser(player);
 		for(int i = 1; i <= undoQtt; i++) {
-			HashMap<Block, BlockData> memory = new HashMap<Block, BlockData>();
-			HashMap<Block, BlockData> locAndBlockDatas = userData.undo.get(userData.undo.size() - 1);
-			if(CPapi != null) for(Entry<Block, BlockData> blocData : locAndBlockDatas.entrySet()) CPapi.logRemoval("#SE" + player.getName(), blocData.getKey().getLocation(), blocData.getKey().getType(), blocData.getKey().getBlockData());
-			for(Entry<Block, BlockData> locAndBlockData : locAndBlockDatas.entrySet()) {
-				memory.put(locAndBlockData.getKey(), locAndBlockData.getKey().getBlockData());
-				locAndBlockData.getKey().setBlockData(locAndBlockData.getValue());
+			HashMap<Location, BlockData> memory = new HashMap<Location, BlockData>();
+			HashMap<Location, BlockData> locAndBlockDatas = userData.undo.get(userData.undo.size() - 1);
+			if(CPapi != null) for(Entry<Location, BlockData> locBlockData : locAndBlockDatas.entrySet()) CPapi.logRemoval("#SE" + player.getName(), locBlockData.getKey(), locBlockData.getKey().getBlock().getType(), locBlockData.getKey().getBlock().getBlockData());
+			for(Entry<Location, BlockData> locBlockData : locAndBlockDatas.entrySet()) {
+				memory.put(locBlockData.getKey(), locBlockData.getKey().getBlock().getBlockData());
+				locBlockData.getKey().getBlock().setBlockData(locBlockData.getValue());
 			}
-			if(CPapi != null) for(Entry<Block, BlockData> blocData : locAndBlockDatas.entrySet()) CPapi.logPlacement("#SE" + player.getName(), blocData.getKey().getLocation(), blocData.getKey().getType(), blocData.getKey().getBlockData());
+			if(CPapi != null) for(Entry<Location, BlockData> blocData : locAndBlockDatas.entrySet()) CPapi.logPlacement("#SE" + player.getName(), blocData.getKey(), blocData.getKey().getBlock().getType(), blocData.getKey().getBlock().getBlockData());
 			userData.addRedo(memory);
 			userData.undo.remove(userData.undo.size() - 1);
 		}
@@ -91,17 +93,55 @@ public class Functions {
 	public static void redo(Player player, int redoQtt) {
 		UserData userData = SpeedEdit.getUser(player);
 		for(int i = 1; i <= redoQtt; i++) {
-			HashMap<Block, BlockData> memory = new HashMap<Block, BlockData>();
-			HashMap<Block, BlockData> locAndBlockDatas = userData.redo.get(userData.redo.size() - 1);
-			if(CPapi != null) for(Entry<Block, BlockData> blocData : locAndBlockDatas.entrySet()) CPapi.logRemoval("#SE" + player.getName(), blocData.getKey().getLocation(), blocData.getKey().getType(), blocData.getKey().getBlockData());
-			for(Entry<Block, BlockData> locAndBlockData : locAndBlockDatas.entrySet()) {
-				memory.put(locAndBlockData.getKey(), locAndBlockData.getKey().getBlockData());
-				locAndBlockData.getKey().setBlockData(locAndBlockData.getValue());
+			HashMap<Location, BlockData> memory = new HashMap<Location, BlockData>();
+			HashMap<Location, BlockData> locAndBlockDatas = userData.redo.get(userData.redo.size() - 1);
+			if(CPapi != null) for(Entry<Location, BlockData> locBlockData : locAndBlockDatas.entrySet()) CPapi.logRemoval("#SE" + player.getName(), locBlockData.getKey(), locBlockData.getKey().getBlock().getType(), locBlockData.getKey().getBlock().getBlockData());
+			for(Entry<Location, BlockData> locBlockData : locAndBlockDatas.entrySet()) {
+				memory.put(locBlockData.getKey(), locBlockData.getKey().getBlock().getBlockData());
+				locBlockData.getKey().getBlock().setBlockData(locBlockData.getValue());
 			}
-			if(CPapi != null) for(Entry<Block, BlockData> blocData : locAndBlockDatas.entrySet()) CPapi.logPlacement("#SE" + player.getName(), blocData.getKey().getLocation(), blocData.getKey().getType(), blocData.getKey().getBlockData());
+			if(CPapi != null) for(Entry<Location, BlockData> locBlockData : locAndBlockDatas.entrySet()) CPapi.logPlacement("#SE" + player.getName(), locBlockData.getKey(), locBlockData.getKey().getBlock().getType(), locBlockData.getKey().getBlock().getBlockData());
 			userData.addUndo(memory);
 			userData.redo.remove(userData.redo.size() - 1);
 		}
+	}
+
+	static List<Block> getBlocksInZone(List<Location> locations) {
+		List<Block> blocks = new ArrayList<Block>();
+		for(Location location : locations) blocks.add(location.getBlock());
+		return blocks;
+	}
+
+	static List<Location> getLocationsInZone(String pattern, Location pos1, Location pos2) {
+		World world = pos1.getWorld();
+		List<Location> locations = new ArrayList<Location>();
+		int topBlockX = (pos1.getBlockX() < pos2.getBlockX() ? pos2.getBlockX() : pos1.getBlockX());
+		int bottomBlockX = (pos1.getBlockX() > pos2.getBlockX() ? pos2.getBlockX() : pos1.getBlockX());
+		int topBlockY = (pos1.getBlockY() < pos2.getBlockY() ? pos2.getBlockY() : pos1.getBlockY());
+		int bottomBlockY = (pos1.getBlockY() > pos2.getBlockY() ? pos2.getBlockY() : pos1.getBlockY());
+		int topBlockZ = (pos1.getBlockZ() < pos2.getBlockZ() ? pos2.getBlockZ() : pos1.getBlockZ());
+		int bottomBlockZ = (pos1.getBlockZ() > pos2.getBlockZ() ? pos2.getBlockZ() : pos1.getBlockZ());
+		if(pattern.equals("walls")) {
+			for(int x = bottomBlockX; x <= topBlockX; x++)
+				for(int z = bottomBlockZ; z <= topBlockZ; z++)
+					for(int y = bottomBlockY; y <= topBlockY; y++)
+						if(x == pos1.getX() || z == pos1.getZ() || x == pos2.getX() || z == pos2.getZ()) locations.add(new Location(world, x, y, z));
+		} else if(pattern.equals("outline")) {
+			for(int x = bottomBlockX; x <= topBlockX; x++)
+				for(int z = bottomBlockZ; z <= topBlockZ; z++)
+					for(int y = bottomBlockY; y <= topBlockY; y++)
+						if(x == pos1.getX() || z == pos1.getZ() || y == pos1.getY() || x == pos2.getX() || z == pos2.getZ() || y == pos2.getY() ) locations.add(new Location(world, x, y, z));
+		} else if(pattern.equals("skeleton")) {
+			for(int x = bottomBlockX; x <= topBlockX; x++)
+				for(int z = bottomBlockZ; z <= topBlockZ; z++)
+					for(int y = bottomBlockY; y <= topBlockY; y++)
+						if((x == pos1.getX() && y == pos1.getY()) || (y == pos1.getY() && z == pos1.getZ()) || (x == pos1.getX() && z == pos1.getZ()) || (x == pos2.getX() && y == pos2.getY()) || (y == pos2.getY() && z == pos2.getZ()) || (x == pos2.getX() && z == pos2.getZ()) || (x == pos2.getX() && y == pos1.getY()) || (y == pos2.getY() && z == pos1.getZ()) || (x == pos2.getX() && z == pos1.getZ()) || (x == pos1.getX() && y == pos2.getY()) || (y == pos1.getY() && z == pos2.getZ()) || (x == pos1.getX() && z == pos2.getZ())) locations.add(new Location(world, x, y, z));
+		} else
+			for(int x = bottomBlockX; x <= topBlockX; x++)
+				for(int z = bottomBlockZ; z <= topBlockZ; z++)
+					for(int y = bottomBlockY; y <= topBlockY; y++)
+						locations.add(new Location(world, x, y, z));
+		return locations;
 	}
 
 	public static String getCardinalDirection(Player player) {

@@ -3,8 +3,9 @@ package ca.fastis;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
+
+import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.block.Block;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -24,10 +25,10 @@ public class CommandOutline implements CommandExecutor, TabCompleter {
 			try {
 				UserData userData = SpeedEdit.getUser(player);
 				Instant before = Instant.now();
-				List<Block> blocks = userData.setPattern("outline", userData.SelectedZone);
-				Functions.manipulateBlocks(player, blocks, Material.matchMaterial(args[0]), EM);
-				MessageManagement.command(player, "You used outline for §e" + blocks.size() + "§7 blocks to §e" + args[0].toLowerCase() + "§7 in " + Duration.between(before, Instant.now()).toMillis() + "ms", player.getName() + " used outline for §e" + blocks.size() + "§7 blocks to §e" + args[0].toLowerCase() + "§7 in " + Duration.between(before, Instant.now()).toMillis() + "ms");
-				MessageManagement.command(player, "You made a §e" + args[0].toLowerCase() + "§7 outline of §e" + blocks.size() + "§7 blocks in " + Duration.between(before, Instant.now()).toMillis() + "ms", player.getName() +  " made a §e" + args[0].toLowerCase() + "§7 outline of §e" + blocks.size() + "§7 blocks in " + Duration.between(before, Instant.now()).toMillis() + "ms");
+				List<Location> locations = Functions.getLocationsInZone("outline", userData.getPosition(1), userData.getPosition(2));
+				Functions.manipulateBlocks(player, locations, Material.matchMaterial(args[0]), EM);
+				MessageManagement.command(player, "You used outline for §e" + locations.size() + "§7 blocks to §e" + args[0].toLowerCase() + "§7 in " + Duration.between(before, Instant.now()).toMillis() + "ms", player.getName() + " used outline for §e" + locations.size() + "§7 blocks to §e" + args[0].toLowerCase() + "§7 in " + Duration.between(before, Instant.now()).toMillis() + "ms");
+				MessageManagement.command(player, "You made a §e" + args[0].toLowerCase() + "§7 outline of §e" + locations.size() + "§7 blocks in " + Duration.between(before, Instant.now()).toMillis() + "ms", player.getName() +  " made a §e" + args[0].toLowerCase() + "§7 outline of §e" + locations.size() + "§7 blocks in " + Duration.between(before, Instant.now()).toMillis() + "ms");
 			} catch(Exception e) {
 				EM.throwException(e);
 			}
