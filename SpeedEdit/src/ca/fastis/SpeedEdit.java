@@ -25,10 +25,7 @@ public class SpeedEdit extends JavaPlugin {
 	static Map<Player, UserData> SEuserData = new HashMap<Player, UserData>();
 	HighlightZone HZ;
 
-	static CoreProtectAPI CPapi = null;
-
 	public void onEnable() {
-		CPapi = getCoreProtect();
 		server = this.getServer();
 		HZ = new HighlightZone(server, this);
 		console = server.getConsoleSender();
