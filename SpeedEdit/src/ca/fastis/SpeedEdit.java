@@ -8,11 +8,7 @@ import org.bukkit.Material;
 import org.bukkit.Server;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import net.coreprotect.CoreProtect;
-import net.coreprotect.CoreProtectAPI;
 
 public class SpeedEdit extends JavaPlugin {
 	static Server server;
@@ -20,7 +16,7 @@ public class SpeedEdit extends JavaPlugin {
 
 	static Material Tool = Material.STICK;
 	static int ToolID = 537469636;
-	static String ToolName = ChatColor.YELLOW + "Speed Edit Hammer";
+	static String ToolName = ChatColor.GOLD + "Speed Edit Hammer";
 
 	static Map<Player, UserData> SEuserData = new HashMap<Player, UserData>();
 	HighlightZone HZ;
@@ -64,14 +60,5 @@ public class SpeedEdit extends JavaPlugin {
 
 	public static void deleteUser(Player player) {
 		if(!SEuserData.containsKey(player)) SEuserData.remove(player);
-	}
-
-	private CoreProtectAPI getCoreProtect() {
-		Plugin plugin = getServer().getPluginManager().getPlugin("CoreProtect");
-		if (plugin == null || !(plugin instanceof CoreProtect)) return null;
-		CoreProtectAPI CoreProtect = ((CoreProtect) plugin).getAPI();
-		if (CoreProtect.isEnabled() == false) return null; 
-		if (CoreProtect.APIVersion() < 6) return null;
-		return CoreProtect;
 	}
 }

@@ -7,6 +7,7 @@ import java.util.Map;
 import org.bukkit.Location;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Player;
+import org.bukkit.util.Vector;
 
 public class UserData {
 	Player player = null;
@@ -16,7 +17,8 @@ public class UserData {
 	List<Location> SelectedZone = new ArrayList<Location>();
 	List<HashMap<Location, BlockData>> undo = new ArrayList<HashMap<Location, BlockData>>();
 	List<HashMap<Location, BlockData>> redo = new ArrayList<HashMap<Location, BlockData>>();
-	List<HashMap<Location, BlockData>> clipboard = new ArrayList<HashMap<Location, BlockData>>();
+	HashMap<Vector, BlockData> clipboard = new HashMap<Vector, BlockData>();
+	Location copyLocation = null;
 
 	public UserData(Player player){
 		this.player = player;
@@ -34,6 +36,7 @@ public class UserData {
 			SelectedZone = Functions.getLocationsInZone("", positions.get(1), positions.get(2));
 			if(SelectedZone.size() <= 500000) Highlight = Functions.getLocationsInZone("skeleton", positions.get(1), positions.get(2)); else Highlight = null;
 		}
+		copyLocation = null;
 		if(showMessage) MessageManagement.command(player, "Position §e" + position + "§7 set" + ((isBothPosSet() && isBothPosSameWorld()) ? " - §e" + SelectedZone.size() + "§7 blocks" : ""), null);
 	}
 
