@@ -34,14 +34,22 @@ public class Functions {
 			memory.put(location, location.getBlock().getBlockData());
 			location.getBlock().setType(material);
 		}
-		if(userData.clearRedo) {
-			userData.redo = new ArrayList<HashMap<Location, BlockData>>();
-			userData.clearRedo = false;
-		}
+		userData.clearRedo = true;
 		userData.addUndo(memory);
 	}
 
-	public static void moveBlocks(Player player, Vector direction, String directionTexte, int Distance) {
+	public static void pasteBlocks(Player player, UserData userData) {
+		HashMap<Location, BlockData> memory = new HashMap<Location, BlockData>();
+		for(Entry<Vector, BlockData> entry : userData.clipboard.entrySet()) {
+			Block block = player.getWorld().getBlockAt(player.getLocation().add(entry.getKey()));
+			memory.put(block.getLocation(), block.getBlockData());
+			block.setBlockData(entry.getValue());
+		}
+		userData.clearRedo = true;
+		userData.addUndo(memory);
+	}
+	
+	public static void moveBlocks(Player player, Vector direction, String directionTexte, int Distance) {//TODO: REPAIR
 		UserData userData = SpeedEdit.getUser(player);
 		HashMap<Location, BlockData> memory = new HashMap<Location, BlockData>();
 		for(Location location : userData.SelectedZone) {
@@ -54,10 +62,7 @@ public class Functions {
 			if(!memory.containsKey(block.getLocation())) memory.put(locBlockData.getKey(), block.getBlockData());
 			block.setBlockData(locBlockData.getValue());
 		}
-		if(userData.clearRedo) {
-			userData.redo = new ArrayList<HashMap<Location, BlockData>>();
-			userData.clearRedo = false;
-		}
+		userData.clearRedo = true;
 		userData.addUndo(memory);
 	}
 
@@ -73,7 +78,6 @@ public class Functions {
 			userData.addRedo(memory);
 			userData.undo.remove(userData.undo.size() - 1);
 		}
-		userData.clearRedo = true;
 	}
 
 	public static void redo(Player player, int redoQtt) {

@@ -56,6 +56,10 @@ public class UserData {
 
 	public void addUndo(HashMap<Location, BlockData> memory) {
 		undo.add(memory);
+		if(clearRedo) {
+			redo = new ArrayList<HashMap<Location, BlockData>>();
+			clearRedo = false;
+		}
 	}
 
 	public void addRedo(HashMap<Location, BlockData> memory) {
