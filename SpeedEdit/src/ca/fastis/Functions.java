@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -56,11 +57,11 @@ public class Functions {
 			memory.put(location, location.getBlock().getBlockData());
 			location.getBlock().setType(Material.AIR);
 		}
-		HashMap<Location, BlockData> memClone = new HashMap<Location, BlockData>(memory);
-		for(Entry<Location, BlockData> locBlockData : memClone.entrySet()) {
-			Block block = locBlockData.getKey().add(vector).getBlock();
-			if(!memory.containsKey(block.getLocation())) memory.put(block.getLocation(), block.getBlockData());
-			block.setBlockData(locBlockData.getValue());
+		HashMap<Location, BlockData> memoryClone = new HashMap<Location, BlockData>(memory); 
+		for(Entry<Location, BlockData> entry : memoryClone.entrySet()) {
+			SpeedEdit.server.broadcastMessage("NEW LOCATION"+entry.getKey().clone().add(vector).getBlock().getLocation());
+			if(!memory.containsKey(entry.getKey().clone().add(vector).getBlock().getLocation())) memory.put(entry.getKey().clone().add(vector).getBlock().getLocation(), entry.getKey().clone().add(vector).getBlock().getBlockData());
+			entry.getKey().clone().add(vector).getBlock().setBlockData(entry.getValue());
 		}
 		userData.clearRedo = true;
 		userData.addUndo(memory);
