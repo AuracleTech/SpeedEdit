@@ -49,17 +49,17 @@ public class Functions {
 		userData.addUndo(memory);
 	}
 	
-	public static void moveBlocks(Player player, Vector direction, String directionTexte, int Distance) {//TODO: REPAIR
+	public static void moveBlocks(Player player, Vector vector, String directionTexte, int Distance) {
 		UserData userData = SpeedEdit.getUser(player);
-		HashMap<Location, BlockData> memory = new HashMap<Location, BlockData>();
+		HashMap<Location, BlockData> memory = new HashMap<Location, BlockData>(); 
 		for(Location location : userData.SelectedZone) {
 			memory.put(location, location.getBlock().getBlockData());
 			location.getBlock().setType(Material.AIR);
 		}
 		HashMap<Location, BlockData> memClone = new HashMap<Location, BlockData>(memory);
 		for(Entry<Location, BlockData> locBlockData : memClone.entrySet()) {
-			Block block = locBlockData.getKey().add(direction).getBlock();
-			if(!memory.containsKey(block.getLocation())) memory.put(locBlockData.getKey(), block.getBlockData());
+			Block block = locBlockData.getKey().add(vector).getBlock();
+			if(!memory.containsKey(block.getLocation())) memory.put(block.getLocation(), block.getBlockData());
 			block.setBlockData(locBlockData.getValue());
 		}
 		userData.clearRedo = true;

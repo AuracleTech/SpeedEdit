@@ -28,30 +28,30 @@ public class CommandMove implements CommandExecutor, TabCompleter {
 			switch(direction) {
 			case "UP":
 				Functions.moveBlocks(player, new Vector(0, distance, 0), "up", distance);
-				MessageManagement.command(player, "You moved §e" + userData.SelectedZone.size() + "§7 blocks §eup§f in " + Duration.between(before, Instant.now()).toMillis() + "ms", player.getName() + " moved §e" + userData.SelectedZone.size() + "§7 blocks §eup§f in " + Duration.between(before, Instant.now()).toMillis() + "ms");
+				MessageManagement.command(player, "You moved §e" + userData.SelectedZone.size() + "§7 blocks §eup§7 in " + Duration.between(before, Instant.now()).toMillis() + "ms", player.getName() + " moved §e" + userData.SelectedZone.size() + "§7 blocks §eup§7 in " + Duration.between(before, Instant.now()).toMillis() + "ms");
 				return true;
 			case "DOWN":
 				Functions.moveBlocks(player, new Vector(0, 0-distance, 0), "down", distance);
-				MessageManagement.command(player, "You moved §e" + userData.SelectedZone.size() + "§7 blocks §edown§f in " + Duration.between(before, Instant.now()).toMillis() + "ms", player.getName() + " moved §e" + userData.SelectedZone.size() + "§7 blocks §edown§f in " + Duration.between(before, Instant.now()).toMillis() + "ms");
+				MessageManagement.command(player, "You moved §e" + userData.SelectedZone.size() + "§7 blocks §edown§7 in " + Duration.between(before, Instant.now()).toMillis() + "ms", player.getName() + " moved §e" + userData.SelectedZone.size() + "§7 blocks §edown§7 in " + Duration.between(before, Instant.now()).toMillis() + "ms");
 				return true;
 			}
 			direction = Functions.getCardinalDirection(player);
 			switch(Functions.getCardinalDirection(player)) {
 			case "SOUTH":
 				Functions.moveBlocks(player, new Vector(0, 0, distance), "south", distance);
-				MessageManagement.command(player, "You moved §e" + userData.SelectedZone.size() + "§7 blocks §esouth§f in " + Duration.between(before, Instant.now()).toMillis() + "ms", player.getName() + " moved §e" + userData.SelectedZone.size() + "§7 blocks §esouth§f in " + Duration.between(before, Instant.now()).toMillis() + "ms");
+				MessageManagement.command(player, "You moved §e" + userData.SelectedZone.size() + "§7 blocks §esouth§7 in " + Duration.between(before, Instant.now()).toMillis() + "ms", player.getName() + " moved §e" + userData.SelectedZone.size() + "§7 blocks §esouth§7 in " + Duration.between(before, Instant.now()).toMillis() + "ms");
 				return true;
 			case "NORTH":
 				Functions.moveBlocks(player, new Vector(0, 0, 0-distance), "north", distance);
-				MessageManagement.command(player, "You moved §e" + userData.SelectedZone.size() + "§7 blocks §enorth§f in " + Duration.between(before, Instant.now()).toMillis() + "ms", player.getName() + " moved §e" + userData.SelectedZone.size() + "§7 blocks §enorth§f in " + Duration.between(before, Instant.now()).toMillis() + "ms");
+				MessageManagement.command(player, "You moved §e" + userData.SelectedZone.size() + "§7 blocks §enorth§7 in " + Duration.between(before, Instant.now()).toMillis() + "ms", player.getName() + " moved §e" + userData.SelectedZone.size() + "§7 blocks §enorth§7 in " + Duration.between(before, Instant.now()).toMillis() + "ms");
 				return true;
 			case "EAST":
 				Functions.moveBlocks(player, new Vector(distance, 0, 0), "east", distance);
-				MessageManagement.command(player, "You moved §e" + userData.SelectedZone.size() + "§7 blocks §eeast§f in " + Duration.between(before, Instant.now()).toMillis() + "ms", player.getName() + " moved §e" + userData.SelectedZone.size() + "§7 blocks §eeast§f in " + Duration.between(before, Instant.now()).toMillis() + "ms");
+				MessageManagement.command(player, "You moved §e" + userData.SelectedZone.size() + "§7 blocks §eeast§7 in " + Duration.between(before, Instant.now()).toMillis() + "ms", player.getName() + " moved §e" + userData.SelectedZone.size() + "§7 blocks §eeast§7 in " + Duration.between(before, Instant.now()).toMillis() + "ms");
 				return true;
 			case "WEST":
 				Functions.moveBlocks(player, new Vector(0-distance, 0, 0), "west", distance);
-				MessageManagement.command(player, "You moved §e" + userData.SelectedZone.size() + "§7 blocks §ewest§f in " + Duration.between(before, Instant.now()).toMillis() + "ms", player.getName() + " moved §e" + userData.SelectedZone.size() + "§7 blocks §ewest§f in " + Duration.between(before, Instant.now()).toMillis() + "ms");
+				MessageManagement.command(player, "You moved §e" + userData.SelectedZone.size() + "§7 blocks §ewest§7 in " + Duration.between(before, Instant.now()).toMillis() + "ms", player.getName() + " moved §e" + userData.SelectedZone.size() + "§7 blocks §ewest§7 in " + Duration.between(before, Instant.now()).toMillis() + "ms");
 				return true;
 			}
 		}
