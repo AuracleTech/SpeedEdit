@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.bukkit.Location;
+import org.bukkit.World;
+import org.bukkit.WorldBorder;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
@@ -28,10 +30,25 @@ public class UserData {
 		return positions.get(position);
 	}
 	
-	public void setPosition(int position, Location argLocation, boolean showMessage) {
-		if(argLocation.getY() > 255) argLocation = new Location(argLocation.getWorld(), argLocation.getX(), 255, argLocation.getZ());
-		if(argLocation.getY() < 0) argLocation = new Location(argLocation.getWorld(), argLocation.getX(), 0, argLocation.getZ());
-		positions.put(position, argLocation);
+	public void setPosition(int position, Location location, boolean showMessage) {
+		World world = location.getWorld();
+		WorldBorder border = world.getWorldBorder();
+		Double borderRadius = border.getSize() / 2;
+		Double xMin = border.getCenter().getX() - borderRadius;
+		Double xMax = border.getCenter().getX() + borderRadius;
+		Double yMax = Double.valueOf(world.getMaxHeight());
+		Double yMin = 0.0;
+		Double zMin = border.getCenter().getZ() - borderRadius;
+		Double zMax = border.getCenter().getZ() + borderRadius;
+		Double x = location.getX();
+		Double y = location.getY();
+		Double z = location.getZ();
+		if(location.getY() > 255) location = new Location(location.getWorld(), location.getX(), 255, location.getZ());
+		if(location.getY() < 0) location = new Location(location.getWorld(), location.getX(), 0, location.getZ());
+		if(x < zMin) location = new Location(world, x, y, z);
+		 (x > xMin && x < xMax) && (z > zMin && z < zMax);
+		
+		positions.put(position, location);
 		if(isBothPosSet() && isBothPosSameWorld()) {
 			SelectedZone = Functions.getLocationsInZone("", positions.get(1), positions.get(2));
 			if(SelectedZone.size() <= 500000) Highlight = Functions.getLocationsInZone("skeleton", positions.get(1), positions.get(2)); else Highlight = null;

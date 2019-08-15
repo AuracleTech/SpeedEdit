@@ -4,11 +4,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
-
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.WorldBorder;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Player;
@@ -49,7 +48,7 @@ public class Functions {
 		userData.clearRedo = true;
 		userData.addUndo(memory);
 	}
-	
+
 	public static void moveBlocks(Player player, Vector vector, String directionTexte, int Distance) {
 		UserData userData = SpeedEdit.getUser(player);
 		HashMap<Location, BlockData> memory = new HashMap<Location, BlockData>(); 
@@ -59,7 +58,6 @@ public class Functions {
 		}
 		HashMap<Location, BlockData> memoryClone = new HashMap<Location, BlockData>(memory); 
 		for(Entry<Location, BlockData> entry : memoryClone.entrySet()) {
-			SpeedEdit.server.broadcastMessage("NEW LOCATION"+entry.getKey().clone().add(vector).getBlock().getLocation());
 			if(!memory.containsKey(entry.getKey().clone().add(vector).getBlock().getLocation())) memory.put(entry.getKey().clone().add(vector).getBlock().getLocation(), entry.getKey().clone().add(vector).getBlock().getBlockData());
 			entry.getKey().clone().add(vector).getBlock().setBlockData(entry.getValue());
 		}
