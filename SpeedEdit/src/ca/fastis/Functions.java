@@ -7,13 +7,16 @@ import java.util.Map.Entry;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
-import org.bukkit.WorldBorder;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
+import net.coreprotect.CoreProtectAPI;
+
 public class Functions {
+	static CoreProtectAPI CPapi = SpeedEdit.CPapi;
+	//if(CPapi != null) for(Location location : locations) CPapi.logRemoval("#SE" + player.getName(), location, location.getBlock().getType(), location.getBlock().getBlockData());
 	public static int manipulateBlocks(Player player, Material fromMat, Material toMat, ErrorManagement EM) {
 		UserData userData = SpeedEdit.getUser(player);
 		List<Location> newList = new ArrayList<Location>();
@@ -152,5 +155,15 @@ public class Functions {
 		else if (pitch <= -45)
 			return "UP";
 		return "";
+	}
+
+	public static int zoneCount(Location pos1, Location pos2) {
+		int topBlockX = (pos1.getBlockX() < pos2.getBlockX() ? pos2.getBlockX() : pos1.getBlockX());
+		int bottomBlockX = (pos1.getBlockX() > pos2.getBlockX() ? pos2.getBlockX() : pos1.getBlockX());
+		int topBlockY = (pos1.getBlockY() < pos2.getBlockY() ? pos2.getBlockY() : pos1.getBlockY());
+		int bottomBlockY = (pos1.getBlockY() > pos2.getBlockY() ? pos2.getBlockY() : pos1.getBlockY());
+		int topBlockZ = (pos1.getBlockZ() < pos2.getBlockZ() ? pos2.getBlockZ() : pos1.getBlockZ());
+		int bottomBlockZ = (pos1.getBlockZ() > pos2.getBlockZ() ? pos2.getBlockZ() : pos1.getBlockZ());
+		return ((topBlockX - bottomBlockX) * (topBlockY - bottomBlockY) * (topBlockZ - bottomBlockZ));
 	}
 }

@@ -29,32 +29,35 @@ public class UserData {
 	public Location getPosition(int position) {
 		return positions.get(position);
 	}
-	
+
 	public void setPosition(int position, Location location, boolean showMessage) {
 		World world = location.getWorld();
 		WorldBorder border = world.getWorldBorder();
 		Double borderRadius = border.getSize() / 2;
 		Double xMin = border.getCenter().getX() - borderRadius;
-		Double xMax = border.getCenter().getX() + borderRadius;
-		Double yMax = Double.valueOf(world.getMaxHeight());
+		Double xMax = border.getCenter().getX() + borderRadius - 1;
+		Double yMax = Double.valueOf(world.getMaxHeight()-1);
 		Double yMin = 0.0;
 		Double zMin = border.getCenter().getZ() - borderRadius;
-		Double zMax = border.getCenter().getZ() + borderRadius;
+		Double zMax = border.getCenter().getZ() + borderRadius - 1;
 		Double x = location.getX();
 		Double y = location.getY();
 		Double z = location.getZ();
-		if(location.getY() > 255) location = new Location(location.getWorld(), location.getX(), 255, location.getZ());
-		if(location.getY() < 0) location = new Location(location.getWorld(), location.getX(), 0, location.getZ());
-		if(x < zMin) location = new Location(world, x, y, z);
-		 (x > xMin && x < xMax) && (z > zMin && z < zMax);
-		
+		if(x < xMin) location = new Location(world, xMin, y, z);
+		if(x > xMax) location = new Location(world, xMax, y, z);
+		if(y < yMin) location = new Location(world, x, yMin, z);
+		if(y > yMax) location = new Location(world, x, yMax, z);
+		if(z < zMin) location = new Location(world, x, y, zMin);
+		if(z > zMax) location = new Location(world, x, y, zMax);
+		boolean isNew = (positions.containsKey(position) && location == positions.get(position)) ? false : true;
 		positions.put(position, location);
-		if(isBothPosSet() && isBothPosSameWorld()) {
-			SelectedZone = Functions.getLocationsInZone("", positions.get(1), positions.get(2));
+		
+		if(isBothPosSet() && isBothPosSameWorld() && isNew) {
+			//Functions.getLocationsInZone("", positions.get(1), positions.get(2));
 			if(SelectedZone.size() <= 500000) Highlight = Functions.getLocationsInZone("skeleton", positions.get(1), positions.get(2)); else Highlight = null;
 		}
 		copyLocation = null;
-		if(showMessage) MessageManagement.command(player, "Position §e" + position + "§7 set" + ((isBothPosSet() && isBothPosSameWorld()) ? " - §e" + SelectedZone.size() + "§7 blocks" : ""), null);
+		if(showMessage) MessageManagement.command(player, "Position §e" + position + "§7 set" + ((isBothPosSet() && isBothPosSameWorld()) ? " - §e" + Functions.zoneCount(positions.get(1), positions.get(2)) + "§7 blocks" : ""), null);
 	}
 
 	public boolean isBothPosSet(){
