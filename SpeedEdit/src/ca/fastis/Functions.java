@@ -164,6 +164,6 @@ public class Functions {
 		int bottomBlockY = (pos1.getBlockY() > pos2.getBlockY() ? pos2.getBlockY() : pos1.getBlockY());
 		int topBlockZ = (pos1.getBlockZ() < pos2.getBlockZ() ? pos2.getBlockZ() : pos1.getBlockZ());
 		int bottomBlockZ = (pos1.getBlockZ() > pos2.getBlockZ() ? pos2.getBlockZ() : pos1.getBlockZ());
-		return ((topBlockX - bottomBlockX) * (topBlockY - bottomBlockY) * (topBlockZ - bottomBlockZ));
+		return ((1 + topBlockX - bottomBlockX) * (1 + topBlockY - bottomBlockY) * (1 + topBlockZ - bottomBlockZ));
 	}
 }
