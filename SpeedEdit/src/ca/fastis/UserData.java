@@ -5,9 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.WorldBorder;
-import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
@@ -17,9 +17,9 @@ public class UserData {
 	List<Location> Highlight = null;
 	public boolean clearRedo = false;
 	List<Location> SelectedZone = new ArrayList<Location>();
-	List<HashMap<Location, BlockData>> undo = new ArrayList<HashMap<Location, BlockData>>();
-	List<HashMap<Location, BlockData>> redo = new ArrayList<HashMap<Location, BlockData>>();
-	HashMap<Vector, BlockData> clipboard = new HashMap<Vector, BlockData>();
+	List<HashMap<Location, Material>> undo = new ArrayList<HashMap<Location, Material>>();
+	List<HashMap<Location, Material>> redo = new ArrayList<HashMap<Location, Material>>();
+	HashMap<Vector, Material> clipboard = new HashMap<Vector, Material>();
 	Location copyLocation = null;
 
 	public UserData(Player player){
@@ -51,13 +51,14 @@ public class UserData {
 		if(z > zMax) location = new Location(world, x, y, zMax);
 		boolean isNew = (positions.containsKey(position) && location == positions.get(position)) ? false : true;
 		positions.put(position, location);
-		
-		if(isBothPosSet() && isBothPosSameWorld() && isNew) {
-			//Functions.getLocationsInZone("", positions.get(1), positions.get(2));
-			if(SelectedZone.size() <= 500000) Highlight = Functions.getLocationsInZone("skeleton", positions.get(1), positions.get(2)); else Highlight = null;
+		int blockCount = 1;
+		if(isBothPosSet() && isBothPosSameWorld()) {
+			blockCount = Functions.zoneCount(positions.get(1), positions.get(2));
+			SelectedZone = Functions.getLocationsInZone("", positions.get(1), positions.get(2)); //TODO : OPTIMISE BLOCK WORK
+			if(isNew) if(blockCount <= 500000) Highlight = Functions.getLocationsInZone("skeleton", positions.get(1), positions.get(2)); else Highlight = null;
 		}
 		copyLocation = null;
-		if(showMessage) MessageManagement.command(player, "Position §e" + position + "§7 set" + ((isBothPosSet() && isBothPosSameWorld()) ? " - §e" + Functions.zoneCount(positions.get(1), positions.get(2)) + "§7 blocks" : ""), null);
+		if(showMessage) MessageManagement.command(player, "Position §e" + position + "§7 set" + ((isBothPosSet() && isBothPosSameWorld()) ? " (§e" + blockCount + "§7 blocks)" : ""), null);
 	}
 
 	public boolean isBothPosSet(){
@@ -74,15 +75,15 @@ public class UserData {
 			return false;
 	}
 
-	public void addUndo(HashMap<Location, BlockData> memory) {
+	public void addUndo(HashMap<Location, Material> memory) {
 		undo.add(memory);
 		if(clearRedo) {
-			redo = new ArrayList<HashMap<Location, BlockData>>();
+			redo = new ArrayList<HashMap<Location, Material>>();
 			clearRedo = false;
 		}
 	}
 
-	public void addRedo(HashMap<Location, BlockData> memory) {
+	public void addRedo(HashMap<Location, Material> memory) {
 		redo.add(memory);
 	}
 }

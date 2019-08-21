@@ -48,3 +48,9 @@ commands:
    skeleton:
       description: 
       usage: /<command> [Material]
+   log:
+      description: 
+      usage: /<command>
+   speededit:
+      description: 
+      usage: /<command>

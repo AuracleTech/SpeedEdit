@@ -73,7 +73,7 @@ public class ErrorManagement {
 			return false;
 		}
 	}
-	
+
 	public boolean hasRedo(int redoQtt) {
 		if(!SpeedEdit.getUser(player).redo.isEmpty() && SpeedEdit.getUser(player).redo.size() >= redoQtt)
 			return true;
@@ -91,5 +91,12 @@ public class ErrorManagement {
 		} catch(NumberFormatException e){}
 		player.sendMessage(ChatColor.DARK_RED + string + ChatColor.DARK_GRAY +  " is not a valid number");
 		return false;
+	}
+
+	public boolean isCPapi() {
+		if(SpeedEdit.CPapi != null) return true; else {
+			player.sendMessage(ChatColor.DARK_RED + "CoreProtect" + ChatColor.DARK_GRAY + " is not installed on this server");
+			return false;
+		}
 	}
 }

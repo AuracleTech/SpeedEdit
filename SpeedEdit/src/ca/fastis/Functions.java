@@ -8,7 +8,6 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
-import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
@@ -16,7 +15,14 @@ import net.coreprotect.CoreProtectAPI;
 
 public class Functions {
 	static CoreProtectAPI CPapi = SpeedEdit.CPapi;
-	//if(CPapi != null) for(Location location : locations) CPapi.logRemoval("#SE" + player.getName(), location, location.getBlock().getType(), location.getBlock().getBlockData());
+	static boolean isCPapi = CPapi != null;
+	
+	public static void changeBlock(Player player, Location location, Material material) {
+		if(isCPapi) CPapi.logRemoval("#SE@" + player.getName(), location, location.getBlock().getType(), location.getBlock().getBlockData());
+		location.getBlock().setType(material);
+		if(isCPapi) CPapi.logPlacement("#SE@" + player.getName(), location, location.getBlock().getType(), location.getBlock().getBlockData());
+	}
+	
 	public static int manipulateBlocks(Player player, Material fromMat, Material toMat, ErrorManagement EM) {
 		UserData userData = SpeedEdit.getUser(player);
 		List<Location> newList = new ArrayList<Location>();
@@ -32,21 +38,21 @@ public class Functions {
 
 	public static void manipulateBlocks(Player player, List<Location> locations, Material material, ErrorManagement EM) {
 		UserData userData = SpeedEdit.getUser(player);
-		HashMap<Location, BlockData> memory = new HashMap<Location, BlockData>();
+		HashMap<Location, Material> memory = new HashMap<Location, Material>();
 		for(Location location : locations) {
-			memory.put(location, location.getBlock().getBlockData());
-			location.getBlock().setType(material);
+			memory.put(location, location.getBlock().getType());
+			changeBlock(player, location, material);
 		}
 		userData.clearRedo = true;
 		userData.addUndo(memory);
 	}
 
 	public static void pasteBlocks(Player player, UserData userData) {
-		HashMap<Location, BlockData> memory = new HashMap<Location, BlockData>();
-		for(Entry<Vector, BlockData> entry : userData.clipboard.entrySet()) {
-			Block block = player.getWorld().getBlockAt(player.getLocation().add(entry.getKey()));
-			memory.put(block.getLocation(), block.getBlockData());
-			block.setBlockData(entry.getValue());
+		HashMap<Location, Material> memory = new HashMap<Location, Material>();
+		for(Entry<Vector, Material> entry : userData.clipboard.entrySet()) {
+			Location location = player.getLocation().add(entry.getKey());
+			memory.put(location, location.getBlock().getType());
+			changeBlock(player, location, entry.getValue());
 		}
 		userData.clearRedo = true;
 		userData.addUndo(memory);
@@ -54,15 +60,15 @@ public class Functions {
 
 	public static void moveBlocks(Player player, Vector vector, String directionTexte, int Distance) {
 		UserData userData = SpeedEdit.getUser(player);
-		HashMap<Location, BlockData> memory = new HashMap<Location, BlockData>(); 
+		HashMap<Location, Material> memory = new HashMap<Location, Material>(); 
 		for(Location location : userData.SelectedZone) {
-			memory.put(location, location.getBlock().getBlockData());
-			location.getBlock().setType(Material.AIR);
+			memory.put(location, location.getBlock().getType());
+			changeBlock(player, location, Material.AIR);
 		}
-		HashMap<Location, BlockData> memoryClone = new HashMap<Location, BlockData>(memory); 
-		for(Entry<Location, BlockData> entry : memoryClone.entrySet()) {
-			if(!memory.containsKey(entry.getKey().clone().add(vector).getBlock().getLocation())) memory.put(entry.getKey().clone().add(vector).getBlock().getLocation(), entry.getKey().clone().add(vector).getBlock().getBlockData());
-			entry.getKey().clone().add(vector).getBlock().setBlockData(entry.getValue());
+		HashMap<Location, Material> memoryClone = new HashMap<Location, Material>(memory); 
+		for(Entry<Location, Material> entry : memoryClone.entrySet()) {
+			if(!memory.containsKey(entry.getKey().clone().add(vector).getBlock().getLocation())) memory.put(entry.getKey().clone().add(vector).getBlock().getLocation(), entry.getKey().clone().add(vector).getBlock().getType());
+			changeBlock(player, entry.getKey().clone().add(vector), entry.getValue());
 		}
 		userData.clearRedo = true;
 		userData.addUndo(memory);
@@ -71,11 +77,11 @@ public class Functions {
 	public static void undo(Player player, int undoQtt) {
 		UserData userData = SpeedEdit.getUser(player);
 		for(int i = 1; i <= undoQtt; i++) {
-			HashMap<Location, BlockData> memory = new HashMap<Location, BlockData>();
-			HashMap<Location, BlockData> locAndBlockDatas = userData.undo.get(userData.undo.size() - 1);
-			for(Entry<Location, BlockData> locBlockData : locAndBlockDatas.entrySet()) {
-				memory.put(locBlockData.getKey(), locBlockData.getKey().getBlock().getBlockData());
-				locBlockData.getKey().getBlock().setBlockData(locBlockData.getValue());
+			HashMap<Location, Material> memory = new HashMap<Location, Material>();
+			HashMap<Location, Material> locAndBlockDatas = userData.undo.get(userData.undo.size() - 1);
+			for(Entry<Location, Material> locMat : locAndBlockDatas.entrySet()) {
+				memory.put(locMat.getKey(), locMat.getKey().getBlock().getType());
+				changeBlock(player, locMat.getKey(), locMat.getValue());
 			}
 			userData.addRedo(memory);
 			userData.undo.remove(userData.undo.size() - 1);
@@ -85,11 +91,11 @@ public class Functions {
 	public static void redo(Player player, int redoQtt) {
 		UserData userData = SpeedEdit.getUser(player);
 		for(int i = 1; i <= redoQtt; i++) {
-			HashMap<Location, BlockData> memory = new HashMap<Location, BlockData>();
-			HashMap<Location, BlockData> locAndBlockDatas = userData.redo.get(userData.redo.size() - 1);
-			for(Entry<Location, BlockData> locBlockData : locAndBlockDatas.entrySet()) {
-				memory.put(locBlockData.getKey(), locBlockData.getKey().getBlock().getBlockData());
-				locBlockData.getKey().getBlock().setBlockData(locBlockData.getValue());
+			HashMap<Location, Material> memory = new HashMap<Location, Material>();
+			HashMap<Location, Material> locAndBlockDatas = userData.redo.get(userData.redo.size() - 1);
+			for(Entry<Location, Material> locMat : locAndBlockDatas.entrySet()) {
+				memory.put(locMat.getKey(), locMat.getKey().getBlock().getType());
+				changeBlock(player, locMat.getKey(), locMat.getValue());
 			}
 			userData.addUndo(memory);
 			userData.redo.remove(userData.redo.size() - 1);
@@ -165,5 +171,10 @@ public class Functions {
 		int topBlockZ = (pos1.getBlockZ() < pos2.getBlockZ() ? pos2.getBlockZ() : pos1.getBlockZ());
 		int bottomBlockZ = (pos1.getBlockZ() > pos2.getBlockZ() ? pos2.getBlockZ() : pos1.getBlockZ());
 		return ((1 + topBlockX - bottomBlockX) * (1 + topBlockY - bottomBlockY) * (1 + topBlockZ - bottomBlockZ));
+	}
+
+	public static void logBlocks(Player player, List<Location> selectedZone) {
+		for (Location location : selectedZone)
+		if(isCPapi) CPapi.logPlacement("#SE@" + player.getName(), location, location.getBlock().getType(), location.getBlock().getBlockData());
 	}
 }

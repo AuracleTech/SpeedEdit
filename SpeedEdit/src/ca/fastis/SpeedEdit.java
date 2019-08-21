@@ -24,8 +24,10 @@ public class SpeedEdit extends JavaPlugin {
 	static Material Tool = Material.STICK;
 	static int ToolID = 537469636;
 	static String ToolName = ChatColor.GOLD + "Speed Edit Hammer";
+	static Plugin plugin;
 
 	public void onEnable() {
+		plugin = this;
 		CPapi = getCoreProtect();
 		server = this.getServer();
 		HZ = new HighlightZone(server, this);
@@ -50,6 +52,8 @@ public class SpeedEdit extends JavaPlugin {
 		this.getCommand("walls").setExecutor(new CommandWalls());
 		this.getCommand("outline").setExecutor(new CommandOutline());
 		this.getCommand("skeleton").setExecutor(new CommandSkeleton());
+		this.getCommand("log").setExecutor(new CommandLog());
+		this.getCommand("speededit").setExecutor(new CommandSpeededit());
 	}
 
 	@Override
