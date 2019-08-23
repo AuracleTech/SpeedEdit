@@ -14,7 +14,7 @@ public class CommandSpeededit implements CommandExecutor {
 			MessageManagement.command(player, "Speed edit version " + SpeedEdit.plugin.getDescription().getVersion(), null);
 			MessageManagement.command(player, "Made by §aAuracle§2#5220§7 (Discord)", null);
 			MessageManagement.command(player, "Report issues or request to §ehttps://bit.ly/2HjAW3x", null);
-			MessageManagement.command(player, "Donate to help me continue §ehttps://bit.ly/2zd4Lyj", null);
+			MessageManagement.command(player, "Donate to help me continue §ehttps://bit.ly/2PqgowX", null);
 		}
 		return true;
 	}
