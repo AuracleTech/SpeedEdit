@@ -5,9 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.WorldBorder;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
@@ -17,9 +17,9 @@ public class UserData {
 	List<Location> Highlight = null;
 	public boolean clearRedo = false;
 	List<Location> SelectedZone = new ArrayList<Location>();
-	List<HashMap<Location, Material>> undo = new ArrayList<HashMap<Location, Material>>();
-	List<HashMap<Location, Material>> redo = new ArrayList<HashMap<Location, Material>>();
-	HashMap<Vector, Material> clipboard = new HashMap<Vector, Material>();
+	List<HashMap<Location, BlockData>> undo = new ArrayList<HashMap<Location, BlockData>>();
+	List<HashMap<Location, BlockData>> redo = new ArrayList<HashMap<Location, BlockData>>();
+	HashMap<Vector, BlockData> clipboard = new HashMap<Vector, BlockData>();
 	Location copyLocation = null;
 
 	public UserData(Player player){
@@ -75,15 +75,15 @@ public class UserData {
 			return false;
 	}
 
-	public void addUndo(HashMap<Location, Material> memory) {
+	public void addUndo(HashMap<Location, BlockData> memory) {
 		undo.add(memory);
 		if(clearRedo) {
-			redo = new ArrayList<HashMap<Location, Material>>();
+			redo = new ArrayList<HashMap<Location, BlockData>>();
 			clearRedo = false;
 		}
 	}
 
-	public void addRedo(HashMap<Location, Material> memory) {
+	public void addRedo(HashMap<Location, BlockData> memory) {
 		redo.add(memory);
 	}
 }

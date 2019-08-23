@@ -26,7 +26,7 @@ public class CommandSkeleton implements CommandExecutor, TabCompleter {
 				UserData userData = SpeedEdit.getUser(player);
 				Instant before = Instant.now();
 				List<Location> locations = Functions.getLocationsInZone("skeleton", userData.getPosition(1), userData.getPosition(2));
-				Functions.manipulateBlocks(player, locations, Material.matchMaterial(args[0]), EM);
+				Functions.manipulateBlocks(player, locations, Material.matchMaterial(args[0]).createBlockData(), EM);
 				MessageManagement.command(player, "You made a §e" + args[0].toLowerCase() + "§7 skeleton of §e" + locations.size() + "§7 blocks in " + Duration.between(before, Instant.now()).toMillis() + "ms", player.getName() +  " made a §e" + args[0].toLowerCase() + "§7 skeleton of §e" + locations.size() + "§7 blocks in " + Duration.between(before, Instant.now()).toMillis() + "ms");
 			} catch(Exception e) {
 				EM.throwException(e);
