@@ -1,4 +1,4 @@
-package ca.fastis;
+package auracle;
 
 import java.util.HashMap;
 import java.util.Map;
