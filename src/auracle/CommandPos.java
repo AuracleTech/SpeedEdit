@@ -18,8 +18,9 @@ public class CommandPos implements CommandExecutor, TabCompleter {
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command arg1, String arg2, String[] args) {
+		Player player;
 		if (sender instanceof Player) {
-			Player player = (Player) sender;
+			player = (Player) sender;
 			ErrorManagement EM = new ErrorManagement(player);
 			if(!EM.hasPermission(player, "speededit.use", true) || !EM.isArgsLength(args, maxArg, "/Pos" + PosToSet)) return true;
 			SpeedEdit.getUser(player).setPosition(PosToSet, player.getLocation().add(0, -1, 0).getBlock().getLocation(), true);
@@ -31,10 +32,11 @@ public class CommandPos implements CommandExecutor, TabCompleter {
 	@Override
 	public List<String> onTabComplete(CommandSender sender, Command cmd, String Label, String[] args) {
 		if (sender instanceof Player) {
-			Player player = (Player) sender;
+			Player player;
+			player = (Player) sender;
 			ErrorManagement EM = new ErrorManagement(player);
-			if(args.length == maxArg+1 && args[args.length-1].toLowerCase().isEmpty())
-					EM.isArgsLength(args, maxArg, "/Pos" + PosToSet);
+			if(args.length == maxArg+1 && args[args.length-1].isEmpty())
+				EM.isArgsLength(args, maxArg, "/Pos" + PosToSet);
 		}
 		return new ArrayList<>();
 	}

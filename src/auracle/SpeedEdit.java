@@ -17,7 +17,7 @@ import net.coreprotect.CoreProtectAPI;
 public class SpeedEdit extends JavaPlugin {
 	static Server server;
 	static ConsoleCommandSender console;
-	static Map<Player, UserData> SEuserData = new HashMap<Player, UserData>();
+	static Map<Player, UserData> SEuserData = new HashMap<>();
 	HighlightZone HZ;
 	static CoreProtectAPI CPapi = null;
 	
@@ -42,7 +42,7 @@ public class SpeedEdit extends JavaPlugin {
 		this.getCommand("pos2").setExecutor(new CommandPos(2));
 		this.getCommand("set").setExecutor(new CommandSet());
 		this.getCommand("replace").setExecutor(new CommandReplace());
-		this.getCommand("hammer").setExecutor(new commandHammer());
+		this.getCommand("hammer").setExecutor(new CommandHammer());
 		this.getCommand("undo").setExecutor(new CommandUndo());
 		this.getCommand("redo").setExecutor(new CommandRedo());
 		this.getCommand("copy").setExecutor(new CommandCopy());
@@ -52,6 +52,8 @@ public class SpeedEdit extends JavaPlugin {
 		this.getCommand("walls").setExecutor(new CommandWalls());
 		this.getCommand("outline").setExecutor(new CommandOutline());
 		this.getCommand("skeleton").setExecutor(new CommandSkeleton());
+		this.getCommand("sphere").setExecutor(new CommandSphere());
+		this.getCommand("hsphere").setExecutor(new CommandHsphere());
 		this.getCommand("log").setExecutor(new CommandLog());
 		this.getCommand("speededit").setExecutor(new CommandSpeededit());
 	}
@@ -73,10 +75,9 @@ public class SpeedEdit extends JavaPlugin {
 	
 	private CoreProtectAPI getCoreProtect() {
 		Plugin plugin = getServer().getPluginManager().getPlugin("CoreProtect");
-		if (plugin == null || !(plugin instanceof CoreProtect))	return null;
+		if (!(plugin instanceof CoreProtect)) return null;
 		CoreProtectAPI CoreProtect = ((CoreProtect) plugin).getAPI();
-		if (CoreProtect.isEnabled() == false) return null;
-		if (CoreProtect.APIVersion() < 6) return null;
+		if (!CoreProtect.isEnabled() || CoreProtect.APIVersion() < 6) return null;
 		return CoreProtect;
 	}
 }
