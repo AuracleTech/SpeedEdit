@@ -32,7 +32,7 @@ public class CommandTop implements CommandExecutor, TabCompleter {
                 }
             }
             if (teleportLocation != null)
-                MessageManagement.command(player, "You have been teleported to Y §e" + teleportLocation.getBlockY(), player.getName() + " have been teleported to Y §e" + teleportLocation.getBlockY());
+                MessageManagement.command(player, "You have been teleported to Y §e" + teleportLocation.getBlockY(), player.getName() + " has been teleported to Y §e" + teleportLocation.getBlockY());
             else
                 EM.unsafeTeleport();
         }
