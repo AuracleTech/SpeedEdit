@@ -6,6 +6,9 @@ api-version: 1.14
 softdepend: [CoreProtect]
 website: https://github.com/AuracleTech
 commands:
+   top:
+      description: Teleport the player to the highest Y block
+      usage: /<command>
    set:
       description: Set blocks to a material
       usage: /<command> [Material]

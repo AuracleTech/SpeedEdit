@@ -99,4 +99,8 @@ public class ErrorManagement {
 			return false;
 		}
 	}
+
+	public void unsafeTeleport() {
+		player.sendMessage(ChatColor.DARK_GRAY + "Teleportation impossible due to " + ChatColor.DARK_RED + "unsafe result location");
+	}
 }

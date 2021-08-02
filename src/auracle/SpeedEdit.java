@@ -38,6 +38,7 @@ public class SpeedEdit extends JavaPlugin {
 	}
 
 	private void initializePlugin() {
+		this.getCommand("top").setExecutor(new CommandTop());
 		this.getCommand("pos1").setExecutor(new CommandPos(1));
 		this.getCommand("pos2").setExecutor(new CommandPos(2));
 		this.getCommand("set").setExecutor(new CommandSet());

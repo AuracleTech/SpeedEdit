@@ -12,9 +12,9 @@ import org.bukkit.entity.Player;
 
 public class CommandLog implements CommandExecutor, TabCompleter {
 	int maxArg = 0;
+
 	@Override
 	public boolean onCommand(CommandSender sender, Command arg1, String arg2, String[] args) {
-		
 		if (sender instanceof Player) {
 			Player player = (Player) sender;
 			ErrorManagement EM = new ErrorManagement(player);

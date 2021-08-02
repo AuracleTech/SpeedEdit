@@ -23,7 +23,7 @@ public class CommandHammer implements CommandExecutor {
 				hammerMeta.setDisplayName(SpeedEdit.ToolName);
 				hammer.setItemMeta(hammerMeta);
 				player.getInventory().addItem(hammer);
-				MessageManagement.command(player, "There you go pal, the " + SpeedEdit.ToolName, null);
+				MessageManagement.command(player, "Here, take the " + SpeedEdit.ToolName, null);
 			}
 		}
 		return true;

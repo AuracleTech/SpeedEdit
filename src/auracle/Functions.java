@@ -33,10 +33,9 @@ public class Functions {
             for (Location location : userData.SelectedZone)
                 if (location.getBlock().getType() != Material.AIR) newList.add(location);
             toMat = fromMat;
-        } else {
+        } else
             for (Location location : userData.SelectedZone)
                 if (location.getBlock().getType() == fromMat) newList.add(location);
-        }
         manipulateBlocks(player, newList, toMat.createBlockData(), EM);
         return newList.size();
     }
