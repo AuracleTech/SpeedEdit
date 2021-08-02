@@ -1,9 +1,7 @@
 # SpeedEdit
 Minecraft plugin for terrain generation and editing
 
-# Speed Edit v2 Wiki
-
-SpeedEdit in action https://www.youtube.com/watch?v=l87NrtqY66A
+# Wiki
 
 #### `Command` Description `Permission`
 * Check other players command usage `speededit.spy`
